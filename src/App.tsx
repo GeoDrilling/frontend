@@ -9,8 +9,8 @@ import './index.css';
 const App: FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/login" element={<Register />} />
+      <Route path='/' element={<Landing />} />
+      <Route path='/login' element={<Register />} />
     </Routes>
   );
 };

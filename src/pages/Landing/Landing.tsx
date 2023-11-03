@@ -9,7 +9,7 @@ const Landing: FC = () => {
     <div className={styles.page}>
       <main>
         <h1 className={styles.title}>Главная страница</h1>
-        <Link className={styles.link} to="/login">
+        <Link className={styles.link} to='/login'>
           Регистрация
         </Link>
       </main>
