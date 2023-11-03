@@ -1,7 +1,8 @@
 import { FC } from 'react';
 
+import Link from '@components/Link/Link';
+
 import styles from './Landing.module.css';
-import { Link } from 'react-router-dom';
 
 const Landing: FC = () => {
   return (
@@ -9,7 +10,7 @@ const Landing: FC = () => {
       <main>
         <h1 className={styles.title}>Главная страница</h1>
         <Link className={styles.link} to="/login">
-          Регистрация &#8594;
+          Регистрация
         </Link>
       </main>
     </div>
