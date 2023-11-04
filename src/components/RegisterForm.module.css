@@ -1,0 +1,11 @@
+.bottom__text__container {
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+.text {
+    font-size: 14px;
+}
+.link {
+    margin-left: 7px;
+}

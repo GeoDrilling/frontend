@@ -1,0 +1,9 @@
+.button {
+    height: 50px;
+    width: 100%;
+    border: none;
+    margin-top: 80px;
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+}

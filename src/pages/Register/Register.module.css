@@ -7,9 +7,9 @@
 }
 
 .title {
-  font-size: 64px;
+  font-size: 40px;
   font-weight: 700;
   line-height: normal;
-  color: var(--primary);
+  color: var(--accent);
   margin: 0;
 }
