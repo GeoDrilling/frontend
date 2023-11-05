@@ -31,7 +31,8 @@ const RegisterForm: FC = () => {
     return (
         <form>
             <Fieldset inputs={[name, password, email]}/>
-            <Button onClick={(e) => {
+            <Button className={styles.submit}
+                onClick={(e) => {
                 e.preventDefault()
                 AuthService.register(name.input.value,
                     email.input.value, password.input.value)
