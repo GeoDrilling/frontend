@@ -4,8 +4,8 @@
 .custom_checkbox {
     position: relative;
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     background: white;
     border: 1px solid var(--secondary);
     margin-right: 10px;

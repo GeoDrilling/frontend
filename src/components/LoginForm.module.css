@@ -5,16 +5,20 @@
 }
 .container__bottom__text {
     display: flex;
-    margin-top: 30px;
+    margin-top: 35px;
     flex-direction: row;
     justify-content: space-between;
     height: 25px;
 
 }
+.submit {
+    margin-top: 100px;
+}
 .footer {
     display: flex;
     flex-direction: row;
-    margin-top: 20px;
+    justify-content: center;
+    margin-top: 15px;
 }
 .footer > * {
     font-size: 16px;

@@ -4,6 +4,7 @@
   align-items: center;
   box-sizing: border-box;
   min-height: 100vh;
+  min-width: 100vh;
 }
 
 .title {
@@ -12,4 +13,7 @@
   line-height: normal;
   color: var(--accent);
   margin: 0;
+}
+.section {
+  width: 450px;
 }

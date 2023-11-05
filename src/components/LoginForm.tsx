@@ -27,7 +27,8 @@ const LoginForm: FC = () => {
                     className={styles.checkbox}/>
                 <Link to={'/reset'}>Забыли пароль?</Link>
             </div>
-            <Button onClick={(e) => {
+            <Button className={styles.submit}
+                onClick={(e) => {
                 e.preventDefault();
                 store.login(name.input.value, password.input.value)
             }}>

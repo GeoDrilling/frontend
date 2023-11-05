@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 interface ButtonProps {
     onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    className: string;
+    className?: string;
 }
 
 const Button: FCC<ButtonProps> = ({children, onClick, className}) => {
