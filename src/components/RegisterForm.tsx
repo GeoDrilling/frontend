@@ -6,6 +6,7 @@ import classNames from "classnames";
 import {useInput} from "../hooks/useInput.tsx";
 import Fieldset from "@components/UI/fieldset/Fieldset.tsx";
 import {validateEmail} from "@components/utils/utils.tsx";
+import AuthService from "../services/AuthService.ts";
 
 
 const RegisterForm: FC = () => {
@@ -30,7 +31,11 @@ const RegisterForm: FC = () => {
     return (
         <form>
             <Fieldset inputs={[name, password, email]}/>
-            <Button onClick={(e) => e.preventDefault()}>
+            <Button onClick={(e) => {
+                e.preventDefault()
+                AuthService.register(name.input.value,
+                    email.input.value, password.input.value)
+            }}>
                 Зарегистрироваться</Button>
             <footer className={styles.bottom__text__container}>
                 <div className={styles.text}>Уже зарегестрированы?</div>

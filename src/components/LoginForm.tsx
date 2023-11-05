@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import {FC, useContext} from 'react';
 import Fieldset from "@components/UI/fieldset/Fieldset.tsx";
 import {useInput} from "../hooks/useInput.tsx";
 import Checkbox from "@components/UI/input/Checkbox.tsx";
@@ -6,12 +6,14 @@ import Link from "@components/Link/Link.tsx";
 import styles from './LoginForm.module.css'
 import Button from "@components/UI/button/Button.tsx";
 import {useCheckbox} from "../hooks/useCheckbox.tsx";
+import {Context} from "../main.tsx";
 
 const LoginForm: FC = () => {
     const [isRemember, onChange] = useCheckbox(false)
     const name = useInput('')
     const password = useInput('')
-    name.input.label = 'Имя'
+    const {store} = useContext(Context)
+    name.input.label = 'Почта'
     password.input.label = 'Пароль'
     password.input.type = 'password'
     return (
@@ -25,7 +27,10 @@ const LoginForm: FC = () => {
                     className={styles.checkbox}/>
                 <Link to={'/reset'}>Забыли пароль?</Link>
             </div>
-            <Button onClick={(e) => e.preventDefault()}>
+            <Button onClick={(e) => {
+                e.preventDefault();
+                store.login(name.input.value, password.input.value)
+            }}>
                 Войти</Button>
             <footer className={styles.footer}>
                 <div >Ещё не зарегистрированы?</div>
