@@ -30,7 +30,8 @@ const RegisterForm: FC = () => {
     return (
         <form>
             <Fieldset inputs={[name, password, email]}/>
-            <Button onClick={(e) => e.preventDefault()}>
+            <Button className={styles.submit}
+                onClick={(e) => e.preventDefault()}>
                 Зарегистрироваться</Button>
             <footer className={styles.bottom__text__container}>
                 <div className={styles.text}>Уже зарегестрированы?</div>
