@@ -1,0 +1,49 @@
+/* Slider.css */
+.slider-container {
+    width: 100vh;
+    height: 100vh;
+}
+
+.slider-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.dot-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dot-button {
+    background-color: #bbb; /* Серый цвет для неактивных точек */
+    border-radius: 50%; /* Делаем кнопку круглой */
+    width: 15px; /* Диаметр точки */
+    height: 15px; /* Диаметр точки */
+    margin: 0 5px; /* Отступы между точками */
+    border: none; /* Убираем границу */
+    cursor: pointer; /* Курсор в виде указателя */
+    transition: background-color 0.3s; /* Плавное изменение цвета при наведении */
+}
+
+.dot-button.active {
+    background-color: #333; /* Темный цвет для активной точки */
+}
+
+.dot-button:hover {
+    background-color: #777; /* Цвет при наведении */
+}
+
+/* Убираем стандартные стили для фокуса, если нужно */
+.dot-button:focus {
+    outline: none;
+}
+
+.slider-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}

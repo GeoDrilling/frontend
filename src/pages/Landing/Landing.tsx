@@ -1,17 +1,18 @@
 import { FC } from 'react';
 
-import Link from '@components/Link/Link';
+
 
 import styles from './Landing.module.css';
+import Slider from "@components/main/Slider.tsx";
+import Header from "@components/main/Header.tsx";
+
 
 const Landing: FC = () => {
   return (
     <div className={styles.page}>
       <main>
-        <h1 className={styles.title}>Главная страница</h1>
-        <Link className={styles.link} to='/register'>
-          Регистрация &#8594;
-        </Link>
+          <Header/>
+          <Slider/>
       </main>
     </div>
   );

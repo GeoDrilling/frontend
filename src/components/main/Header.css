@@ -1,0 +1,32 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff; /* White text */
+    position: absolute;
+    top: 0; /* Прилипнет к верхней части окна просмотра */
+    z-index: 10; /* Убедитесь, что заголовок находится поверх других элементов */
+    width: 100vw;
+    height: 60px;
+}
+
+
+.navigation a {
+    color: #fff; /* White text for links */
+    text-decoration: none;
+    margin: 0 1rem;
+    /* Additional styles for navigation links */
+}
+
+.login-button {
+    /* Styles for the login button */
+    background-color: #fff; /* White background for the button */
+    color: #000; /* Black text */
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border: 2px solid #007bff; /* Устанавливает толщину, стиль и цвет рамки */
+    border-radius: 5px; /* Закругление углов рамки */
+    /* Additional styles for the button */
+}
+
+/* Add
