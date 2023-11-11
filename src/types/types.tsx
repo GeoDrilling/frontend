@@ -19,5 +19,5 @@ export interface IValidation {
 export interface IInputOutput {
     input: IInput;
     isDirty: boolean;
-    validations?: IValidation[]
+    validations: IValidation[]
 }

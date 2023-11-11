@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import Link from '@components/Link/Link';
+import Link from '@components/business/Link/Link';
 
 import styles from './Landing.module.css';
 
@@ -12,6 +12,8 @@ const Landing: FC = () => {
         <Link className={styles.link} to='/register'>
           Регистрация &#8594;
         </Link>
+          <div>{localStorage.getItem('remember')}</div>
+          <div>{localStorage.getItem('refresh')}</div>
       </main>
     </div>
   );

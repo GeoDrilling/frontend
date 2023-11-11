@@ -13,20 +13,19 @@ $api.interceptors.request.use((config) => {
 
 $api.interceptors.response.use(config => config,
     async (error) => {
-    const originalConfig = error.config;
-    if (error.response.statusCode == 401 && originalConfig && !originalConfig._isRetry) {
-        originalConfig._isRetry = true;
-        try {
-            const response = await axios.post<AuthResponse>(`${API_URL}/auth/refresh-token`,
-                {}, {withCredentials: true});
-            localStorage.setItem('token', response.data.accessToken);
-            return $api.request(originalConfig)
-        } catch (e) {
-            console.log(e)
-            console.log('fail auth')
+        const originalConfig = error.config;
+        if (error.response.statusCode == 401 && originalConfig && !originalConfig._isRetry) {
+            originalConfig._isRetry = true;
+            try {
+                const response = await axios.post<AuthResponse>(`${API_URL}/auth/refresh-token`,
+                    {}, {withCredentials: true});
+                localStorage.setItem('token', response.data.accessToken);
+                return $api.request(originalConfig)
+            } catch (e) {
+                console.log(e)
+            }
         }
-    }
-    throw error
-})
+        throw error
+    })
 
 export default $api;

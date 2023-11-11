@@ -1,10 +1,10 @@
-import {FCC} from "@components/types/types.tsx";
+import {FCC} from "../../../types/types.tsx";
 import styles from './Button.module.css'
 import React from "react";
 import classNames from "classnames";
 
 interface ButtonProps {
-    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
     className?: string;
 }
 

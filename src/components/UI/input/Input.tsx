@@ -1,5 +1,5 @@
 import styles from './Input.module.css'
-import {FCC, IInputOutput} from "@components/types/types.tsx";
+import {FCC, IInputOutput} from "../../../types/types.tsx";
 interface InputProps  {
     inputOutput: IInputOutput
     className?: string;

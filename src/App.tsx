@@ -1,27 +1,36 @@
 import {FC, useContext, useEffect} from 'react';
-import { Routes, Route } from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 
-import Landing from '@pages/Landing/Landing';
-import Register from '@pages/Register/Register';
-import Login from "@pages/Login/Login.tsx";
 import './index.css';
 import {Context} from "./main.tsx";
+import {privateRoutes, publicRoutes} from "./utils/routes.tsx";
+import {observer} from "mobx-react-lite";
 
 
-const App: FC = () => {
+const App: FC = observer(() => {
     const {store} = useContext(Context)
     useEffect(() => {
-        if (localStorage.getItem('token')) {
-            store.checkAuth()
-        }
+        store.checkAuth()
     })
-  return (
-    <Routes>
-      <Route path='/' element={<Landing />} />
-      <Route path='/register' element={<Register />} />
-      <Route path='/login' element={<Login />} />
-    </Routes>
-  );
-};
+    if (store.isLoading) {
+        return <div>Загрузка...</div>
+    }
+    return (
+        <Routes>
+            {store.isAuth ?
+                privateRoutes.map(route =>
+                    <Route path={route.path}
+                           element={route.element}
+                           key={route.path}
+                    />) :
+                publicRoutes.map(route =>
+                    <Route path={route.path}
+                           element={route.element}
+                           key={route.path}
+                    />)
+            }
+        </Routes>
+    );
+});
 
 export default App;

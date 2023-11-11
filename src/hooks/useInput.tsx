@@ -1,29 +1,27 @@
 import React, {useState} from "react";
-import {ICheckValidation, IInputOutput} from "@components/types/types.tsx";
-import {useValidation} from "./useValidation.tsx";
+import {IInputOutput} from "../types/types.tsx";
 
-export const useInput = (initialState: string, checkValid?: ICheckValidation[]): IInputOutput => {
+export const useInput = (initialState: string): IInputOutput => {
     const [value, setValue] = useState<string>(initialState)
     const [isDirty, setIsDirty] = useState(false)
-
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value)
     }
     const onBlur = (_: React.FocusEvent<HTMLInputElement>) => {
         setIsDirty(true);
     }
-    const inputOutput: IInputOutput = {
+    return {
         input: {
             value,
             onChange,
             onBlur
         },
-        isDirty
+        isDirty,
+        validations: []
     }
-    if (checkValid)
-        inputOutput.validations = useValidation(value, checkValid)
-    return inputOutput
 }
 /*
-[string, (event: React.ChangeEvent<HTMLInputElement>) => void,
-    (event: React.FocusEvent<HTMLInputElement>) => void, boolean]*/
+{predicate: validateEmail, message: 'Некорректный email'}
+{predicate: value => value.trim() === '', message: 'Пароль не должен быть пустым'},
+{predicate: value => value.trim().length < 5, message: 'Пароль должен быть длинее 5 символов'}
+    */

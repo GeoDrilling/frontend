@@ -21,6 +21,6 @@
     color: var(--error);
     font-size: 11px;
 }
-.input + div {
+.input + .error {
     margin-top: 8px;
 }
