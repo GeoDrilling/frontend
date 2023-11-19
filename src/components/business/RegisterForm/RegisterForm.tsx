@@ -1,13 +1,12 @@
-import {FC, useContext} from "react";
+import {FC} from "react";
 import Link from "@components/business/Link/Link.tsx";
 import styles from './RegisterForm.module.css'
-import classNames from "classnames";
 import {useInput} from "../../../hooks/useInput.tsx";
 import Fieldset from "@components/UI/fieldset/Fieldset.tsx";
 import {validateEmail} from "../../../utils/utils.tsx";
 import {useValidation} from "../../../hooks/useValidation.tsx";
 import Button from "@components/UI/button/Button.tsx";
-import {Context} from "../../../main.tsx";
+import {useAuthContext} from "../../../hooks/context/useAuth.ts";
 
 
 const RegisterForm: FC = () => {
@@ -23,15 +22,18 @@ const RegisterForm: FC = () => {
         {predicate: validateEmail, message: 'Некорректный email'}))
 
     name.input.label = 'Имя'
+    name.input.placeholder = 'username'
     password.input.label = 'Пароль'
     password.input.type = 'password'
+    password.input.placeholder = 'password'
     email.input.label = 'Почта'
+    email.input.placeholder = 'test@mail.com'
 
-    const {store} = useContext(Context)
+    const authContext = useAuthContext()
     return (
         <form onSubmit={(e) => {
             e.preventDefault()
-            store.registration(name.input.value,
+            authContext.registration(name.input.value,
                 email.input.value, password.input.value)
         }}>
             <Fieldset inputs={[name, email, password]}/>
@@ -39,7 +41,7 @@ const RegisterForm: FC = () => {
                 Зарегистрироваться</Button>
             <footer className={styles.footer}>
                 <div className={styles.text}>Уже зарегистрированы?</div>
-                <Link to={'/login'} className={classNames(styles.text, styles.link)}>Войти</Link>
+                <Link to={'/login'} className={styles.link}>Войти</Link>
             </footer>
         </form>
     );

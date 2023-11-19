@@ -8,6 +8,10 @@
     border-bottom: 1px solid var(--primary);
     font-size: 20px;
 }
+.input::placeholder {
+    font-size: 20px;
+    color: var(--placeholder);
+}
 .input:focus {
     outline: none;
     border-bottom-color: var(--secondary);

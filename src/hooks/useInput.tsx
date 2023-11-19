@@ -4,11 +4,11 @@ import {IInputOutput} from "../types/types.tsx";
 export const useInput = (initialState: string): IInputOutput => {
     const [value, setValue] = useState<string>(initialState)
     const [isDirty, setIsDirty] = useState(false)
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value)
+    const onChange = (event?: React.ChangeEvent<HTMLInputElement>) => {
+        if (event != undefined)
+            setValue(event.target.value)
     }
-    // eslint-disable-next-line
-    const onBlur = (_: React.FocusEvent<HTMLInputElement>) => {
+    const onBlur = () => {
         setIsDirty(true);
     }
     return {
@@ -21,8 +21,4 @@ export const useInput = (initialState: string): IInputOutput => {
         validations: []
     }
 }
-/*
-{predicate: validateEmail, message: 'Некорректный email'}
-{predicate: value => value.trim() === '', message: 'Пароль не должен быть пустым'},
-{predicate: value => value.trim().length < 5, message: 'Пароль должен быть длинее 5 символов'}
-    */
+

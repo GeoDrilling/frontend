@@ -1,13 +1,13 @@
-import {FC, MouseEvent, useContext, useEffect, useState} from 'react';
+import {FC, MouseEvent, useEffect, useState} from 'react';
 import {IUser} from "../../models/IUser.ts";
-import UserService from "../../services/UserService.tsx";
+import UserService from "../../services/UserService.ts";
 import Button from "@components/UI/button/Button.tsx";
-import {Context} from "../../main.tsx";
 import {observer} from "mobx-react-lite";
+import {useAuthContext} from "../../hooks/context/useAuth.ts";
 
 const GeoNavigation: FC = observer(() => {
     const [user, setUser] = useState<IUser>()
-    const {store} = useContext(Context)
+    const authContext = useAuthContext()
     useEffect( () => {
         getUser()
     }, []);
@@ -17,7 +17,7 @@ const GeoNavigation: FC = observer(() => {
     }
     const logout = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        store.logout()
+        authContext.logout()
     }
     return (
         <div>
@@ -25,12 +25,8 @@ const GeoNavigation: FC = observer(() => {
             <div>
                 <div>{user?.name}</div>
                 <div>{user?.email}</div>
-                <div>{store.counter}</div>
             </div>
-            <Button onClick={e => {
-                e.preventDefault()
-                store.incrementCounter()
-            }}>+ 1</Button>
+
             <Button onClick={e => logout(e)}>Log out</Button>
         </div>
     );
