@@ -15,7 +15,7 @@ const Fieldset: FC<FieldsetProps> = ({inputs, className}) => {
         <fieldset
             className={classNames(styles.fieldset, className)}>
             {inputs.map((input, index) =>
-                    <Input key={index}
+                    <Input key={index} className={styles.input}
                         inputOutput={{...input}}/>
                 )}
         </fieldset>

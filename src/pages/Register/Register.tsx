@@ -13,9 +13,11 @@ const Register: FC = () => {
     }
     return (
         <main className={styles.page}>
-            <section className={styles.section}>
-                <h1 className={styles.title}>Добро пожаловать!</h1>
-                <RegisterForm/>
+            <section>
+                <div className={styles.content}>
+                    <h1 className={styles.title}>Добро пожаловать!</h1>
+                    <RegisterForm/>
+                </div>
             </section>
         </main>
     );

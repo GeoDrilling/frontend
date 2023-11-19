@@ -13,7 +13,7 @@ const Login: FC = () => {
     return (
         <main className={styles.page}>
             <section className={styles.container}>
-                <div>
+                <div className={styles.content}>
                     <h1 className={styles.title}>Рады видеть!</h1>
                     <LoginForm />
                 </div>

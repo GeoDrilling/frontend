@@ -1,5 +1,5 @@
 import React, {FC, PropsWithChildren} from "react";
-
+// eslint-disable-next-line
 export type FCC<P={}> = FC<PropsWithChildren<P>>
 export interface IInput {
     label?: string;

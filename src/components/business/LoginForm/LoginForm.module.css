@@ -1,11 +1,9 @@
-.container__bottom__text > * {
+.link {
     font-size: 16px;
-    align-items: center;
-    display: flex;
 }
-.container__bottom__text {
+.container {
     display: flex;
-    margin-top: 35px;
+    margin-top: 40px;
     flex-direction: row;
     justify-content: space-between;
     height: 25px;
@@ -19,14 +17,15 @@
     flex-direction: row;
     justify-content: center;
     margin-top: 15px;
+
 }
-.footer > * {
+.footer > .link {
     font-size: 16px;
-    align-items: center;
 }
-.footer > div {
-    margin-right: 7px;
+.footer > .question {
+    margin: 0 7px 0 0;
 }
 .checkbox {
     display: flex;
+    align-items: center;
 }

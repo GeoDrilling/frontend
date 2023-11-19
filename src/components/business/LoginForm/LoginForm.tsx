@@ -22,18 +22,18 @@ const LoginForm: FC = () => {
             store.login(name.input.value, password.input.value, isRemember)
         }}>
             <Fieldset inputs={[name, password]} />
-            <div className={styles.container__bottom__text}>
+            <div className={styles.container}>
                 <Checkbox
                     checked={isRemember}
                     onChange={onChange}
                     label='Запомнить'
                     className={styles.checkbox}/>
-                <Link to={'/reset'}>Забыли пароль?</Link>
+                <Link to={'/reset'} className={styles.link}>Забыли пароль?</Link>
             </div>
             <Button className={styles.submit}>Войти</Button>
             <footer className={styles.footer}>
-                <div >Ещё не зарегистрированы?</div>
-                <Link to={'/register'} >Регистрация</Link>
+                <p className={styles.question}>Ещё не зарегистрированы?</p>
+                <Link to={'/register'} className={styles.link} >Регистрация</Link>
             </footer>
         </form>
     );

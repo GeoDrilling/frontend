@@ -7,6 +7,7 @@ export const useInput = (initialState: string): IInputOutput => {
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value)
     }
+    // eslint-disable-next-line
     const onBlur = (_: React.FocusEvent<HTMLInputElement>) => {
         setIsDirty(true);
     }

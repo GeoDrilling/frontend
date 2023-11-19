@@ -16,10 +16,10 @@ const Input: FCC<InputProps> = ({inputOutput, className}) => {
             />
             {inputOutput.validations?.map(validation =>
                 validation.isError && inputOutput.isDirty &&
-                <div className={styles.error}
+                <p className={styles.error}
                     key={validation.message}>
                     {validation.message}
-                </div>
+                </p>
             )}
 
         </div>

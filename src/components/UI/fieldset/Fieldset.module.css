@@ -1,4 +1,4 @@
-.fieldset > div {
+.fieldset > .input:not(:first-child) {
     margin-top: 35px;
 }
 .fieldset {

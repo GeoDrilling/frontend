@@ -1,20 +1,18 @@
 .page {
     display: flex;
+    justify-content: center;
+    align-items: center;
     box-sizing: border-box;
 }
-.page > section,
-.page > div {
-    width: 50vw;
-    height: 100vh;
-}
-
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 50vw;
+    height: 100vh;
 }
-.container > div {
+.content {
     width: 450px;
 }
 .title {
@@ -27,4 +25,6 @@
     background-image: url("src/images/login_background.png");
     background-repeat: no-repeat;
     background-size: cover;
+    width: 50vw;
+    height: 100vh;
 }
