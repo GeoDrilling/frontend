@@ -1,32 +1,58 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #fff; /* White text */
-    position: absolute;
-    top: 0; /* Прилипнет к верхней части окна просмотра */
-    z-index: 10; /* Убедитесь, что заголовок находится поверх других элементов */
-    width: 100vw;
-    height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 60px;
 }
 
+.headerScrolled {
+  background-color: #fff;
+}
 
+.logo {
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-left: 10px;
+}
+
+.logoScrolled {
+  color: #fbbb3b;
+}
+
+.button {
+  color: white;
+  background: transparent;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.buttonScrolled {
+  color: #021d38;
+}
 .navigation a {
-    color: #fff; /* White text for links */
-    text-decoration: none;
-    margin: 0 1rem;
-    /* Additional styles for navigation links */
+  color: #fff;
+  text-decoration: none;
+  margin: 0 1rem;
 }
 
 .login-button {
-    /* Styles for the login button */
-    background-color: #fff; /* White background for the button */
-    color: #000; /* Black text */
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    border: 2px solid #007bff; /* Устанавливает толщину, стиль и цвет рамки */
-    border-radius: 5px; /* Закругление углов рамки */
-    /* Additional styles for the button */
+  margin-right: 15px;
+  text-decoration: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #fff;
 }
 
-/* Add
+.login-buttonScrolled {
+  background: #fbbb3b;
+}

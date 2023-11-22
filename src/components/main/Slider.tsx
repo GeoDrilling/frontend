@@ -1,55 +1,59 @@
 import React, { useState } from 'react';
-import DotNavigation from "@components/main/DotNavigation.tsx";
-
+import DotNavigation from '@components/main/DotNavigation.tsx';
+import './Slider.css';
 type BackgroundData = {
-    imageUrl: string;
-    text: string;
+  imageUrl: string;
+  text: string;
+  text2: string;
 };
 
 const backgrounds: BackgroundData[] = [
-    {
-        imageUrl: 'src/images/background1.png',
-        text: 'Текст для первого изображения',
-    },
-    {
-        imageUrl: 'src/images/background2.png',
-        text: 'Текст для второго изображения',
-    },
-    {
-        imageUrl: 'src/images/background3.png',
-        text: 'Текст для 3 изображения',
-    },
+  {
+    imageUrl: 'src/images/background1.png',
+    text: 'Обучайтесь.',
+    text2: 'Вместе с нами вы станете экспертами в области геонавигации.',
+  },
+  {
+    imageUrl: 'src/images/background2.png',
+    text: 'Исследуйте.',
+    text2: 'Стройте и анализируйте графики, чтобы лучше понимать процесс бурения.',
+  },
+  {
+    imageUrl: 'src/images/background3.png',
+    text: 'Моделируйте.',
+    text2: 'Наша библиотека поможет вам рассчитать целевые функции на любой указанной сетке. ',
+  },
 ];
 
 const Slider: React.FC = () => {
-    const [currentBackgroundIndex, setCurrentBackgroundIndex] = useState(0);
+  const [currentBackgroundIndex, setCurrentBackgroundIndex] = useState(0);
 
-    const changeBackground = (a : number) => {
-        setCurrentBackgroundIndex(a % backgrounds.length);
-    };
+  const changeBackground = (a: number) => {
+    setCurrentBackgroundIndex(a % backgrounds.length);
+  };
 
-    const currentBackground = backgrounds[currentBackgroundIndex];
+  const currentBackground = backgrounds[currentBackgroundIndex];
 
-    return (
-        <div
-            style={{
-                margin: 0,
-                width: '100vw', // Замените '100vh' на '100vw' для ширины
-                height: '100vh', // Замените '100vh' на '100vh' для высоты
-                backgroundImage: `url(${currentBackground.imageUrl})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center center', // Чтобы изображение было выровнено по центру
-                display: 'flex', // Замените 'inline-flex' на 'flex' для блочного элемента
-                alignItems: 'center', // Чтобы текст и кнопки были по вертикали по центру
-                justifyContent: 'center', // Чтобы текст и кнопки были по горизонтали по центру
-                flexDirection: 'column', // Чтобы элементы располагались вертикально
-                color: '#fff', // Установите цвет текста на белый
-            }}
-        >
-            <h1 className="slider-text">{currentBackground.text}</h1>
-            <DotNavigation count={3} onDotClick={changeBackground} />
-        </div>
-    );
+  return (
+    <div
+      style={{
+        position: 'relative',
+        marginTop: '-60px',
+        height: '100vh',
+        backgroundImage: `url(${currentBackground.imageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+      }}
+    >
+      <h1 className='slider-text'>{currentBackground.text}</h1>
+      <h1 className='slider-text2'>{currentBackground.text2}</h1>
+      <DotNavigation count={3} onDotClick={changeBackground} />
+    </div>
+  );
 };
 
 export default Slider;

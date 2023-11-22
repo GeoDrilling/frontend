@@ -1,21 +1,52 @@
-import React from 'react';
-import './Header.css'; // This is where you would style your component.
+import React, { ReactElement, useEffect, useState } from 'react';
+import './Header.css';
 
-const Header: React.FC = () => {
-    return (
-        <header className="header">
-            <div className="logo">
-                GEODRILLING
-            </div>
-            <nav className="navigation">
-                <a href="/about">О нас</a>
-                <a href="/data">Данные</a>
-                <a href="/charts">Графики</a>
-                <a href="/models">Модели</a>
-            </nav>
-            <a className="login-button" href="/login">Войти</a>
-        </header>
-    );
+interface ChildComponentProps {
+  onButtonClick: (refName: string) => void;
+}
+const Header: React.FC<ChildComponentProps> = ({ onButtonClick }): ReactElement => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const headerClass = isScrolled ? 'header headerScrolled' : 'header headerNormal';
+  const buttonClass = isScrolled ? 'button buttonScrolled' : 'button';
+  const logoClass = isScrolled ? 'logo logoScrolled' : 'logo';
+  const loginClass = isScrolled ? 'login-button login-buttonScrolled' : 'login-button';
+
+  return (
+    <header className={headerClass}>
+      <div className={logoClass}>GEODRILLING</div>
+      <nav className='navigation'>
+        <button className={buttonClass} onClick={() => onButtonClick('ref1')}>
+          О нас
+        </button>
+        <button className={buttonClass} onClick={() => onButtonClick('ref2')}>
+          Данные
+        </button>
+        <button className={buttonClass} onClick={() => onButtonClick('ref3')}>
+          Графики
+        </button>
+        <button className={buttonClass} onClick={() => onButtonClick('ref4')}>
+          Модели
+        </button>
+      </nav>
+      <a className={loginClass} href='/login'>
+        Войти
+      </a>
+    </header>
+  );
 };
 
 export default Header;

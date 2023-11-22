@@ -1,0 +1,26 @@
+.container {
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: calc(100vh - 60px);
+}
+
+.title {
+  font-size: 48px;
+  font-weight: bold;
+  padding: 10px;
+  margin-bottom: 20px;
+  color: #ffa500;
+}
+.text {
+  max-width: 70%;
+  height: auto;
+  font-size: 20px;
+}
+img {
+  max-width: 100%;
+  height: auto;
+}

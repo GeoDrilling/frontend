@@ -1,0 +1,25 @@
+.containerAbout {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.titleBoxAbout {
+  margin: 5vh;
+  width: 30%;
+}
+
+.titleAbout {
+  color: #ffa500;
+  font-size: 48px;
+}
+.textBoxAbout {
+  margin: 10vh;
+  width: 70%;
+}
+
+.textAbout {
+  max-width: 70%;
+  color: #333;
+  font-size: 20px;
+}

@@ -1,0 +1,25 @@
+.footer {
+  background-color: white;
+  font-weight: bold;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.link {
+  color: orange;
+  text-decoration: none;
+}
+
+.socialIcons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.socialIcon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}

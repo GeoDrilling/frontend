@@ -1,20 +1,19 @@
-import {FC, useContext, useEffect} from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Landing from '@pages/Landing/Landing';
 import Register from '@pages/Register/Register';
-import Login from "@pages/Login/Login.tsx";
+import Login from '@pages/Login/Login.tsx';
 import './index.css';
-import {Context} from "./main.tsx";
-
+import { Context } from './main.tsx';
 
 const App: FC = () => {
-    const {store} = useContext(Context)
-    useEffect(() => {
-        if (localStorage.getItem('token')) {
-            store.checkAuth()
-        }
-    })
+  const { store } = useContext(Context);
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      store.checkAuth();
+    }
+  });
   return (
     <Routes>
       <Route path='/' element={<Landing />} />

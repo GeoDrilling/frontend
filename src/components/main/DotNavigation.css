@@ -1,36 +1,25 @@
-/* DotNavigation.css */
-
 .dot-navigation {
-    position: fixed; /* Используем фиксированное позиционирование */
-    top: 50%; /* Положение по центру относительно вертикали */
-    left: 10px; /* Отступ слева */
-    transform: translateY(-50%); /* Смещаем на 50% высоты элемента для центрирования */
-    display: flex;
-    flex-direction: column; /* Элементы в колонку */
-    align-items: center;
-    z-index: 100; /* Устанавливаем z-index повыше для видимости */
+  position: absolute;
+  top: 55%;
+  left: 50px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 100;
+  gap: 20px;
 }
 
 .dot-button {
-    background-color: #bbb; /* Серый цвет для неактивных точек */
-    border-radius: 50%; /* Делаем кнопку круглой */
-    width: 15px; /* Диаметр точки */
-    height: 15px; /* Диаметр точки */
-    margin: 10px 0; /* Отступы между точками */
-    border: none; /* Убираем границу */
-    cursor: pointer; /* Курсор в виде указателя */
-    transition: background-color 0.3s; /* Плавное изменение цвета при наведении */
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid white;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
 }
 
 .dot-button.active {
-    background-color: #333; /* Темный цвет для активной точки */
-}
-
-.dot-button:hover {
-    background-color: #777; /* Цвет при наведении */
-}
-
-/* Убираем стандартные стили для фокуса, если нужно */
-.dot-button:focus {
-    outline: none;
+  background-color: white;
 }

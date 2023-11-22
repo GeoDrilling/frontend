@@ -1,26 +1,26 @@
 .input {
-    margin-top: 10px;
-    padding-top: 13px;
-    padding-bottom: 13px;
-    color: var(--primary);
-    border: none;
-    width: 100%;
-    border-bottom: 1px solid var(--primary);
-    font-size: 20px;
+  margin-top: 10px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  color: var(--primary);
+  border: none;
+  width: 100%;
+  border-bottom: 1px solid var(--primary);
+  font-size: 20px;
 }
 .input:focus {
-    outline: none;
-    border-bottom-color: var(--secondary);
+  outline: none;
+  border-bottom-color: var(--secondary);
 }
 .title {
-    color: var(--accent);
-    font-size: 16px;
-    text-align: left;
+  color: var(--accent);
+  font-size: 16px;
+  text-align: left;
 }
 .error {
-    color: var(--error);
-    font-size: 11px;
+  color: var(--error);
+  font-size: 11px;
 }
 .input + div {
-    margin-top: 8px;
+  margin-top: 8px;
 }
