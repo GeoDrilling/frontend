@@ -1,0 +1,31 @@
+.container__bottom__text > * {
+  font-size: 16px;
+  align-items: center;
+  display: flex;
+}
+.container__bottom__text {
+  display: flex;
+  margin-top: 35px;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 25px;
+}
+.submit {
+  margin-top: 100px;
+}
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 15px;
+}
+.footer > * {
+  font-size: 16px;
+  align-items: center;
+}
+.footer > div {
+  margin-right: 7px;
+}
+.checkbox {
+  display: flex;
+}

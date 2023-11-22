@@ -3,13 +3,17 @@
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  padding: 100px;
+  min-height: 100vh;
+  min-width: 100vh;
 }
 
 .title {
-  font-size: 64px;
+  font-size: 40px;
   font-weight: 700;
   line-height: normal;
-  color: var(--primary);
+  color: var(--accent);
   margin: 0;
+}
+.section {
+  width: 450px;
 }

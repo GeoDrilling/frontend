@@ -1,0 +1,22 @@
+.slider-text {
+  max-width: 90%;
+  height: 50px;
+  flex-shrink: 0;
+  color: #fff;
+  font-size: 100px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 110px;
+  margin-left: calc(100px - 5vw);
+  white-space: nowrap;
+}
+
+.slider-text2 {
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-left: calc(100px - 5vw);
+  white-space: nowrap;
+}

@@ -1,19 +1,5 @@
-.page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  padding: 100px;
-}
-
-.title {
-  font-size: 64px;
-  font-weight: 700;
-  line-height: normal;
-  color: var(--primary);
+html,
+body {
   margin: 0;
-}
-
-.link {
-  margin: 40px 0 0;
+  padding: 0;
 }

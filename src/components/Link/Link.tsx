@@ -7,7 +7,7 @@ import styles from './Link.module.css';
 const Link: FC<LinkProps> = ({ className, children, ...props }) => {
   return (
     <ReactLink className={classNames(styles.link, className)} {...props}>
-      {children} &#8594;
+      {children}
     </ReactLink>
   );
 };

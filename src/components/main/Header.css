@@ -1,0 +1,58 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 60px;
+}
+
+.headerScrolled {
+  background-color: #fff;
+}
+
+.logo {
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-left: 10px;
+}
+
+.logoScrolled {
+  color: #fbbb3b;
+}
+
+.button {
+  color: white;
+  background: transparent;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.buttonScrolled {
+  color: #021d38;
+}
+.navigation a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 1rem;
+}
+
+.login-button {
+  margin-right: 15px;
+  text-decoration: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #fff;
+}
+
+.login-buttonScrolled {
+  background: #fbbb3b;
+}

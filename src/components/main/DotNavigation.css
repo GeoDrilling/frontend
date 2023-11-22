@@ -1,0 +1,25 @@
+.dot-navigation {
+  position: absolute;
+  top: 55%;
+  left: 50px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 100;
+  gap: 20px;
+}
+
+.dot-button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid white;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.dot-button.active {
+  background-color: white;
+}
