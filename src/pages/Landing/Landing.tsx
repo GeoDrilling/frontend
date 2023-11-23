@@ -12,8 +12,8 @@ const Landing: FC = () => {
         <Link className={styles.link} to='/register'>
           Регистрация &#8594;
         </Link>
-          <div>{localStorage.getItem('remember')}</div>
-          <div>{localStorage.getItem('refresh')}</div>
+        <div>{localStorage.getItem('remember')}</div>
+        <div>{localStorage.getItem('refresh')}</div>
       </main>
     </div>
   );
