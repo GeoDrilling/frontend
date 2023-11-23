@@ -1,18 +1,16 @@
 import { FC } from 'react';
-import { Routes, Route } from 'react-router-dom';
-
-import Landing from '@pages/Landing/Landing';
-import Register from '@pages/Register/Register';
 
 import './index.css';
+import { observer } from 'mobx-react-lite';
+import { AuthProvider } from './contexts/AuthContext.tsx';
+import Router from './routes/Router.tsx';
 
-const App: FC = () => {
+const App: FC = observer(() => {
   return (
-    <Routes>
-      <Route path='/' element={<Landing />} />
-      <Route path='/login' element={<Register />} />
-    </Routes>
+    <AuthProvider>
+      <Router />
+    </AuthProvider>
   );
-};
+});
 
 export default App;

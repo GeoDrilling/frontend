@@ -1,0 +1,31 @@
+.link {
+  font-size: 16px;
+}
+.container {
+  display: flex;
+  margin-top: 40px;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 25px;
+}
+.submit {
+  margin-top: 100px;
+}
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 15px;
+}
+.link {
+  font-size: 16px;
+}
+.question {
+  margin: 0 7px 0 0;
+  color: var(--primary);
+}
+.checkbox {
+  display: flex;
+  align-items: center;
+  color: var(--primary);
+}

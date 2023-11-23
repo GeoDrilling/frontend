@@ -1,0 +1,16 @@
+.footer {
+  padding-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+.text {
+  font-size: 14px;
+  color: var(--primary);
+}
+.link {
+  font-size: 14px;
+  margin-left: 7px;
+}
+.submit {
+  margin-top: 80px;
+}
