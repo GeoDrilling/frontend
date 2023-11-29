@@ -1,10 +1,18 @@
 import { FC } from 'react';
 import styles from './AreaEquivalence.module.css';
 import WindowHeader from '@components/business/WindowHeader/WindowHeader.tsx';
-const AreaEquivalence: FC = () => {
+import classNames from 'classnames';
+import { useWindowsContext } from '../../../hooks/context/useWindowsContext.ts';
+
+interface AreaEquivalenceProps {
+  className?: string;
+}
+
+const AreaEquivalence: FC<AreaEquivalenceProps> = ({ className }) => {
+  const { toggleAreaEquivalence } = useWindowsContext();
   return (
-    <div className={styles.container}>
-      <WindowHeader image={'src/assets/images/icon_area_eq.svg'} title={'Модели'} />
+    <div className={classNames(styles.container, className)}>
+      <WindowHeader image={'src/assets/images/icon_area_eq.svg'} title={'Модели'} closeWindow={toggleAreaEquivalence} />
     </div>
   );
 };

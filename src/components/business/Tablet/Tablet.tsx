@@ -1,11 +1,16 @@
 import { FC } from 'react';
 import styles from './Tablet.module.css';
 import WindowHeader from '@components/business/WindowHeader/WindowHeader.tsx';
-
-const Tablet: FC = () => {
+import classNames from 'classnames';
+import { useWindowsContext } from '../../../hooks/context/useWindowsContext.ts';
+interface TabletProps {
+  className?: string;
+}
+const Tablet: FC<TabletProps> = ({ className }) => {
+  const { toggleTablet } = useWindowsContext();
   return (
-    <div className={styles.container}>
-      <WindowHeader image={'src/assets/images/icon_tablet.svg'} title={'Рабочая область'} />
+    <div className={classNames(styles.container, className)}>
+      <WindowHeader image={'src/assets/images/icon_tablet.svg'} closeWindow={toggleTablet} title={'Рабочая область'} />
     </div>
   );
 };

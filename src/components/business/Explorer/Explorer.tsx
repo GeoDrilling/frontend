@@ -1,11 +1,20 @@
 import { FC } from 'react';
 import styles from './Explorer.module.css';
 import WindowHeader from '@components/business/WindowHeader/WindowHeader.tsx';
-
-const Explorer: FC = () => {
+import classNames from 'classnames';
+import { useWindowsContext } from '../../../hooks/context/useWindowsContext.ts';
+interface ExplorerProps {
+  className?: string;
+}
+const Explorer: FC<ExplorerProps> = ({ className }) => {
+  const { toggleExplorer } = useWindowsContext();
   return (
-    <div className={styles.container}>
-      <WindowHeader image={'src/assets/images/icon_explorer.svg'} title={'Браузер проекта'} />
+    <div className={classNames(styles.container, className)}>
+      <WindowHeader
+        image={'src/assets/images/icon_explorer.svg'}
+        title={'Браузер проекта'}
+        closeWindow={toggleExplorer}
+      />
     </div>
   );
 };

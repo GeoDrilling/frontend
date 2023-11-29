@@ -4,11 +4,14 @@ import './index.css';
 import { observer } from 'mobx-react-lite';
 import { AuthProvider } from './contexts/AuthContext.tsx';
 import GeoNavigation from '@pages/GeoNavigation/GeoNavigation.tsx';
+import { WindowsProvider } from './contexts/WindowsContext.tsx';
 
 const App: FC = observer(() => {
   return (
     <AuthProvider>
-      <GeoNavigation />
+      <WindowsProvider>
+        <GeoNavigation />
+      </WindowsProvider>
     </AuthProvider>
   );
 });

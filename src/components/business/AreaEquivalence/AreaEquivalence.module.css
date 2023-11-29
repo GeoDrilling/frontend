@@ -1,4 +1,4 @@
 .container {
-  border: red 1px solid;
   background: var(--background);
+  flex: 0.8;
 }
