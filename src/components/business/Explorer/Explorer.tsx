@@ -3,6 +3,7 @@ import styles from './Explorer.module.css';
 import WindowHeader from '@components/business/WindowHeader/WindowHeader.tsx';
 import classNames from 'classnames';
 import { useWindowsContext } from '../../../hooks/context/useWindowsContext.ts';
+import FilesTree from '@components/business/FilesTree/FilesTree.tsx';
 interface ExplorerProps {
   className?: string;
 }
@@ -15,6 +16,9 @@ const Explorer: FC<ExplorerProps> = ({ className }) => {
         title={'Браузер проекта'}
         closeWindow={toggleExplorer}
       />
+      <div className={styles.boxExplorer}>
+        <FilesTree />
+      </div>
     </div>
   );
 };

@@ -1,4 +1,11 @@
 .container {
+  display: flex;
+  flex-direction: column;
   background: var(--background);
-  flex: auto;
+  flex: 1 1 40%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.boxExplorer {
+  overflow: hidden;
 }

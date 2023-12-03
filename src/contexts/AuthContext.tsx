@@ -3,7 +3,6 @@ import { FCC } from '../types/types.tsx';
 import { IUser } from '../models/IUser.ts';
 import axios, { AxiosError } from 'axios';
 import { AuthResponse } from '../models/AuthResponse.ts';
-import { API_URL } from '../http';
 import AuthService from '../services/AuthService.ts';
 
 interface AuthContext {
@@ -61,7 +60,7 @@ export const AuthProvider: FCC = ({ children }) => {
       return;
     }
     try {
-      const response = await axios.post<AuthResponse>(`${API_URL}/auth/refresh-token`, {}, { withCredentials: true });
+      const response = await AuthService.refresh();
       localStorage.setItem('token', response.data.accessToken);
       setUser(response.data.user);
       setIsAuth(true);
