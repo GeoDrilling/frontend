@@ -33,7 +33,7 @@
   white-space: nowrap;
 }
 .checkbox {
-  background-image: url('src/assets/images/check_accent.svg');
+  background-image: url('/src/assets/images/check_accent.svg');
   background-repeat: no-repeat;
   width: 15px;
   height: 12px;

@@ -17,7 +17,7 @@
 }
 .load {
   display: inline-block;
-  background-image: url('src/assets/images/icon_load.svg');
+  background-image: url('/src/assets/images/icon_load.svg');
   background-repeat: no-repeat;
   width: 26px;
   height: 23px;
@@ -25,7 +25,7 @@
 }
 .download {
   display: inline-block;
-  background-image: url('src/assets/images/icon_download.svg');
+  background-image: url('/src/assets/images/icon_download.svg');
   background-repeat: no-repeat;
   width: 26px;
   height: 23px;
@@ -33,7 +33,7 @@
 }
 .separator {
   display: inline-block;
-  background-image: url('src/assets/images/icon_separator.svg');
+  background-image: url('/src/assets/images/icon_separator.svg');
   background-repeat: no-repeat;
   width: 1px;
   height: 30px;
@@ -42,7 +42,7 @@
 }
 .createFolder {
   display: inline-block;
-  background-image: url('src/assets/images/icon_create_folder.svg');
+  background-image: url('/src/assets/images/icon_create_folder.svg');
   background-repeat: no-repeat;
   width: 30px;
   height: 30px;
@@ -50,7 +50,7 @@
 }
 .createDataset {
   display: inline-block;
-  background-image: url('src/assets/images/icon_create_dataset.svg');
+  background-image: url('/src/assets/images/icon_create_dataset.svg');
   background-repeat: no-repeat;
   width: 25px;
   height: 30px;
@@ -59,7 +59,7 @@
 }
 .createRig {
   display: inline-block;
-  background-image: url('src/assets/images/icon_create_rig.svg');
+  background-image: url('/src/assets/images/icon_create_rig.svg');
   background-repeat: no-repeat;
   width: 30px;
   height: 30px;
@@ -67,7 +67,7 @@
 }
 .t1 {
   display: inline-block;
-  background-image: url('src/assets/images/icon_t1.svg');
+  background-image: url('/src/assets/images/icon_t1.svg');
   background-repeat: no-repeat;
   width: 30px;
   height: 30px;
@@ -75,7 +75,7 @@
 }
 .t2 {
   display: inline-block;
-  background-image: url('src/assets/images/icon_t2.svg');
+  background-image: url('/src/assets/images/icon_t2.svg');
   background-repeat: no-repeat;
   width: 30px;
   height: 30px;
@@ -83,7 +83,7 @@
 }
 .t3 {
   display: inline-block;
-  background-image: url('src/assets/images/icon_t3.svg');
+  background-image: url('/src/assets/images/icon_t3.svg');
   background-repeat: no-repeat;
   width: 30px;
   height: 30px;
@@ -91,7 +91,7 @@
 }
 .t4 {
   display: inline-block;
-  background-image: url('src/assets/images/icon_t4.svg');
+  background-image: url('/src/assets/images/icon_t4.svg');
   background-repeat: no-repeat;
   width: 30px;
   height: 30px;

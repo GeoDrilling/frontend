@@ -31,5 +31,6 @@ export const WindowsProvider: FCC = ({ children }) => {
     }),
     [isExplorer, isAreaEquivalence, isTablet],
   );
+
   return <WindowsContext.Provider value={value}>{children}</WindowsContext.Provider>;
 };

@@ -6,7 +6,7 @@ export const PublicRoute: FC = () => {
   const { isAuth } = useAuthContext();
 
   if (isAuth) {
-    return <Navigate to='/notes' replace />;
+    return <Navigate to='/projects' replace />;
   }
 
   return <Outlet />;

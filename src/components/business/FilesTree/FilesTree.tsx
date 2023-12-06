@@ -1,11 +1,10 @@
 import { FC, useEffect, useRef } from 'react';
 import styles from './FilesTree.module.css';
 import { useOverlayScrollbars } from 'overlayscrollbars-react';
+import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
 
 const FilesTree: FC = () => {
-  const curves = {
-    curvesNames: ['GR', 'ROP', 'RACHX', 'RPCHX', '1', '2', '3', '4', '5'],
-  };
+  const { curves } = useProjectContext();
   const scrollRef = useRef(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [initialize, _] = useOverlayScrollbars({ defer: true });
@@ -14,6 +13,7 @@ const FilesTree: FC = () => {
       initialize(scrollRef.current);
     }
   }, [initialize]);
+  if (curves.length <= 0) return <div className={styles.container} />;
   return (
     <div className={styles.container} ref={scrollRef}>
       <ul className={styles.filesTree}>
@@ -23,7 +23,7 @@ const FilesTree: FC = () => {
             <span className={styles.text}>Rig</span>
           </div>
           <ul className={styles.nested}>
-            {curves.curvesNames.map((curveName) => (
+            {curves.map((curveName) => (
               <li key={curveName}>
                 <div className={styles.centredBox}>
                   <span className={styles.dataset} />

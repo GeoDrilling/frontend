@@ -1,11 +1,17 @@
 import { ChangeEvent, FC } from 'react';
 import styles from './ToolsBar.module.css';
 import classNames from 'classnames';
+import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
 
 const ToolsBar: FC = () => {
+  const { id, uploadLasFile } = useProjectContext();
+
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      console.log(event.target.files);
+      const formData = new FormData();
+      formData.append('file', event.target.files[0]);
+      formData.append('project_id', id.toString());
+      uploadLasFile(formData);
     }
   };
 

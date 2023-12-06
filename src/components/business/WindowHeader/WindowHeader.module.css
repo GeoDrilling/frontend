@@ -24,7 +24,7 @@
   line-height: normal;
 }
 .exit {
-  background-image: url('src/assets/images/icon_exit.svg');
+  background-image: url('/src/assets/images/icon_exit.svg');
   background-repeat: no-repeat;
   width: 20px;
   height: 20px;

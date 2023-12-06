@@ -2,7 +2,7 @@ import { FC, useEffect, useRef } from 'react';
 import styles from './AreaEquivalence.module.css';
 import WindowHeader from '@components/business/WindowHeader/WindowHeader.tsx';
 import classNames from 'classnames';
-import { useWindowsContext } from '../../../hooks/context/useWindowsContext.ts';
+import { useWindows } from '../../../hooks/context/useWindows.ts';
 import { useOverlayScrollbars } from 'overlayscrollbars-react';
 
 interface AreaEquivalenceProps {
@@ -10,7 +10,7 @@ interface AreaEquivalenceProps {
 }
 
 const AreaEquivalence: FC<AreaEquivalenceProps> = ({ className }) => {
-  const { toggleAreaEquivalence } = useWindowsContext();
+  const { toggleAreaEquivalence } = useWindows();
   const scrollRef = useRef(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [initialize, _] = useOverlayScrollbars({ defer: true });
@@ -21,7 +21,11 @@ const AreaEquivalence: FC<AreaEquivalenceProps> = ({ className }) => {
   }, [initialize]);
   return (
     <div className={classNames(styles.container, className)}>
-      <WindowHeader image={'src/assets/images/icon_area_eq.svg'} title={'Модели'} closeWindow={toggleAreaEquivalence} />
+      <WindowHeader
+        image={'/src/assets/images/icon_area_eq.svg'}
+        title={'Модели'}
+        closeWindow={toggleAreaEquivalence}
+      />
       <div ref={scrollRef}>
         <div className={styles.test}>
           <div className={styles.imagBox}>

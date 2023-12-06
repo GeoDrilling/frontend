@@ -21,7 +21,7 @@
 .rig {
   display: flex;
   align-items: center;
-  background-image: url('src/assets/images/icon_rig.svg');
+  background-image: url('/src/assets/images/icon_rig.svg');
   background-repeat: no-repeat;
   width: 21px;
   height: 26px;
@@ -29,7 +29,7 @@
 .dataset {
   display: flex;
   align-items: center;
-  background-image: url('src/assets/images/icon_dataset.svg');
+  background-image: url('/src/assets/images/icon_dataset.svg');
   background-repeat: no-repeat;
   width: 23px;
   height: 26px;
@@ -42,7 +42,7 @@
 .test::before {
   outline: var(--error) 1px solid;
   display: inline-block;
-  background-image: url('src/assets/images/icon_rig.svg');
+  background-image: url('/src/assets/images/icon_rig.svg');
   background-repeat: no-repeat;
   content: '';
   width: 21px;

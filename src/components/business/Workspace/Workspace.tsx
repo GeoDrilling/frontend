@@ -3,10 +3,10 @@ import styles from './Workspace.module.css';
 import Explorer from '@components/business/Explorer/Explorer.tsx';
 import AreaEquivalence from '@components/business/AreaEquivalence/AreaEquivalence.tsx';
 import Tablet from '@components/business/Tablet/Tablet.tsx';
-import { useWindowsContext } from '../../../hooks/context/useWindowsContext.ts';
+import { useWindows } from '../../../hooks/context/useWindows.ts';
 
 const Workspace: FC = () => {
-  const { isExplorer, isTablet, isAreaEquivalence } = useWindowsContext();
+  const { isExplorer, isTablet, isAreaEquivalence } = useWindows();
   return (
     <div className={styles.container}>
       <div className={isExplorer || isAreaEquivalence ? styles.sidebar : styles.none}>

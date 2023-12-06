@@ -27,7 +27,7 @@
 }
 .img {
   display: inline-block;
-  background-image: url('src/assets/images/icon_profile.svg');
+  background-image: url('/src/assets/images/icon_profile.svg');
   background-repeat: no-repeat;
   width: 22px;
   height: 22px;

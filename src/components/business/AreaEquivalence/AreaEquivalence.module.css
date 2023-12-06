@@ -17,7 +17,7 @@
 }
 .area_eq {
   display: flex;
-  background-image: url('src/assets/images/area_eq.png');
+  background-image: url('/src/assets/images/area_eq.png');
   background-repeat: no-repeat;
   width: 306px;
   height: 332px;

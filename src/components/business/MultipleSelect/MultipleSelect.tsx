@@ -1,15 +1,14 @@
 import { FC, useRef, useState } from 'react';
 import styles from './MultipleSelect.module.css';
 import classNames from 'classnames';
-import { useWindowsContext } from '../../../hooks/context/useWindowsContext.ts';
+import { useWindows } from '../../../hooks/context/useWindows.ts';
 interface MultipleSelectProps {
   className?: string;
 }
 const MultipleSelect: FC<MultipleSelectProps> = ({ className }) => {
   const [isShow, setIsShow] = useState<boolean>(false);
   const listRef = useRef<HTMLUListElement>(null);
-  const { isExplorer, isAreaEquivalence, isTablet, toggleExplorer, toggleAreaEquivalence, toggleTablet } =
-    useWindowsContext();
+  const { isExplorer, isAreaEquivalence, isTablet, toggleExplorer, toggleAreaEquivalence, toggleTablet } = useWindows();
 
   const showSelect = () => {
     if (listRef.current) {
