@@ -1,5 +1,5 @@
 import React from 'react';
-import './Slide.css';
+import styles from '@pages/Landing/Slide/Slide.module.css';
 type MyComponentProps = {
   title: string;
   text: string;
@@ -8,11 +8,11 @@ type MyComponentProps = {
 
 const Slide: React.FC<MyComponentProps> = ({ title, text, imageUrl }) => {
   return (
-    <div className='container'>
-      <h1 className='title'>{title}</h1>
-      <p className='text'>{text}</p>
+    <article className={styles.container}>
+      <h1 className={styles.title}>{title}</h1>
+      <p className={styles.text}>{text}</p>
       <img src={imageUrl} alt='' />
-    </div>
+    </article>
   );
 };
 

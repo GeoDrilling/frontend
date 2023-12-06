@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #fff;
+  color: var(--background);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -10,11 +10,11 @@
 }
 
 .headerScrolled {
-  background-color: #fff;
+  background-color: var(--background);
 }
 
 .logo {
-  color: #fff;
+  color: var(--background);
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -23,11 +23,11 @@
 }
 
 .logoScrolled {
-  color: #fbbb3b;
+  color: var(--accent);
 }
 
 .button {
-  color: white;
+  color: var(--background);
   background: transparent;
   border: none;
   padding: 10px 20px;
@@ -35,24 +35,24 @@
 }
 
 .buttonScrolled {
-  color: #021d38;
+  color: var(--primary);
 }
 .navigation a {
-  color: #fff;
+  color: var(--background);
   text-decoration: none;
   margin: 0 1rem;
 }
 
-.login-button {
+.loginButton {
   margin-right: 15px;
   text-decoration: none;
-  color: #fff;
+  color: var(--background);
   padding: 0.5rem 1rem;
   cursor: pointer;
   border-radius: 5px;
-  border: 1px solid #fff;
+  border: 1px solid var(--background);
 }
 
-.login-buttonScrolled {
-  background: #fbbb3b;
+.loginButtonScrolled {
+  background: var(--accent);
 }

@@ -1,4 +1,4 @@
-.dot-navigation {
+.dotNavigation {
   position: absolute;
   top: 55%;
   left: 50px;
@@ -10,7 +10,7 @@
   gap: 20px;
 }
 
-.dot-button {
+.dotButton {
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -20,6 +20,6 @@
   padding: 0;
 }
 
-.dot-button.active {
-  background-color: white;
+.active {
+  background-color: var(--background);
 }

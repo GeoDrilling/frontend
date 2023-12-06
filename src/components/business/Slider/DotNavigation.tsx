@@ -1,25 +1,22 @@
-import React, { useState } from 'react';
-import './DotNavigation.css';
+import styles from './DotNavigation.module.css';
 
 interface DotNavigationProps {
   count: number;
+  activeIndex: number; // Добавлено новое свойство
   onDotClick: (index: number) => void;
 }
 
-const DotNavigation: React.FC<DotNavigationProps> = ({ count, onDotClick }) => {
-  const [activeDot, setActiveDot] = useState<number>(0);
-
+const DotNavigation: React.FC<DotNavigationProps> = ({ count, activeIndex, onDotClick }) => {
   const handleDotClick = (index: number) => {
-    setActiveDot(index);
     onDotClick(index);
   };
 
   return (
-    <div className='dot-navigation'>
+    <div className={styles.dotNavigation}>
       {Array.from({ length: count }, (_, index) => (
         <button
           key={index}
-          className={`dot-button ${activeDot === index ? 'active' : ''}`}
+          className={`${styles.dotButton} ${activeIndex === index ? styles.active : ''}`}
           onClick={() => handleDotClick(index)}
         />
       ))}

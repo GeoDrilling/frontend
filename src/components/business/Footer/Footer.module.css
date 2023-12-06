@@ -1,24 +1,31 @@
 .footer {
-  background-color: white;
+  background-color: var(--background);
   font-weight: bold;
-  color: black;
+  color: var(--primary);
   display: flex;
   justify-content: space-between;
   padding: 1rem;
 }
 
 .link {
-  color: orange;
+  color: var(--accent);
   text-decoration: none;
 }
 
+.new {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
 .socialIcons {
+  list-style: none;
   display: flex;
   justify-content: center;
   gap: 10px;
 }
 
 .socialIcon {
+  list-style: none;
   width: 24px;
   height: 24px;
   cursor: pointer;

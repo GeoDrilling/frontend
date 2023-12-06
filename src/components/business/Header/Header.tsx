@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import './Header.css';
+import styles from './Header.module.css';
 
 interface ChildComponentProps {
   onButtonClick: (refName: string) => void;
@@ -20,15 +20,17 @@ const Header: React.FC<ChildComponentProps> = ({ onButtonClick }): ReactElement 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const headerClass = isScrolled ? 'header headerScrolled' : 'header headerNormal';
-  const buttonClass = isScrolled ? 'button buttonScrolled' : 'button';
-  const logoClass = isScrolled ? 'logo logoScrolled' : 'logo';
-  const loginClass = isScrolled ? 'login-button login-buttonScrolled' : 'login-button';
+  const headerClass = isScrolled
+    ? `${styles.header} ${styles.headerScrolled}`
+    : `${styles.header} ${styles.headerNormal}`;
+  const buttonClass = isScrolled ? `${styles.button} ${styles.buttonScrolled}` : styles.button;
+  const logoClass = isScrolled ? `${styles.logo} ${styles.logoScrolled}` : styles.logo;
+  const loginClass = isScrolled ? `${styles.loginButton} ${styles.loginButtonScrolled}` : styles.loginButton;
 
   return (
     <header className={headerClass}>
       <div className={logoClass}>GEODRILLING</div>
-      <nav className='navigation'>
+      <nav className={styles.navigation}>
         <button className={buttonClass} onClick={() => onButtonClick('ref1')}>
           О нас
         </button>
