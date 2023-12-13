@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react';
+import { DragEvent, FC, useEffect, useRef } from 'react';
 import styles from './FilesTree.module.css';
 import { useOverlayScrollbars } from 'overlayscrollbars-react';
 import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
@@ -12,8 +12,17 @@ const FilesTree: FC = () => {
     if (scrollRef.current) {
       initialize(scrollRef.current);
     }
-  }, [initialize]);
+  }, [initialize, curves]);
   if (curves.length <= 0) return <div className={styles.container} />;
+
+  const dragStart = (curveName: string) => {
+    console.log(curveName);
+  };
+  const dragOver = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    console.log(e.target);
+  };
+
   return (
     <div className={styles.container} ref={scrollRef}>
       <ul className={styles.filesTree}>
@@ -26,8 +35,16 @@ const FilesTree: FC = () => {
             {curves.map((curveName) => (
               <li key={curveName}>
                 <div className={styles.centredBox}>
-                  <span className={styles.dataset} />
-                  <span className={styles.text}>{curveName}</span>
+                  <div
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    onDragStart={(_) => dragStart(curveName)}
+                    onDragOver={(e) => dragOver(e)}
+                    draggable={true}
+                    className={styles.drag}
+                  >
+                    <span className={styles.dataset} />
+                    <span className={styles.text}>{curveName}</span>
+                  </div>
                 </div>
               </li>
             ))}

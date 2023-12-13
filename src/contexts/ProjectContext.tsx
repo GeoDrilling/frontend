@@ -26,7 +26,6 @@ export const ProjectProvider: FCC = ({ children }) => {
   const uploadLasFile = async (formData: FormData) => {
     try {
       const response = await ProjectService.uploadFile(formData);
-      console.log(response.data);
       setCurves(curves.concat(response.data.curvesNames));
     } catch (e) {
       console.log(e);

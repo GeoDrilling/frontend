@@ -20,7 +20,6 @@ const ListProjects: FC = () => {
   }
   if (projects) {
     if (projects.length > 0) {
-      console.log(projects);
       getProject(projects[0].id);
     } else {
       createProject();

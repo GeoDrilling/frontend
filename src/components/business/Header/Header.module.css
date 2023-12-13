@@ -5,6 +5,10 @@
   min-height: 50px;
   height: 60px;
 }
+.box .logout {
+  width: fit-content;
+  padding-left: 20px;
+}
 .box {
   position: relative;
   display: flex;
@@ -15,7 +19,7 @@
 .box .item {
   padding-left: 10px;
 }
-.box .item:nth-last-child(2) {
+.box .item:nth-last-child(3) {
   flex: auto;
 }
 .box .link {

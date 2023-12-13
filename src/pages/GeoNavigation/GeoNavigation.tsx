@@ -14,7 +14,6 @@ const GeoNavigation: FC = () => {
     if (pathId.id !== id.toString()) synchronizeId();
   });
   const synchronizeId = async () => {
-    console.log(pathId.id, id, 'in sync');
     if (pathId.id && countAttempts < 3) {
       const response = await getProject(parseInt(pathId.id));
       if (response === -1) setCountAttempts(countAttempts + 1);

@@ -11,6 +11,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
   return (
     <div className={classNames(styles.container, className)}>
       <WindowHeader image={'/src/assets/images/icon_tablet.svg'} closeWindow={toggleTablet} title={'Рабочая область'} />
+      <div className={styles.tablet}></div>
     </div>
   );
 };
