@@ -54,18 +54,8 @@ const Slider: React.FC = () => {
 
   return (
     <div
-      style={{
-        position: 'relative',
-        marginTop: '-60px',
-        height: '100vh',
-        backgroundImage: `url(${currentBackground.imageUrl})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-      }}
+        className={styles.sliderContainer}
+        style={{backgroundImage: `url(${currentBackground.imageUrl})`}}
     >
       <h1 className={styles.sliderText}>{currentBackground.text}</h1>
       <h1 className={styles.sliderText2}>{currentBackground.text2}</h1>
