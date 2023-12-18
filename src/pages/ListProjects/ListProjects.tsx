@@ -19,6 +19,7 @@ const ListProjects: FC = () => {
     return <Navigate to={`/projects/${id}`} replace />;
   }
   if (projects) {
+    console.log(projects)
     if (projects.length > 0) {
       getProject(projects[0].id);
     } else {
