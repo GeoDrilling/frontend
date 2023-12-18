@@ -15,7 +15,7 @@ $api.interceptors.response.use(
   (config) => config,
   async (error) => {
     const originalConfig = error.config;
-    if (error.response.statusCode == 401 && originalConfig && !originalConfig._isRetry) {
+    if (error.response && error.response.statusCode == 401 && originalConfig && !originalConfig._isRetry) {
       originalConfig._isRetry = true;
       try {
         const response = await axios.post<AuthResponse>(`${API_URL}/auth/refresh-token`, {}, { withCredentials: true });
