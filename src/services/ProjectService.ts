@@ -1,5 +1,5 @@
 import $api from '../http';
-import { ICurves, IProject } from '../models/IProject.ts';
+import {CurveDataDownload, ICurves, IProject} from '../models/IProject.ts';
 
 export default class ProjectService {
   static async createProject() {
@@ -10,6 +10,10 @@ export default class ProjectService {
   }
   static async getCurves(projectId: string) {
     return $api.get<ICurves>('/lasfile/curves', { params: { project_id: projectId } });
+  }
+
+  static async getCurve(projectId: string, CurveName: string) {
+    return $api.get<CurveDataDownload>('/lasfile/download/curve', { params: { project_id: projectId, curve_name: CurveName} });
   }
   static async getProjects() {
     return $api.get<IProject[]>('/project');

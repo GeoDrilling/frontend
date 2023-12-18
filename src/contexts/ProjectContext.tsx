@@ -31,6 +31,7 @@ export const ProjectProvider: FCC = ({ children }) => {
       console.log(e);
     }
   };
+
   const getProject = async (projectId: number): Promise<number> => {
     try {
       const response = await ProjectService.getProject(projectId);

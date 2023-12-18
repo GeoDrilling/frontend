@@ -1,17 +1,78 @@
-import { FC } from 'react';
+import {FC, useState} from 'react';
 import styles from './Tablet.module.css';
 import WindowHeader from '@components/business/WindowHeader/WindowHeader.tsx';
 import classNames from 'classnames';
 import { useWindows } from '../../../hooks/context/useWindows.ts';
+import {useProjectContext} from "../../../hooks/context/useProjectContext.ts";
+import ProjectService from "../../../services/ProjectService.ts";
+import DraggableModal from './DraggableModal';
 interface TabletProps {
   className?: string;
 }
 const Tablet: FC<TabletProps> = ({ className }) => {
   const { toggleTablet } = useWindows();
+  const { id } = useProjectContext();
+  const [curvesList, setCurvesList] = useState<string[]>([]);
+  const [dataCurve, setDataCurve] = useState<number[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleClose = () => {
+      setIsModalOpen(false);
+  };
+    const handleDrop = (event: React.DragEvent) => {
+        event.preventDefault();
+        const curveName = event.dataTransfer.getData("text/plain");
+        setCurvesList(prev => {
+            // Проверяем, существует ли уже такое имя в списке
+            if (!prev.includes(curveName)) {
+                return [...prev, curveName];
+            }
+            return prev;
+        });
+
+    };
+
+    async function fetchProject(curveName: string) {
+        try {
+            // Использование await для получения результата асинхронного вызова
+            const response = await ProjectService.getCurve(id.toString(), curveName);
+
+            // Предполагаем, что response.data является массивом чисел
+            setDataCurve(response.data.curveDataInJson);
+        } catch (error) {
+            console.error('Ошибка при запросе к серверу:', error);
+        }
+    }
+    const handleRemoveCurve = (curveToRemove: string) => {
+        setCurvesList(curvesList.filter(curve => curve !== curveToRemove));
+
+    };
+    const handleBackendRequest = (curve: string) => {
+       fetchProject(curve);
+       setIsModalOpen(true)
+    };
   return (
     <div className={classNames(styles.container, className)}>
       <WindowHeader image={'/src/assets/images/icon_tablet.svg'} closeWindow={toggleTablet} title={'Рабочая область'} />
-      <div className={styles.tablet}></div>
+      <div onDrop={handleDrop} onDragOver={(e: React.DragEvent<HTMLDivElement>) => e.preventDefault()} className={styles.tablet}>
+
+          <ul className={styles.curvesList}>
+              {curvesList.map((curve, index) => (
+                  <li key={index} className={styles.listItem}>
+                      {curve}
+                      <div>
+                          <button onClick={() => handleRemoveCurve(curve)} className={`${styles.button} ${styles.deleteButton}`}>Удалить</button>
+                          <button onClick={() => handleBackendRequest(curve)} className={styles.button}>Запрос к Бэку</button>
+                      </div>
+                  </li>
+              ))}
+          </ul>
+          {isModalOpen && (
+          <DraggableModal initialX={100} initialY={100} onClose={handleClose}>
+              {dataCurve}
+          </DraggableModal>
+          )}
+      </div>
     </div>
   );
 };
