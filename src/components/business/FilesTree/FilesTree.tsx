@@ -15,12 +15,14 @@ const FilesTree: FC = () => {
   }, [initialize, curves]);
   if (curves.length <= 0) return <div className={styles.container} />;
 
-  const dragStart = (curveName: string) => {
-    console.log(curveName);
+  const dragStart = (event: React.DragEvent, curveName: string) => {
+    event.dataTransfer.setData("text/plain", curveName);
   };
+
   const dragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     console.log(e.target);
+
   };
 
   return (
@@ -37,7 +39,7 @@ const FilesTree: FC = () => {
                 <div className={styles.centredBox}>
                   <div
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    onDragStart={(_) => dragStart(curveName)}
+                    onDragStart={(e) => dragStart(e, curveName)}
                     onDragOver={(e) => dragOver(e)}
                     draggable={true}
                     className={styles.drag}

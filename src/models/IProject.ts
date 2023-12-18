@@ -8,3 +8,7 @@ export interface ICurve {
 export interface ICurves {
   curvesNames: string[];
 }
+
+export interface CurveDataDownload{
+  curveDataInJson: number[];
+}
