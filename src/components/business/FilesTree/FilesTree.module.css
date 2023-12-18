@@ -1,0 +1,53 @@
+.container {
+  box-sizing: border-box;
+  padding: 10px;
+  max-height: 100%;
+}
+
+.filesTree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nested {
+  list-style: none;
+  padding-left: 35px;
+}
+.drag {
+  display: flex;
+  cursor: grab;
+}
+.centredBox {
+  display: flex;
+  margin-bottom: 10px;
+}
+.rig {
+  display: flex;
+  align-items: center;
+  background-image: url('/src/assets/images/icon_rig.svg');
+  background-repeat: no-repeat;
+  width: 21px;
+  height: 26px;
+}
+.dataset {
+  display: flex;
+  align-items: center;
+  background-image: url('/src/assets/images/icon_dataset.svg');
+  background-repeat: no-repeat;
+  width: 23px;
+  height: 26px;
+}
+.text {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+.test::before {
+  outline: var(--error) 1px solid;
+  display: inline-block;
+  background-image: url('/src/assets/images/icon_rig.svg');
+  background-repeat: no-repeat;
+  content: '';
+  width: 21px;
+  height: 16px;
+}

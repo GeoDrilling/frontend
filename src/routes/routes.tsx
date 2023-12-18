@@ -3,10 +3,12 @@ import Login from '@pages/Login/Login.tsx';
 import Register from '@pages/Register/Register.tsx';
 import Landing from '@pages/Landing/Landing.tsx';
 import { Navigate } from 'react-router-dom';
+import ListProjects from '@pages/ListProjects/ListProjects.tsx';
 
 export const privateRoutes = [
-  { path: '/geonavigation', element: <GeoNavigation /> },
-  { path: '*', element: <Navigate to={'/geonavigation'} replace={true} /> },
+  { path: '/projects/:id', element: <GeoNavigation /> },
+  { path: '/projects', element: <ListProjects /> },
+  { path: '*', element: <Navigate to={'/projects'} replace={true} /> },
 ];
 export const publicRoutes = [
   { path: '/', element: <Landing /> },

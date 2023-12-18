@@ -1,15 +1,18 @@
-import { createContext, useState, useMemo, useEffect } from 'react';
+import { createContext, useState, useMemo, useEffect, Dispatch, SetStateAction } from 'react';
 import { FCC } from '../types/types.tsx';
 import { IUser } from '../models/IUser.ts';
 import axios, { AxiosError } from 'axios';
 import { AuthResponse } from '../models/AuthResponse.ts';
-import { API_URL } from '../http';
 import AuthService from '../services/AuthService.ts';
 
 interface AuthContext {
   user: IUser;
   isAuth: boolean;
   isLoading: boolean;
+  authError: string;
+  regError: string;
+  setAuthError: Dispatch<SetStateAction<string>>;
+  setRegError: Dispatch<SetStateAction<string>>;
   registration: (name: string, email: string, password: string) => Promise<void>;
   login: (email: string, password: string, isRemember: boolean) => Promise<void>;
   logout: () => Promise<void>;
@@ -21,6 +24,8 @@ export const AuthProvider: FCC = ({ children }) => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [user, setUser] = useState<IUser>({} as IUser);
+  const [authError, setAuthError] = useState('');
+  const [regError, setRegError] = useState('');
 
   async function registration(name: string, email: string, password: string) {
     try {
@@ -30,7 +35,11 @@ export const AuthProvider: FCC = ({ children }) => {
       setIsAuth(true);
       setUser(response.data.user);
     } catch (e) {
-      console.log(e);
+      if (axios.isAxiosError(e)) {
+        if ('Login is already taken' === e?.response?.data.message)
+          setRegError('Пользователь с такой почтой существует');
+        else setRegError('Технические неполадки, попробуйте позже');
+      } else console.log(e);
     }
   }
   async function login(email: string, password: string, isRemember: boolean) {
@@ -41,7 +50,11 @@ export const AuthProvider: FCC = ({ children }) => {
       setUser(response.data.user);
       setIsAuth(true);
     } catch (e) {
-      console.log(e);
+      if (axios.isAxiosError(e)) {
+        if ('Bad credentials' === e?.response?.data.message) {
+          setAuthError('Неправльный логин или пароль');
+        } else setAuthError('Технические неполадки, попробуйте позже');
+      } else console.log(e);
     }
   }
   async function logout() {
@@ -61,7 +74,7 @@ export const AuthProvider: FCC = ({ children }) => {
       return;
     }
     try {
-      const response = await axios.post<AuthResponse>(`${API_URL}/auth/refresh-token`, {}, { withCredentials: true });
+      const response = await AuthService.refresh();
       localStorage.setItem('token', response.data.accessToken);
       setUser(response.data.user);
       setIsAuth(true);
@@ -84,11 +97,15 @@ export const AuthProvider: FCC = ({ children }) => {
       isAuth,
       isLoading,
       user,
+      authError,
+      regError,
+      setAuthError,
+      setRegError,
       registration,
       login,
       logout,
     }),
-    [isAuth, isLoading, user],
+    [isAuth, isLoading, user, authError, regError],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

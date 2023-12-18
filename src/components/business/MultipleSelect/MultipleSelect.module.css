@@ -1,0 +1,43 @@
+.container {
+  position: relative;
+  height: 100%;
+}
+.selectBtn {
+  display: flex;
+  color: var(--background);
+  height: 100%;
+  cursor: pointer;
+  align-items: center;
+}
+.listItems {
+  margin: 0;
+  position: absolute;
+  z-index: 10;
+  background: var(--light);
+  color: var(--accent);
+  padding: 20px;
+}
+.none {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+.listItems > .item:not(:first-child) {
+  margin-top: 15px;
+}
+.item {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  white-space: nowrap;
+}
+.checkbox {
+  background-image: url('/src/assets/images/check_accent.svg');
+  background-repeat: no-repeat;
+  width: 15px;
+  height: 12px;
+  margin-left: 19px;
+}
+.empty {
+}

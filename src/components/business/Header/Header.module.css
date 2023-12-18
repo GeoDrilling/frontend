@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  background: var(--accent);
+  width: 100%;
+  min-height: 50px;
+  height: 60px;
+}
+.box .logout {
+  width: fit-content;
+  padding-left: 20px;
+}
+.box {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 0 20px 0 20px;
+}
+.box .item {
+  padding-left: 10px;
+}
+.box .item:nth-last-child(3) {
+  flex: auto;
+}
+.box .link {
+  color: var(--background);
+  font-weight: 400;
+  line-height: normal;
+  font-size: 16px;
+  margin-bottom: 1px;
+}
+.img {
+  display: inline-block;
+  background-image: url('/src/assets/images/icon_profile.svg');
+  background-repeat: no-repeat;
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+}
+.profile {
+  display: flex;
+  align-items: center;
+  color: var(--background);
+}

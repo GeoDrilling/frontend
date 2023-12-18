@@ -7,6 +7,7 @@ import { validateEmail } from '../../../utils/utils.tsx';
 import { useValidation } from '../../../hooks/useValidation.tsx';
 import Button from '@components/UI/Button/Button.tsx';
 import { useAuthContext } from '../../../hooks/context/useAuth.ts';
+import Cleaner from '../../../utils/Cleaner.tsx';
 
 const RegisterForm: FC = () => {
   const name = useInput('');
@@ -35,23 +36,30 @@ const RegisterForm: FC = () => {
   email.input.label = 'Почта';
   email.input.placeholder = 'test@mail.com';
 
-  const authContext = useAuthContext();
+  const { registration, regError, setRegError } = useAuthContext();
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        authContext.registration(name.input.value, email.input.value, password.input.value);
-      }}
-    >
-      <Fieldset inputs={[name, email, password]} />
-      <Button className={styles.submit}>Зарегистрироваться</Button>
+    <div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          registration(name.input.value, email.input.value, password.input.value);
+        }}
+      >
+        <Fieldset inputs={[name, email, password]} />
+        <p className={styles.tip}>{regError}</p>
+        <Cleaner clean={[setRegError]}>
+          <Button className={styles.submit}>Зарегистрироваться</Button>
+        </Cleaner>
+      </form>
       <footer className={styles.footer}>
         <div className={styles.text}>Уже зарегистрированы?</div>
-        <Link to={'/login'} className={styles.link}>
-          Войти
-        </Link>
+        <Cleaner clean={[setRegError]}>
+          <Link to={'/login'} className={styles.link}>
+            Войти
+          </Link>
+        </Cleaner>
       </footer>
-    </form>
+    </div>
   );
 };
 export default RegisterForm;

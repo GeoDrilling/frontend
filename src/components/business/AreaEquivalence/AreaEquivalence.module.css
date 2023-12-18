@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+  flex: 1 1 40%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.imagBox {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding-left: 15px;
+  padding-right: 15px;
+  justify-content: center;
+  max-height: 100%;
+}
+.area_eq {
+  display: flex;
+  background-image: url('/src/assets/images/area_eq.png');
+  background-repeat: no-repeat;
+  width: 306px;
+  height: 332px;
+}
+.test {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
