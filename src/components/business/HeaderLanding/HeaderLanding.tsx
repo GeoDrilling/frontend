@@ -1,10 +1,10 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import styles from './Header.module.css';
+import styles from './HeaderLanding.module.css';
 
 interface ChildComponentProps {
   onButtonClick: (refName: string) => void;
 }
-const Header: React.FC<ChildComponentProps> = ({ onButtonClick }): ReactElement => {
+const HeaderLanding: React.FC<ChildComponentProps> = ({ onButtonClick }): ReactElement => {
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -51,4 +51,4 @@ const Header: React.FC<ChildComponentProps> = ({ onButtonClick }): ReactElement 
   );
 };
 
-export default Header;
+export default HeaderLanding;

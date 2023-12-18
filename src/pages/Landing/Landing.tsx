@@ -4,7 +4,7 @@ import styles from './Landing.module.css';
 
 import Slide from '@pages/Landing/Slide/Slide.tsx';
 import Slider from '@components/business/Slider/Slider.tsx';
-import Header from '@components/business/Header/Header.tsx';
+import HeaderLanding from '@components/business/HeaderLanding/HeaderLanding.tsx';
 import Data from '@pages/Landing/Data/Data.tsx';
 import About from '@pages/Landing/About/About.tsx';
 import Footer from '@components/business/Footer/Footer.tsx';
@@ -31,7 +31,7 @@ const Landing: FC = () => {
   return (
     <div className={styles.page}>
       <main>
-        <Header onButtonClick={scrollToRef} />
+        <HeaderLanding onButtonClick={scrollToRef} />
         <Slider />
         <section ref={ref1}>
           <About />

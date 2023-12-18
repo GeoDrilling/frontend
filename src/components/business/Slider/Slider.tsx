@@ -53,10 +53,7 @@ const Slider: React.FC = () => {
   const currentBackground = backgrounds[currentBackgroundIndex];
 
   return (
-    <div
-        className={styles.sliderContainer}
-        style={{backgroundImage: `url(${currentBackground.imageUrl})`}}
-    >
+    <div className={styles.sliderContainer} style={{ backgroundImage: `url(${currentBackground.imageUrl})` }}>
       <h1 className={styles.sliderText}>{currentBackground.text}</h1>
       <h1 className={styles.sliderText2}>{currentBackground.text2}</h1>
       <DotNavigation count={backgrounds.length} activeIndex={currentBackgroundIndex} onDotClick={changeBackground} />
