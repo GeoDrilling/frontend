@@ -1,0 +1,58 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--background);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 60px;
+}
+
+.headerScrolled {
+  background-color: var(--background);
+}
+
+.logo {
+  color: var(--background);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-left: 10px;
+}
+
+.logoScrolled {
+  color: var(--accent);
+}
+
+.button {
+  color: var(--background);
+  background: transparent;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.buttonScrolled {
+  color: var(--primary);
+}
+.navigation a {
+  color: var(--background);
+  text-decoration: none;
+  margin: 0 1rem;
+}
+
+.loginButton {
+  margin-right: 15px;
+  text-decoration: none;
+  color: var(--background);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid var(--background);
+}
+
+.loginButtonScrolled {
+  background: var(--accent);
+}

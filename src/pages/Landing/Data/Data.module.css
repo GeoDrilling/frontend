@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.title {
+  text-align: center;
+  color: var(--accent);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.textBox {
+  width: 50%;
+  padding: 10px;
+  font-size: 26px;
+}
+
+.text {
+  width: 100%;
+  max-width: 70%;
+  margin: 15%;
+  text-align: center;
+  color: var(--primary);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.reverse {
+  flex-direction: row-reverse;
+}
