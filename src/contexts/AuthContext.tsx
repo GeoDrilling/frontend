@@ -65,6 +65,7 @@ export const AuthProvider: FCC = ({ children }) => {
       localStorage.removeItem('token');
       localStorage.removeItem('remember');
       setIsAuth(false);
+      console.log(clearProjectContext)
       clearProjectContext();
     } catch (e) {
       console.log(e);

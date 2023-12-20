@@ -13,7 +13,7 @@ export default class ProjectService {
     return $api.get<ICurves>('/lasfile/curves', { params: { project_id: projectId } });
   }
 
-  static async getCurve(projectId: string, CurveName: string) {
+  static async getCurve(projectId: number, CurveName: string) {
     return $api.get<CurveDataDownload>('/lasfile/download/curve', {
       params: { project_id: projectId, curve_name: CurveName },
     });

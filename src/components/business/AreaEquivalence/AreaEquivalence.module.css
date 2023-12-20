@@ -13,7 +13,7 @@
   padding-left: 15px;
   padding-right: 15px;
   justify-content: center;
-  max-height: 100%;
+  /*max-height: 100%;*/
 }
 .area_eq {
   display: flex;
@@ -26,5 +26,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }

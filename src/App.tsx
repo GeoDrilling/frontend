@@ -9,13 +9,13 @@ import Router from './routes/Router.tsx';
 
 const App: FC = () => {
   return (
-    <AuthProvider>
-      <WindowsProvider>
-        <ProjectProvider>
+    <ProjectProvider>
+      <AuthProvider>
+        <WindowsProvider>
           <Router />
-        </ProjectProvider>
-      </WindowsProvider>
-    </AuthProvider>
+        </WindowsProvider>
+      </AuthProvider>
+    </ProjectProvider>
   );
 };
 

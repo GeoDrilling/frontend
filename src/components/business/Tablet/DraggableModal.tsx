@@ -60,7 +60,6 @@ const DraggableModal: React.FC<DraggableModalProps> = ({ children, initialX = 0,
       }}
       onMouseDown={startDragging}
     >
-      {/*style={{ position: 'relative' }}  style={{ position: 'absolute', top: 0, right: 0, zIndex: 1001 }}*/}
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <button onClick={onClose}>Закрыть</button>
         <div>{children}</div>
