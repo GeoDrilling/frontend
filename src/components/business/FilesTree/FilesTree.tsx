@@ -16,13 +16,12 @@ const FilesTree: FC = () => {
   if (curves.length <= 0) return <div className={styles.container} />;
 
   const dragStart = (event: React.DragEvent, curveName: string) => {
-    event.dataTransfer.setData("text/plain", curveName);
+    event.dataTransfer.setData('text/plain', curveName);
   };
 
   const dragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     console.log(e.target);
-
   };
 
   return (

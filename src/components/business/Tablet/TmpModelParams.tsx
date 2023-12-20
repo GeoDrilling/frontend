@@ -1,14 +1,16 @@
-import {FC} from 'react';
-import {IModel} from "../../../models/IModel.ts";
+import { FC } from 'react';
+import { IModel } from '../../../models/IModel.ts';
 interface TmpModelProps {
-  model: IModel
+  model: IModel;
 }
-const TmpModelParams: FC<TmpModelProps> = ({model}) => {
+const TmpModelParams: FC<TmpModelProps> = ({ model }) => {
   return (
-    <div style={{
-      textAlign: 'center',
-      paddingTop: '20px'
-    }}>
+    <div
+      style={{
+        textAlign: 'center',
+        paddingTop: '20px',
+      }}
+    >
       <p>misfit: {model.outputModel.misfit}</p>
       <p>kanisotropyDown: {model.outputModel.kanisotropyDown}</p>
       <p>roDown: {model.outputModel.roDown}</p>
@@ -19,6 +21,5 @@ const TmpModelParams: FC<TmpModelProps> = ({model}) => {
     </div>
   );
 };
-
 
 export default TmpModelParams;

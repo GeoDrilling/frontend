@@ -1,7 +1,7 @@
 import { createContext, useState } from 'react';
 import { FCC } from '../types/types.tsx';
 import ProjectService from '../services/ProjectService.ts';
-import {IModel} from "../models/IModel.ts";
+import { IModel } from '../models/IModel.ts';
 
 interface ProjectContext {
   id: number;
@@ -12,19 +12,19 @@ interface ProjectContext {
   getProject: (projectId: number) => Promise<number>;
   getCurves: (projectId: number) => Promise<void>;
   buildModel: () => Promise<void>;
+  clearProjectContext: () => void;
 }
 export const ProjectContext = createContext<ProjectContext>({} as ProjectContext);
 
 export const ProjectProvider: FCC = ({ children }) => {
   const [id, setId] = useState<number>(-1);
   const [curves, setCurves] = useState<string[]>([]);
-  const [model, setModel] = useState<IModel>({} as IModel)
+  const [model, setModel] = useState<IModel>({} as IModel);
   const createProject = async () => {
     try {
       const response = await ProjectService.createProject();
       setId(response.data.id);
-      if (response.data.curves)
-        setCurves(response.data.curves.map((curve) => curve.name));
+      if (response.data.curves) setCurves(response.data.curves.map((curve) => curve.name));
     } catch (e) {
       console.log(e);
     }
@@ -37,14 +37,18 @@ export const ProjectProvider: FCC = ({ children }) => {
       console.log(e);
     }
   };
+  const clearProjectContext = () => {
+    setId(-1);
+    setCurves([]);
+    setModel({} as IModel);
+  };
 
   const getProject = async (projectId: number): Promise<number> => {
     try {
       getCurves(projectId);
       const response = await ProjectService.getProject(projectId);
       setId(response.data.id);
-      if (response.data.curves)
-        setCurves(response.data.curves.map((curve) => curve.name));
+      if (response.data.curves) setCurves(response.data.curves.map((curve) => curve.name));
       return response.data.id;
     } catch (e) {
       console.log(e);
@@ -58,16 +62,15 @@ export const ProjectProvider: FCC = ({ children }) => {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
   const buildModel = async () => {
     try {
       const response = await ProjectService.buildModel(id);
-      setModel(response.data)
+      setModel(response.data);
     } catch (e) {
       console.log(e);
     }
-
-  }
+  };
   const value = {
     id,
     curves,
@@ -76,7 +79,8 @@ export const ProjectProvider: FCC = ({ children }) => {
     uploadLasFile,
     getCurves,
     getProject,
-    buildModel
+    buildModel,
+    clearProjectContext,
   };
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;
 };

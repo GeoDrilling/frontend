@@ -1,6 +1,6 @@
 import $api from '../http';
-import {CurveDataDownload, ICurves, IProject} from '../models/IProject.ts';
-import {IModel} from "../models/IModel.ts";
+import { CurveDataDownload, ICurves, IProject } from '../models/IProject.ts';
+import { IModel } from '../models/IModel.ts';
 
 export default class ProjectService {
   static async createProject() {
@@ -14,7 +14,9 @@ export default class ProjectService {
   }
 
   static async getCurve(projectId: string, CurveName: string) {
-    return $api.get<CurveDataDownload>('/lasfile/download/curve', { params: { project_id: projectId, curve_name: CurveName} });
+    return $api.get<CurveDataDownload>('/lasfile/download/curve', {
+      params: { project_id: projectId, curve_name: CurveName },
+    });
   }
   static async getProjects() {
     return $api.get<IProject[]>('/project/userAll');
@@ -24,6 +26,6 @@ export default class ProjectService {
   }
 
   static async buildModel(projectId: number) {
-    return $api.post<IModel>(`/model/create`, {}, {params: { project_id: projectId, name: "Test Model"}});
+    return $api.post<IModel>(`/model/create`, {}, { params: { project_id: projectId, name: 'Test Model' } });
   }
 }
