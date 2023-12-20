@@ -3,6 +3,7 @@
   flex-direction: column;
   background: var(--background);
   flex: auto;
+  overflow: hidden;
 }
 .tablet {
   display: flex;

@@ -20,6 +20,9 @@
 .sidebar .none {
   display: none;
 }
+.container .none {
+  display: none;
+}
 .none {
   display: none;
 }
