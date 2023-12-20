@@ -9,6 +9,6 @@ export interface ICurves {
   curvesNames: string[];
 }
 
-export interface CurveDataDownload{
-  curveDataInJson: number[];
+export interface CurveDataDownload {
+  curveDataInJson: string;
 }

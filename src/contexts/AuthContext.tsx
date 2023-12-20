@@ -1,9 +1,10 @@
-import { createContext, useState, useMemo, useEffect, Dispatch, SetStateAction } from 'react';
+import { createContext, useState, useMemo, useEffect, Dispatch, SetStateAction, useCallback } from 'react';
 import { FCC } from '../types/types.tsx';
 import { IUser } from '../models/IUser.ts';
 import axios, { AxiosError } from 'axios';
 import { AuthResponse } from '../models/AuthResponse.ts';
 import AuthService from '../services/AuthService.ts';
+import { useProjectContext } from '../hooks/context/useProjectContext.ts';
 
 interface AuthContext {
   user: IUser;
@@ -26,6 +27,7 @@ export const AuthProvider: FCC = ({ children }) => {
   const [user, setUser] = useState<IUser>({} as IUser);
   const [authError, setAuthError] = useState('');
   const [regError, setRegError] = useState('');
+  const { clearProjectContext } = useProjectContext();
 
   async function registration(name: string, email: string, password: string) {
     try {
@@ -57,16 +59,18 @@ export const AuthProvider: FCC = ({ children }) => {
       } else console.log(e);
     }
   }
-  async function logout() {
+  const logout = useCallback(async () => {
     try {
       await AuthService.logout();
       localStorage.removeItem('token');
       localStorage.removeItem('remember');
       setIsAuth(false);
+      console.log(clearProjectContext);
+      clearProjectContext();
     } catch (e) {
       console.log(e);
     }
-  }
+  }, [clearProjectContext]);
 
   const checkToken = async () => {
     if (!(localStorage.getItem('token') && localStorage.getItem('remember'))) {
@@ -105,7 +109,7 @@ export const AuthProvider: FCC = ({ children }) => {
       login,
       logout,
     }),
-    [isAuth, isLoading, user, authError, regError],
+    [isAuth, isLoading, user, authError, regError, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

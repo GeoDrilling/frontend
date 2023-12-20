@@ -3,17 +3,19 @@
   flex-direction: column;
   background: var(--background);
   flex: auto;
+  overflow: hidden;
 }
 .tablet {
   display: flex;
+  flex-direction: column;
   flex: auto;
 }
 
 .curvesList {
-   list-style-type: none;
-   padding: 0;
-   margin: 0;
- }
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
 
 .listItem {
   background-color: #f2f2f2;
@@ -30,7 +32,7 @@
   padding: 5px 10px;
   border: none;
   border-radius: 3px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   cursor: pointer;
 }
