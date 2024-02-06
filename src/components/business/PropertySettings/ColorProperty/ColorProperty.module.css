@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+.input[type='color'] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: 1px solid var(--placeholder);
+  cursor: pointer;
+  padding: 0;
+}
+
+.input:focus {
+  border-radius: 0;
+  outline: none;
+}
+
+::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+::-webkit-color-swatch {
+  border: 0;
+  border-radius: 0;
+}
+
+::-moz-color-swatch,
+::-moz-focus-inner {
+  border: 0;
+}
+
+::-moz-focus-inner {
+  padding: 0;
+}

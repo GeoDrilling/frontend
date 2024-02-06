@@ -1,0 +1,30 @@
+.container {
+  position: relative;
+}
+
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  outline: none;
+  border: 0;
+}
+
+/*.container::after {*/
+/*    display: block;*/
+/*    content: "";*/
+/*    width: 0.8em;*/
+/*    height: 0.5em;*/
+/*    background-color: var(--primary);*/
+/*    justify-self: end;*/
+/*    clip-path: polygon(100% 0%, 0 0%, 50% 100%);*/
+/*}*/
+/*.select,*/
+/*.container:after {*/
+/*    grid-area: select;*/
+/*}*/
+/*.container {
+    display: grid;
+    grid-template-areas: "select";
+    align-items: center;
+}*/

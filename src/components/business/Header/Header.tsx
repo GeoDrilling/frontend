@@ -23,7 +23,7 @@ const Header: FC = () => {
         <div className={styles.item} />
         <div className={classNames(styles.item, styles.profile)}>
           <span className={styles.img} />
-          Анна Воронова
+          Efim
         </div>
         <Button className={styles.logout} onClick={logout}>
           Выйти

@@ -6,13 +6,17 @@ import { IModel } from '../models/IModel.ts';
 interface ProjectContext {
   id: number;
   curves: string[];
+  depth: number[];
   model: IModel;
+  isCreating: boolean;
   createProject: () => void;
   uploadLasFile: (formData: FormData) => void;
   getProject: (projectId: number) => Promise<number>;
   getCurves: (projectId: number) => Promise<void>;
   buildModel: () => Promise<void>;
+  getDepth: () => Promise<void>;
   clearProjectContext: () => void;
+  setDepth: React.Dispatch<React.SetStateAction<number[]>>;
 }
 export const ProjectContext = createContext<ProjectContext>({} as ProjectContext);
 
@@ -20,13 +24,18 @@ export const ProjectProvider: FCC = ({ children }) => {
   const [id, setId] = useState<number>(-1);
   const [curves, setCurves] = useState<string[]>([]);
   const [model, setModel] = useState<IModel>({} as IModel);
+  const [depth, setDepth] = useState<number[]>([]);
+  const [isCreating, setIsCreating] = useState(false);
   const createProject = async () => {
     try {
+      setIsCreating(true);
       const response = await ProjectService.createProject();
       setId(response.data.id);
       if (response.data.curves) setCurves(response.data.curves.map((curve) => curve.name));
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsCreating(false);
     }
   };
   const uploadLasFile = async (formData: FormData) => {
@@ -35,6 +44,14 @@ export const ProjectProvider: FCC = ({ children }) => {
       setCurves(response.data.curvesNames);
     } catch (e) {
       console.log(e);
+    }
+  };
+  const getDepth = async () => {
+    try {
+      const response = await ProjectService.getCurve(id, 'DEPT');
+      setDepth(JSON.parse(response.data.curveDataInJson));
+    } catch (error) {
+      console.error('Ошибка при запросе к серверу:', error);
     }
   };
   const clearProjectContext = () => {
@@ -59,6 +76,7 @@ export const ProjectProvider: FCC = ({ children }) => {
     try {
       const response = await ProjectService.getCurves(projectId);
       setCurves(response.data.curvesNames);
+      if (response.data.curvesNames.includes('DEPT')) getDepth();
     } catch (e) {
       console.log(e);
     }
@@ -75,12 +93,16 @@ export const ProjectProvider: FCC = ({ children }) => {
     id,
     curves,
     model,
+    depth,
+    isCreating,
+    getDepth,
     createProject,
     uploadLasFile,
     getCurves,
     getProject,
     buildModel,
     clearProjectContext,
+    setDepth,
   };
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;
 };

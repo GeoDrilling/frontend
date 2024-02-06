@@ -1,0 +1,51 @@
+.groupTitle {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 40px;
+  margin: auto;
+  padding-left: 10px;
+  min-height: 40px;
+  height: 40px;
+  border-bottom: 1px solid var(--placeholder);
+}
+.table {
+  width: 100%;
+  white-space: nowrap;
+  border-collapse: collapse;
+}
+
+.propertyName {
+  border-right: 1px solid var(--placeholder);
+}
+
+.propertyValue {
+  width: 50%;
+}
+.table * td {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  padding: 0 10px 0 10px;
+}
+.table * tr {
+  height: 40px;
+  border-bottom: 1px solid var(--placeholder);
+}
+
+::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+::-webkit-color-swatch {
+  border: 0;
+  border-radius: 0;
+}
+
+::-moz-color-swatch,
+::-moz-focus-inner {
+  border: 0;
+}
+
+::-moz-focus-inner {
+  padding: 0;
+}
