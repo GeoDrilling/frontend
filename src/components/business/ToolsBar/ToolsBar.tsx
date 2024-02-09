@@ -37,7 +37,7 @@ const ToolsBar: FC = () => {
         <span className={classNames(styles.t1, styles.item)} />
         <span className={classNames(styles.t2, styles.item)} />
         <span className={classNames(styles.t3, styles.item)} />
-        <span className={classNames(styles.t4, styles.item)} onClick={buildModel} />
+        <span className={classNames(styles.t4, styles.item)} onClick={() => buildModel(id)} />
         {isModalOpen && (
           <DraggableModal initialX={100} initialY={100} onClose={() => setIsModalOpen(false)}>
             <TmpModelParams model={model} />
