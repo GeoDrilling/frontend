@@ -13,8 +13,7 @@ const FilesTree: FC = () => {
       initialize(scrollRef.current);
     }
   }, [initialize, curves]);
-  if (curves.length <= 0) return <div className={styles.container} />;
-
+  //if (curves.length <= 0) return <div className={styles.container} />;
   const dragStart = (event: DragEvent, curveName: string) => {
     event.dataTransfer.setData('text/plain', curveName);
   };

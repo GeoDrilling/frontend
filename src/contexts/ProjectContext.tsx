@@ -18,10 +18,9 @@ interface ProjectContext {
   getProject: (projectId: number) => Promise<number>;
   getCurvesNames: (projectId: number) => Promise<void>;
   buildModel: (projectId: number) => Promise<void>;
-  getCurveData: (projectId: number, curveName: string) => Promise<void>;
+  getCurveData: (projectId: number, curveName: string, isCreateTrackProperties?: boolean) => Promise<void>;
   clearProjectContext: () => void;
   setDepth: Dispatch<SetStateAction<number[]>>;
-  setCurves: Dispatch<SetStateAction<ICurve[]>>;
 }
 
 export const ProjectContext = createContext<ProjectContext>({} as ProjectContext);
@@ -38,24 +37,32 @@ export const ProjectProvider: FCC = ({ children }) => {
       setIsCreating(true);
       const response = await ProjectService.createProject();
       setId(response.data.id);
-      if (response.data.curves) setCurves(response.data.curves.map((curve) => ({ name: curve.name })));
+      if (response.data.curves) {
+        setCurves(response.data.curves);
+      }
     } catch (e) {
       console.log(e);
     } finally {
       setIsCreating(false);
     }
   };
-  const uploadLasFile = async (formData: FormData) => {
-    try {
-      const response = await ProjectService.uploadFile(formData);
-      const responseCurves = response.data.curvesNames.map((name) => ({ name })) as ICurve[];
-      setCurves(responseCurves);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const uploadLasFile = useCallback(
+    async (formData: FormData) => {
+      try {
+        const response = await ProjectService.uploadFile(formData);
+        const currentCurvesNames = curves.map((curve) => curve.name);
+        const responseCurves = response.data.curvesNames
+          .filter((name) => !currentCurvesNames.includes(name))
+          .map((name) => ({ name })) as ICurve[];
+        setCurves(curves.concat(responseCurves));
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [curves],
+  );
   const getCurveData = useCallback(
-    async (projectId: number, curveName: string) => {
+    async (projectId: number, curveName: string, isCreateNewTrackProperties?: boolean) => {
       if (curves.find((curve) => curve.name === curveName)?.data) return;
       try {
         const response = await ProjectService.getCurve(projectId, curveName);
@@ -65,7 +72,8 @@ export const ProjectProvider: FCC = ({ children }) => {
           return curve;
         });
         setCurves(updatedCurves);
-        if (curveName !== DEPTH) setTracksProperties([...tracksProperties, trackProperties]);
+        if (curveName !== DEPTH && isCreateNewTrackProperties)
+          setTracksProperties([...tracksProperties, trackProperties]);
         else setDepth(JSON.parse(response.data.curveDataInJson));
       } catch (e) {
         console.log(e);
@@ -78,26 +86,24 @@ export const ProjectProvider: FCC = ({ children }) => {
     setCurves([]);
     setModel({} as IModel);
   };
-  const getCurvesNames = useCallback(
-    async (projectId: number) => {
-      try {
-        const response = await ProjectService.getCurves(projectId);
-        const responseCurves = response.data.curvesNames.map((name) => ({ name })) as ICurve[];
-        setCurves(responseCurves);
-        if (response.data.curvesNames.includes('DEPT')) getCurveData(projectId, DEPTH);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    [getCurveData],
-  );
+  const getCurvesNames = useCallback(async (projectId: number) => {
+    try {
+      const response = await ProjectService.getCurves(projectId);
+      const responseCurves = response.data.curvesNames.map((name) => ({ name })) as ICurve[];
+      setCurves(responseCurves);
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
   const getProject = useCallback(
     async (projectId: number): Promise<number> => {
       try {
         getCurvesNames(projectId);
         const response = await ProjectService.getProject(projectId);
         setId(response.data.id);
-        if (response.data.curves) setCurves(response.data.curves);
+        if (response.data.curves) {
+          setCurves(response.data.curves);
+        }
         return response.data.id;
       } catch (e) {
         console.log(e);
@@ -130,10 +136,9 @@ export const ProjectProvider: FCC = ({ children }) => {
       buildModel,
       clearProjectContext,
       setDepth,
-      setCurves,
       getCurveData,
     }),
-    [id, curves, model, depth, isCreating, buildModel, getCurvesNames, getProject, getCurveData],
+    [id, curves, model, depth, isCreating, buildModel, getCurvesNames, getProject, getCurveData, uploadLasFile],
   );
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;
 };
