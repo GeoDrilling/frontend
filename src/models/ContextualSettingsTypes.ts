@@ -12,10 +12,19 @@ export enum PropertyType {
 export enum EnumType {
   ORIENTATION,
 }
-export enum OrientationEnum {
-  VERTICAL = 'Vertical',
-  HORIZONTAL = 'Horizontal',
+export enum ValueOrientation {
+  HORIZONTAL = 'horizontal',
+  VERTICAL = 'vertical',
 }
+interface IOrientation {
+  name: string;
+  value: ValueOrientation;
+}
+export const orientation: IOrientation[] = [
+  { name: 'Горизонтальная', value: ValueOrientation.HORIZONTAL },
+  { name: 'Вертикальная', value: ValueOrientation.VERTICAL },
+];
+
 export interface ITabletProperties {
   properties: IGroupProperties[];
 }
@@ -40,9 +49,7 @@ export interface IEnumProperty extends IBaseProperty {
   enumType: EnumType;
   value: string;
 }
-export interface IOrientationProperty extends IEnumProperty {
-  value: OrientationEnum;
-}
+
 export interface IColorProperty extends IBaseProperty {
   value: string;
 }

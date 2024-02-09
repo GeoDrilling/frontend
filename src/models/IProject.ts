@@ -4,6 +4,7 @@ export interface IProject {
 }
 export interface ICurve {
   name: string;
+  data?: number[];
 }
 export interface ICurves {
   curvesNames: string[];

@@ -1,4 +1,4 @@
-import { createContext, useState, useMemo, useEffect, Dispatch, SetStateAction, useCallback } from 'react';
+import { createContext, useState, useMemo, Dispatch, SetStateAction, useCallback } from 'react';
 import { FCC } from '../types/types.tsx';
 import { IUser } from '../models/IUser.ts';
 import axios, { AxiosError } from 'axios';
@@ -17,6 +17,7 @@ interface AuthContext {
   registration: (name: string, email: string, password: string) => Promise<void>;
   login: (email: string, password: string, isRemember: boolean) => Promise<void>;
   logout: () => Promise<void>;
+  checkToken: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContext>({} as AuthContext);
@@ -92,10 +93,6 @@ export const AuthProvider: FCC = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    checkToken();
-  }, []);
-
   const value = useMemo(
     () => ({
       isAuth,
@@ -108,6 +105,7 @@ export const AuthProvider: FCC = ({ children }) => {
       registration,
       login,
       logout,
+      checkToken,
     }),
     [isAuth, isLoading, user, authError, regError, logout],
   );

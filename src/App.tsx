@@ -10,15 +10,15 @@ import { ContextualSettingsProvider } from './contexts/ContextualSettingsContext
 
 const App: FC = () => {
   return (
-    <ProjectProvider>
-      <AuthProvider>
-        <WindowsProvider>
-          <ContextualSettingsProvider>
+    <ContextualSettingsProvider>
+      <ProjectProvider>
+        <AuthProvider>
+          <WindowsProvider>
             <Router />
-          </ContextualSettingsProvider>
-        </WindowsProvider>
-      </AuthProvider>
-    </ProjectProvider>
+          </WindowsProvider>
+        </AuthProvider>
+      </ProjectProvider>
+    </ContextualSettingsProvider>
   );
 };
 
