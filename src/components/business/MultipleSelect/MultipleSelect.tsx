@@ -8,7 +8,16 @@ interface MultipleSelectProps {
 const MultipleSelect: FC<MultipleSelectProps> = ({ className }) => {
   const [isShow, setIsShow] = useState<boolean>(false);
   const listRef = useRef<HTMLUListElement>(null);
-  const { isExplorer, isAreaEquivalence, isTablet, toggleExplorer, toggleAreaEquivalence, toggleTablet } = useWindows();
+  const {
+    isExplorer,
+    isAreaEquivalence,
+    isTablet,
+    isSettings,
+    toggleExplorer,
+    toggleAreaEquivalence,
+    toggleTablet,
+    toggleSettings,
+  } = useWindows();
 
   const showSelect = () => {
     if (listRef.current) {
@@ -34,9 +43,9 @@ const MultipleSelect: FC<MultipleSelectProps> = ({ className }) => {
           <span className={styles.itemText}>Рабочая область</span>
           <span className={isTablet ? styles.checkbox : styles.empty} />
         </li>
-        <li className={styles.item}>
-          <span className={styles.itemText}>Настройки</span>
-          <span className={styles.empty} />
+        <li className={styles.item} onClick={toggleSettings}>
+          <span className={styles.itemText}>Свойства</span>
+          <span className={isSettings ? styles.checkbox : styles.empty} />
         </li>
         <li className={styles.item} onClick={toggleAreaEquivalence}>
           <span className={styles.itemText}>Модели</span>

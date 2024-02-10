@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { privateRoutes, publicRoutes } from './routes.tsx';
 import { PrivateRoute } from './PrivateRoute.tsx';
@@ -7,6 +7,10 @@ import { useAuthContext } from '../hooks/context/useAuth.ts';
 
 const Router: FC = () => {
   const authContext = useAuthContext();
+  useEffect(() => {
+    authContext.checkToken();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   if (authContext.isLoading) {
     return <div></div>;
   }

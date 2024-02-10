@@ -7,7 +7,7 @@ import { Navigate } from 'react-router-dom';
 
 const ListProjects: FC = () => {
   const [projects, setProjects] = useState<IProject[] | null>(null);
-  const { id, getProject, createProject } = useProjectContext();
+  const { id, getProject, createProject, isCreating } = useProjectContext();
   useEffect(() => {
     getAllUserProjects();
   });
@@ -18,8 +18,7 @@ const ListProjects: FC = () => {
   if (id != -1) {
     return <Navigate to={`/projects/${id}`} replace />;
   }
-  if (projects) {
-    console.log(projects);
+  if (projects && !isCreating) {
     if (projects.length > 0) {
       getProject(projects[0].id);
     } else {

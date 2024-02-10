@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+  flex: 1 1 40%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0;
+  padding-left: 10px;
+  height: 40px;
+  min-height: 40px;
+  border-bottom: 1px solid var(--primary);
+}

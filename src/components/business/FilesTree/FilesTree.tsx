@@ -13,17 +13,10 @@ const FilesTree: FC = () => {
       initialize(scrollRef.current);
     }
   }, [initialize, curves]);
-  if (curves.length <= 0) return <div className={styles.container} />;
-
-  const dragStart = (event: React.DragEvent, curveName: string) => {
+  //if (curves.length <= 0) return <div className={styles.container} />;
+  const dragStart = (event: DragEvent, curveName: string) => {
     event.dataTransfer.setData('text/plain', curveName);
   };
-
-  const dragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    console.log(e.target);
-  };
-
   return (
     <div className={styles.container} ref={scrollRef}>
       <ul className={styles.filesTree}>
@@ -32,24 +25,20 @@ const FilesTree: FC = () => {
             <span className={styles.rig} />
             <span className={styles.text}>Rig</span>
           </div>
-          <ul className={styles.nested}>
-            {curves.map((curveName) => (
-              <li key={curveName}>
-                <div className={styles.centredBox}>
-                  <div
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    onDragStart={(e) => dragStart(e, curveName)}
-                    onDragOver={(e) => dragOver(e)}
-                    draggable={true}
-                    className={styles.drag}
-                  >
-                    <span className={styles.dataset} />
-                    <span className={styles.text}>{curveName}</span>
+          {
+            <ul className={styles.nested}>
+              {curves.map((curve) => (
+                <li key={curve.name}>
+                  <div className={styles.centredBox}>
+                    <div onDragStart={(e) => dragStart(e, curve.name)} draggable={true} className={styles.drag}>
+                      <span className={styles.dataset} />
+                      <span className={styles.text}>{curve.name}</span>
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+          }
         </li>
       </ul>
     </div>

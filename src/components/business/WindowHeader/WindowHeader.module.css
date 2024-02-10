@@ -4,6 +4,7 @@
   box-sizing: border-box;
   background: var(--accent);
   height: 40px;
+  min-height: 40px;
   width: 100%;
   padding: 5px;
 }
@@ -30,6 +31,7 @@
   width: 20px;
   height: 20px;
   background-position: center;
+  cursor: pointer;
 }
 .icon {
   padding: 2px;
