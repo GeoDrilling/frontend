@@ -2,6 +2,11 @@ export interface IProject {
   id: number;
   curves: ICurve[];
 }
+export interface Project {
+  name: string;
+  id: number;
+}
+
 export interface ICurve {
   name: string;
   data?: number[];

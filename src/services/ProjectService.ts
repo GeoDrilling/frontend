@@ -6,6 +6,9 @@ export default class ProjectService {
   static async createProject() {
     return $api.post<IProject>('/project/test');
   }
+  static async deleteProject(projectId: number) {
+    return $api.delete<IProject>(`/project/${projectId}`);
+  }
   static async uploadFile(formData: FormData) {
     return $api.post<ICurves>('/lasfile/upload', formData);
   }

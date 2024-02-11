@@ -3,11 +3,11 @@ import Login from '@pages/Login/Login.tsx';
 import Register from '@pages/Register/Register.tsx';
 import Landing from '@pages/Landing/Landing.tsx';
 import { Navigate } from 'react-router-dom';
-import ListProjects from '@pages/ListProjects/ListProjects.tsx';
+import ListProjectsPage from '@pages/ListProjects/ListProjectsPage.tsx';
 
 export const privateRoutes = [
   { path: '/projects/:id', element: <GeoNavigation /> },
-  { path: '/projects', element: <ListProjects /> },
+  { path: '/projects', element: <ListProjectsPage /> },
   { path: '*', element: <Navigate to={'/projects'} replace={true} /> },
 ];
 export const publicRoutes = [

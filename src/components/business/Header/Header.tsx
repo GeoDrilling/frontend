@@ -5,14 +5,18 @@ import Link from '@components/business/Link/Link.tsx';
 import classNames from 'classnames';
 import Button from '@components/UI/Button/Button.tsx';
 import { useAuthContext } from '../../../hooks/context/useAuth.ts';
+import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
 const Header: FC = () => {
   const { logout } = useAuthContext();
+  const { clearProjectContext } = useProjectContext();
   return (
     <header className={styles.container}>
       <div className={styles.box}>
-        <Link to={'/'} className={styles.link}>
-          Проект
-        </Link>
+        <div onClick={clearProjectContext}>
+          <Link to={'/projects'} className={styles.link}>
+            Список проектов
+          </Link>
+        </div>
         <MultipleSelect className={styles.item} />
         <Link to={'/'} className={classNames(styles.link, styles.item)}>
           История

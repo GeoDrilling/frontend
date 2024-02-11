@@ -13,7 +13,7 @@ interface ProjectContext {
   depth: number[];
   model: IModel;
   isCreating: boolean;
-  createProject: () => void;
+  createProject: () => Promise<number>;
   uploadLasFile: (formData: FormData) => void;
   getProject: (projectId: number) => Promise<number>;
   getCurvesNames: (projectId: number) => Promise<void>;
@@ -32,7 +32,7 @@ export const ProjectProvider: FCC = ({ children }) => {
   const [model, setModel] = useState<IModel>({} as IModel);
   const [depth, setDepth] = useState<number[]>([]);
   const [isCreating, setIsCreating] = useState(false);
-  const createProject = async () => {
+  const createProject = async (): Promise<number> => {
     try {
       setIsCreating(true);
       const response = await ProjectService.createProject();
@@ -40,11 +40,13 @@ export const ProjectProvider: FCC = ({ children }) => {
       if (response.data.curves) {
         setCurves(response.data.curves);
       }
+      return response.data.id;
     } catch (e) {
       console.log(e);
     } finally {
       setIsCreating(false);
     }
+    return -1;
   };
   const uploadLasFile = useCallback(
     async (formData: FormData) => {
@@ -98,6 +100,7 @@ export const ProjectProvider: FCC = ({ children }) => {
   const getProject = useCallback(
     async (projectId: number): Promise<number> => {
       try {
+        //tmp, while project doesn't contain curves
         getCurvesNames(projectId);
         const response = await ProjectService.getProject(projectId);
         setId(response.data.id);
