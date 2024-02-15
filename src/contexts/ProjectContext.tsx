@@ -83,11 +83,11 @@ export const ProjectProvider: FCC = ({ children }) => {
     },
     [curves, tracksProperties, setTracksProperties],
   );
-  const clearProjectContext = () => {
+  const clearProjectContext = useCallback(() => {
     setId(-1);
     setCurves([]);
     setModel({} as IModel);
-  };
+  }, []);
   const getCurvesNames = useCallback(async (projectId: number) => {
     try {
       const response = await ProjectService.getCurves(projectId);
@@ -141,7 +141,19 @@ export const ProjectProvider: FCC = ({ children }) => {
       setDepth,
       getCurveData,
     }),
-    [id, curves, model, depth, isCreating, buildModel, getCurvesNames, getProject, getCurveData, uploadLasFile],
+    [
+      id,
+      curves,
+      model,
+      depth,
+      isCreating,
+      buildModel,
+      getCurvesNames,
+      getProject,
+      getCurveData,
+      uploadLasFile,
+      clearProjectContext,
+    ],
   );
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;
 };
