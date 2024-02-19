@@ -1,0 +1,12 @@
+.title {
+  margin: 140px 0 0 0;
+  font-size: 32px;
+  color: var(--accent);
+  text-align: center;
+}
+.inputContainer {
+  margin-top: 60px;
+}
+.button {
+  margin-top: 90px;
+}

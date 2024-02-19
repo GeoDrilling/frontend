@@ -1,0 +1,31 @@
+.container {
+  box-sizing: border-box;
+  max-height: 100%;
+  padding: 0 30px 20px 30px;
+}
+.item {
+  display: flex;
+  flex-direction: row;
+  min-width: 420px;
+  min-height: 50px;
+  border: 1px solid var(--secondary);
+  margin-top: 40px;
+  cursor: pointer;
+}
+.name {
+  display: flex;
+  align-items: center;
+  color: var(--primary);
+  font-size: 18px;
+  margin: 0 0 0 10px;
+}
+
+.imagesContainer {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  flex-grow: 1;
+}
+.image {
+  margin-right: 10px;
+}

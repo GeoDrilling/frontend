@@ -1,2 +1,44 @@
 .container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+.projectListSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 50%;
+  overflow: hidden;
+}
+.createProjectSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 50%;
+}
+.title {
+  margin: 140px 0 0 0;
+  font-size: 32px;
+  color: var(--accent);
+}
+.input {
+  background-image: url('/src/assets/images/icon_search.svg');
+  background-repeat: no-repeat;
+  padding-left: 35px;
+  box-sizing: border-box;
+  background-position: 0 50%;
+}
+.inputContainer {
+  width: 420px;
+  margin-top: 60px;
+}
+.projectListContainer {
+  margin-top: 30px;
+  overflow: hidden;
+}
+.createProjectContainer {
+  width: 450px;
 }

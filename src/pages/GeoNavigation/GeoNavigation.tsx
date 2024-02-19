@@ -15,7 +15,7 @@ const GeoNavigation: FC = () => {
     if (pathId.id !== id.toString()) synchronizeId();
     const depth = curves.find((curve) => curve.name === DEPTH);
     if (depth && !(depth.data && depth.data.length === 0)) {
-      getCurveData(id, DEPTH);
+      getCurveData(Number(pathId.id), DEPTH);
     }
   });
 
@@ -25,7 +25,7 @@ const GeoNavigation: FC = () => {
       if (response === -1) setCountAttempts(countAttempts + 1);
     }
   };
-  if (pathId.id !== id.toString()) return <div></div>;
+  if (pathId.id !== id.toString() || Number(pathId.id) === -1) return <div></div>;
   return (
     <div className={styles.container}>
       <Header />

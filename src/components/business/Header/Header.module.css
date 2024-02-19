@@ -17,7 +17,7 @@
   padding: 0 20px 0 20px;
 }
 .box .item {
-  padding-left: 10px;
+  padding-left: 15px;
 }
 .box .item:nth-last-child(3) {
   flex: auto;

@@ -10,6 +10,7 @@ import {
   ContextType,
   IColorProperty,
   IEnumProperty,
+  INumberProperty,
   ValueOrientation,
 } from '../../../models/ContextualSettingsTypes.ts';
 import { OrderCurveProperties, OrderTabletProperties } from '../../../utils/ContextualSettingsConstatns.ts';
@@ -62,7 +63,11 @@ const Tablet: FC<TabletProps> = ({ className }) => {
       >
         <LogView
           depth={depth}
-          domain={{ min: 3200, max: 3500 }}
+          domain={{
+            min: (tabletProperties.properties[0].properties[OrderTabletProperties.START_DEPTH] as INumberProperty)
+              .value,
+            max: (tabletProperties.properties[0].properties[OrderTabletProperties.END_DEPTH] as INumberProperty).value,
+          }}
           orientation={
             (tabletProperties.properties[0].properties[OrderTabletProperties.ORIENTATION] as IEnumProperty)
               .value as ValueOrientation
@@ -80,11 +85,10 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                   onDrop={(e) => handleDropOldTrack(e, trackIndex)}
                   key={trackIndex}
                 >
-                  <CurveTrack>
+                  <CurveTrack scale='linear'>
                     {track.curves.map((curveName, curveIndex) => {
                       const curve = curves.find((curve) => curve.name === curveName && curve.data);
                       if (curve) {
-                        console.log(curve);
                         return (
                           <Curve
                             key={curveIndex}
