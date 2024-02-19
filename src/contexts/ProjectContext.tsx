@@ -65,18 +65,21 @@ export const ProjectProvider: FCC = ({ children }) => {
   );
   const getCurveData = useCallback(
     async (projectId: number, curveName: string, isCreateNewTrackProperties?: boolean) => {
-      if (curves.find((curve) => curve.name === curveName)?.data) return;
+      if (curves.find((curve) => curve.name === curveName)?.data) {
+        if (curveName !== DEPTH && isCreateNewTrackProperties)
+          setTracksProperties([...tracksProperties, trackProperties]);
+        return;
+      }
       try {
         const response = await ProjectService.getCurve(projectId, curveName);
         const updatedCurves = curves.map((curve) => {
-          if (curve.name === curveName)
-            return { name: curveName, data: JSON.parse(response.data.curveDataInJson) } as ICurve;
+          if (curve.name === curveName) return { name: curveName, data: response.data.curveData } as ICurve;
           return curve;
         });
         setCurves(updatedCurves);
         if (curveName !== DEPTH && isCreateNewTrackProperties)
           setTracksProperties([...tracksProperties, trackProperties]);
-        else setDepth(JSON.parse(response.data.curveDataInJson));
+        else setDepth(response.data.curveData);
       } catch (e) {
         console.log(e);
       }

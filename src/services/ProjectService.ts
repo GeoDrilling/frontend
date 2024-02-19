@@ -4,7 +4,7 @@ import { IModel } from '../models/IModel.ts';
 
 export default class ProjectService {
   static async createProject() {
-    return $api.post<IProject>('/project/test');
+    return $api.post<IProject>('/project');
   }
   static async deleteProject(projectId: number) {
     return $api.delete<IProject>(`/project/${projectId}`);
@@ -22,7 +22,7 @@ export default class ProjectService {
     });
   }
   static async getProjects() {
-    return $api.get<IProject[]>('/project/userAll');
+    return $api.get<IProject[]>('/project');
   }
   static async getProject(projectId: number) {
     return $api.get<IProject>(`/project/${projectId}`);

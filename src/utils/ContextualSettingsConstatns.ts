@@ -23,6 +23,16 @@ const mainGroupTabletProperties: IGroupProperties = {
       enumType: EnumType.ORIENTATION,
       value: orientation[0].value,
     } as IBaseProperty,
+    {
+      name: 'Начальная глубина',
+      type: PropertyType.NUMBER,
+      value: 3200,
+    } as IBaseProperty,
+    {
+      name: 'Конечная глубина',
+      type: PropertyType.NUMBER,
+      value: 3700,
+    } as IBaseProperty,
   ],
 };
 const groupsTabletProperties: IGroupProperties[] = [mainGroupTabletProperties];
@@ -33,4 +43,6 @@ export enum OrderCurveProperties {
 }
 export enum OrderTabletProperties {
   ORIENTATION,
+  START_DEPTH,
+  END_DEPTH,
 }

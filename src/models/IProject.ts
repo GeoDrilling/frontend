@@ -16,5 +16,5 @@ export interface ICurves {
 }
 
 export interface CurveDataDownload {
-  curveDataInJson: string;
+  curveData: number[];
 }

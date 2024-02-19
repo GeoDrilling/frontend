@@ -17,7 +17,7 @@ const CreateProject: FC<CreateProjectProps> = ({ className }) => {
   const onCreateProject = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const id = await createProject();
-    navigate(`/projects/${id}`);
+    if (id !== -1) navigate(`/projects/${id}`);
   };
   return (
     <div className={className}>
