@@ -54,7 +54,12 @@ export const AuthProvider: FCC = ({ children }) => {
       setIsAuth(true);
     } catch (e) {
       if (axios.isAxiosError(e)) {
-        if ('Bad credentials' === e?.response?.data.message) {
+        console.log();
+        if (
+          'Incorrect login or password' === e?.response?.data.message ||
+          e.response?.data.email ||
+          e.response?.data.password
+        ) {
           setAuthError('Неправльный логин или пароль');
         } else setAuthError('Технические неполадки, попробуйте позже');
       } else console.log(e);

@@ -6,9 +6,11 @@ import classNames from 'classnames';
 import Button from '@components/UI/Button/Button.tsx';
 import { useAuthContext } from '../../../hooks/context/useAuth.ts';
 import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
+import { useParams } from 'react-router-dom';
 const Header: FC = () => {
   const { logout } = useAuthContext();
   const { clearProjectContext } = useProjectContext();
+  const params = useParams();
   return (
     <header className={styles.container}>
       <div className={styles.box}>
@@ -18,7 +20,7 @@ const Header: FC = () => {
           </Link>
         </div>
         <MultipleSelect className={styles.item} />
-        <Link to={'/'} className={classNames(styles.link, styles.item)}>
+        <Link to={`/projects/${params.id}/frozen`} className={classNames(styles.link, styles.item)}>
           История
         </Link>
         <Link to={'/'} className={classNames(styles.link, styles.item)}>
