@@ -7,16 +7,22 @@ import Button from '@components/UI/Button/Button.tsx';
 import { useAuthContext } from '../../../hooks/context/useAuth.ts';
 import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
 import { useParams } from 'react-router-dom';
-const Header: FC = () => {
+
+interface HeaderProps {
+  isToProject?: boolean;
+}
+const Header: FC<HeaderProps> = ({ isToProject }) => {
   const { logout } = useAuthContext();
   const { clearProjectContext } = useProjectContext();
   const params = useParams();
+  let projectId = '';
+  if (isToProject && params.id) projectId = '/' + params.id;
   return (
     <header className={styles.container}>
       <div className={styles.box}>
         <div onClick={clearProjectContext}>
-          <Link to={'/projects'} className={styles.link}>
-            Список проектов
+          <Link to={'/projects' + projectId} className={styles.link}>
+            {isToProject ? 'Проект' : 'Список проектов'}
           </Link>
         </div>
         <MultipleSelect className={styles.item} />

@@ -1,0 +1,39 @@
+.container {
+  box-sizing: border-box;
+  max-height: 100%;
+  padding: 10px 30px 20px 30px;
+}
+.item {
+  display: flex;
+  flex-direction: row;
+  min-width: 420px;
+  min-height: 80px;
+  height: 105px;
+  border: 1px solid var(--secondary);
+  cursor: pointer;
+  justify-content: space-between;
+}
+.items .item:not(:first-child) {
+  margin-top: 40px;
+}
+.infoContainer {
+  margin: 10px 0 10px 20px;
+}
+.text {
+  margin: 10px 0 0 0;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--placeholder);
+}
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--primary);
+}
+.image {
+  margin-right: 10px;
+  margin-top: 10px;
+  height: 35px;
+  width: 35px;
+}

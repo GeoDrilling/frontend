@@ -6,6 +6,10 @@ export interface Project {
   name: string;
   id: number;
 }
+export interface FrozenProject extends Project {
+  maxDepth: number;
+  timestamp: string;
+}
 
 export interface ICurve {
   name: string;
