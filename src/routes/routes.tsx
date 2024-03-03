@@ -4,10 +4,12 @@ import Register from '@pages/Register/Register.tsx';
 import Landing from '@pages/Landing/Landing.tsx';
 import { Navigate } from 'react-router-dom';
 import ListProjectsPage from '@pages/ListProjects/ListProjectsPage.tsx';
+import FrozenProjectsPage from '@pages/FrozenProjects/FrozenProjectsPage.tsx';
 
 export const privateRoutes = [
   { path: '/projects/:id', element: <GeoNavigation /> },
   { path: '/projects', element: <ListProjectsPage /> },
+  { path: '/projects/:id/frozen', element: <FrozenProjectsPage /> },
   { path: '*', element: <Navigate to={'/projects'} replace={true} /> },
 ];
 export const publicRoutes = [

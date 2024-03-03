@@ -6,7 +6,7 @@ import { useProjectContext } from '../../hooks/context/useProjectContext.ts';
 import Input from '@components/UI/Input/Input.tsx';
 import { useInput } from '../../hooks/useInput.tsx';
 import ProjectList from '@components/business/ProjectList/ProjectList.tsx';
-import { useFilteredProjects } from '../../hooks/useFilteredProjects.tsx';
+import { useFiltered } from '../../hooks/useFiltered.tsx';
 import CreateProject from '@components/business/CreateProject/CreateProject.tsx';
 
 const ListProjectsPage: FC = () => {
@@ -14,9 +14,10 @@ const ListProjectsPage: FC = () => {
   const { clearProjectContext } = useProjectContext();
   const projectName = useInput('');
   projectName.input.placeholder = 'Название проекта';
-  const filteredProjects = useFilteredProjects(
+  const filteredProjects = useFiltered(
     projects.map((project) => ({ name: `Test name ${project.id}`, id: project.id })),
     projectName.input.value,
+    (p, query) => p.name.toLowerCase().includes(query.toLowerCase()),
   );
   useEffect(() => {
     getAllUserProjects();

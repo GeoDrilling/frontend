@@ -8,6 +8,7 @@ import { useAuthContext } from '../hooks/context/useAuth.ts';
 const Router: FC = () => {
   const authContext = useAuthContext();
   useEffect(() => {
+    localStorage.setItem('remember', 'true');
     authContext.checkToken();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

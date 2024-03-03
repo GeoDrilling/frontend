@@ -6,19 +6,27 @@ import classNames from 'classnames';
 import Button from '@components/UI/Button/Button.tsx';
 import { useAuthContext } from '../../../hooks/context/useAuth.ts';
 import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
-const Header: FC = () => {
+import { useParams } from 'react-router-dom';
+
+interface HeaderProps {
+  isToProject?: boolean;
+}
+const Header: FC<HeaderProps> = ({ isToProject }) => {
   const { logout } = useAuthContext();
   const { clearProjectContext } = useProjectContext();
+  const params = useParams();
+  let projectId = '';
+  if (isToProject && params.id) projectId = '/' + params.id;
   return (
     <header className={styles.container}>
       <div className={styles.box}>
         <div onClick={clearProjectContext}>
-          <Link to={'/projects'} className={styles.link}>
-            Список проектов
+          <Link to={'/projects' + projectId} className={styles.link}>
+            {isToProject ? 'Проект' : 'Список проектов'}
           </Link>
         </div>
         <MultipleSelect className={styles.item} />
-        <Link to={'/'} className={classNames(styles.link, styles.item)}>
+        <Link to={`/projects/${params.id}/frozen`} className={classNames(styles.link, styles.item)}>
           История
         </Link>
         <Link to={'/'} className={classNames(styles.link, styles.item)}>

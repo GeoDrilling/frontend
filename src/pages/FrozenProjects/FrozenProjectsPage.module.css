@@ -1,0 +1,41 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  margin: 80px 0 0 0;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: normal;
+  color: var(--accent);
+}
+.contentContainer {
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  overflow: hidden;
+}
+.input {
+  background-image: url('/src/assets/images/icon_search.svg');
+  background-repeat: no-repeat;
+  padding-left: 35px;
+  box-sizing: border-box;
+  background-position: 0 50%;
+}
+.inputContainer {
+  width: 420px;
+  margin-top: 60px;
+}
+.projectsContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 490px;
+}
+.list {
+  padding-top: 30px;
+  padding-bottom: 20px;
+  overflow-x: hidden;
+}

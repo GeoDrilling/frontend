@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  width: fit-content;
+  padding: 5px 10px 5px 10px;
+  border: 1px solid var(--placeholder);
+  cursor: pointer;
+}
+.selectedContainer {
+  display: flex;
+  width: fit-content;
+  padding: 5px 10px 5px 10px;
+  border: 1px solid var(--accent);
+  cursor: pointer;
+}
