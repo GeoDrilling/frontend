@@ -1,0 +1,22 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.scroll {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.tip {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--primary);
+  margin: 0;
+  padding-left: 15px;
+}
+.table {
+  box-sizing: border-box;
+  border-collapse: collapse;
+  vertical-align: middle;
+  width: 100%;
+}

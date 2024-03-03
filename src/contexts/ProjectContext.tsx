@@ -105,7 +105,6 @@ export const ProjectProvider: FCC = ({ children }) => {
   const getProject = useCallback(
     async (projectId: number): Promise<number> => {
       try {
-        //tmp, while project doesn't contain curves
         getCurvesNames(projectId);
         const response = await ProjectService.getProject(projectId);
         setId(response.data.id);
