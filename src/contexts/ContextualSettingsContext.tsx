@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { createContext, Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
 import { FCC } from '../types/types.tsx';
 import { ContextType, ITabletProperties, ITrackProperties } from '../models/ContextualSettingsTypes.ts';
 import { _tabletProperties } from '../utils/ContextualSettingsConstatns.ts';
@@ -12,6 +12,7 @@ interface ContextualSettingsContext {
   setTracksProperties: Dispatch<SetStateAction<ITrackProperties[]>>;
   trackIndex: number;
   setTrackIndex: Dispatch<SetStateAction<number>>;
+  clearSettings: () => void;
 }
 
 export const ContextualSettingsContext = createContext<ContextualSettingsContext>({} as ContextualSettingsContext);
@@ -21,6 +22,13 @@ export const ContextualSettingsProvider: FCC = ({ children }) => {
   const [tabletProperties, setTableProperties] = useState<ITabletProperties>(_tabletProperties);
   const [tracksProperties, setTracksProperties] = useState<ITrackProperties[]>([]);
   const [trackIndex, setTrackIndex] = useState<number>(0);
+
+  const clearSettings = useCallback(() => {
+    setContextType(ContextType.TABLET);
+    setTableProperties(_tabletProperties);
+    setTracksProperties([]);
+    setTrackIndex(0);
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -32,8 +40,9 @@ export const ContextualSettingsProvider: FCC = ({ children }) => {
       setTracksProperties,
       trackIndex,
       setTrackIndex,
+      clearSettings,
     }),
-    [contextType, tabletProperties, tracksProperties, trackIndex],
+    [contextType, tabletProperties, tracksProperties, trackIndex, clearSettings],
   );
   return <ContextualSettingsContext.Provider value={value}>{children}</ContextualSettingsContext.Provider>;
 };
