@@ -5,13 +5,15 @@ import AreaEquivalence from '@components/business/AreaEquivalence/AreaEquivalenc
 import Tablet from '@components/business/Tablet/Tablet.tsx';
 import { useWindows } from '../../../hooks/context/useWindows.ts';
 import ContextualSettings from '@components/business/ContextualSettings/ContextualSettings.tsx';
+import ModelWindow from '@components/business/ModelWindow/ModelWindow.tsx';
 
 const Workspace: FC = () => {
-  const { isExplorer, isTablet, isAreaEquivalence, isSettings } = useWindows();
+  const { isExplorer, isTablet, isAreaEquivalence, isSettings, isModel } = useWindows();
   return (
     <div className={styles.container}>
-      <div className={isExplorer || isAreaEquivalence || isSettings ? styles.sidebar : styles.none}>
+      <div className={isExplorer || isAreaEquivalence || isSettings || isModel ? styles.sidebar : styles.none}>
         <Explorer className={!isExplorer ? styles.none : undefined} />
+        <ModelWindow className={!isModel ? styles.none : undefined} />
         <ContextualSettings className={!isSettings ? styles.none : undefined} />
         <AreaEquivalence className={!isAreaEquivalence ? styles.none : undefined} />
       </div>

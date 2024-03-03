@@ -13,10 +13,12 @@ const MultipleSelect: FC<MultipleSelectProps> = ({ className }) => {
     isAreaEquivalence,
     isTablet,
     isSettings,
+    isModel,
     toggleExplorer,
     toggleAreaEquivalence,
     toggleTablet,
     toggleSettings,
+    toggleModel,
   } = useWindows();
 
   const showSelect = () => {
@@ -43,12 +45,16 @@ const MultipleSelect: FC<MultipleSelectProps> = ({ className }) => {
           <span className={styles.itemText}>Рабочая область</span>
           <span className={isTablet ? styles.checkbox : styles.empty} />
         </li>
+        <li className={styles.item} onClick={toggleModel}>
+          <span className={styles.itemText}>Модели</span>
+          <span className={isModel ? styles.checkbox : styles.empty} />
+        </li>
         <li className={styles.item} onClick={toggleSettings}>
           <span className={styles.itemText}>Свойства</span>
           <span className={isSettings ? styles.checkbox : styles.empty} />
         </li>
         <li className={styles.item} onClick={toggleAreaEquivalence}>
-          <span className={styles.itemText}>Модели</span>
+          <span className={styles.itemText}>Области эквивалентности</span>
           <span className={isAreaEquivalence ? styles.checkbox : styles.empty} />
         </li>
       </ul>
