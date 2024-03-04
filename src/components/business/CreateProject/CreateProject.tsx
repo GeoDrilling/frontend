@@ -16,7 +16,7 @@ const CreateProject: FC<CreateProjectProps> = ({ className }) => {
   createProjectName.input.placeholder = 'Название проекта';
   const onCreateProject = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const id = await createProject();
+    const id = await createProject(createProjectName.input.value);
     if (id !== -1) navigate(`/projects/${id}`);
   };
   return (

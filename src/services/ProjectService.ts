@@ -23,7 +23,7 @@ export default class ProjectService {
     });
   }
   static async getProjects() {
-    return $api.get<IProject[]>('/project');
+    return $api.get<IProject[]>('/project/userAll');
   }
   static async getProject(projectId: number) {
     return $api.get<IProject>(`/project/${projectId}`);

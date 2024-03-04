@@ -1,5 +1,6 @@
 export interface IProject {
   id: number;
+  name: string;
   curves: ICurve[];
 }
 export interface Project {

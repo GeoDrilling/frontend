@@ -13,7 +13,7 @@ interface ProjectContext {
   depth: number[];
   model: IModel;
   isCreating: boolean;
-  createProject: () => Promise<number>;
+  createProject: (name: string) => Promise<number>;
   uploadLasFile: (formData: FormData) => void;
   getProject: (projectId: number) => Promise<number>;
   getCurvesNames: (projectId: number) => Promise<void>;

@@ -29,5 +29,4 @@ const useUploadContext = () => {
   }
   return context;
 };
-332;
 export { UploadContextProvider, useUploadContext };
