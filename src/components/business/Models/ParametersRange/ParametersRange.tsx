@@ -8,6 +8,7 @@ import Button from '@components/UI/Button/Button.tsx';
 
 interface ParametersRangeProps {
   toBack: () => void;
+  toLoading: () => void;
   parameters: ParameterRange[];
   onChange: (value: ParameterRange[]) => void;
 }
@@ -16,7 +17,7 @@ interface ParameterRange {
   max: number;
   min: number;
 }
-const ParametersRange: FC<ParametersRangeProps> = ({ toBack, parameters }) => {
+const ParametersRange: FC<ParametersRangeProps> = ({ toBack, parameters, toLoading }) => {
   const scrollRef = useScroll();
   return (
     <div className={styles.container}>
@@ -38,7 +39,7 @@ const ParametersRange: FC<ParametersRangeProps> = ({ toBack, parameters }) => {
         </table>
         <p className={styles.tip}>*Укажите пределы параметров при построении модели</p>
         <div className={styles.btnContainer}>
-          <Button onClick={toBack} className={styles.button}>
+          <Button onClick={toLoading} className={styles.button}>
             Подобрать модель
           </Button>
         </div>

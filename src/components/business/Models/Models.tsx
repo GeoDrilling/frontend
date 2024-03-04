@@ -6,6 +6,7 @@ import DepthRange from '@components/business/Models/DepthRange/DepthRange.tsx';
 import { model, suffixes } from '@components/business/Models/ModelConstants.ts';
 import StartModel from '@components/business/Models/StartModel/StartModel.tsx';
 import ParametersRange from '@components/business/Models/ParametersRange/ParametersRange.tsx';
+import LoadingModel from '@components/business/Models/LoadingModel/LoadingModel.tsx';
 
 interface IWindows {
   isList: boolean;
@@ -47,6 +48,9 @@ const Models: FC = () => {
   const toParametersRange = () => {
     setWindows({ ...defaultWindows(), isParametersRange: true });
   };
+  const toLoading = () => {
+    setWindows({ ...defaultWindows(), isLoading: true });
+  };
   return (
     <div className={styles.container}>
       {windows.isList ? (
@@ -83,8 +87,10 @@ const Models: FC = () => {
             return { name: suffixes[idx] ? m.name + ', ' + suffixes[idx] : m.name, max: 2000, min: 0 };
           })}
           onChange={() => {}}
+          toLoading={toLoading}
         />
       ) : undefined}
+      {windows.isLoading ? <LoadingModel toStartParameters={toChoosingParameters} /> : undefined}
     </div>
   );
 };
