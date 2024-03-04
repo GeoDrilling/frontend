@@ -1,0 +1,36 @@
+.container {
+  overflow: hidden;
+  border-bottom: 1px solid var(--placeholder);
+}
+.value {
+  box-sizing: border-box;
+  max-height: 45px;
+  height: 47px;
+  padding-left: 20px;
+  /*padding-top: 15px;
+  padding-bottom: 15px;*/
+  max-width: 30%;
+  width: 30%;
+  min-width: 115px;
+  text-align: right;
+}
+.pointer {
+  cursor: pointer;
+}
+.value:hover {
+  color: var(--secondary);
+}
+.name {
+  max-height: 40px;
+  text-align: left;
+}
+.suffix {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--primary);
+  margin: 0;
+}
+.valueContainer {
+  display: flex;
+  justify-content: end;
+}

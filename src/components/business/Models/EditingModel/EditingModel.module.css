@@ -1,0 +1,39 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.tip {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--primary);
+  margin: 0;
+  padding-left: 15px;
+  padding-bottom: 15px;
+}
+.table {
+  box-sizing: border-box;
+  border-collapse: collapse;
+  vertical-align: middle;
+  width: 100%;
+}
+.scroll {
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 30px;
+}
+.button {
+  width: 110px;
+  height: 30px;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--background);
+}
+.btnContainer {
+  display: flex;
+  justify-content: end;
+  margin-top: 30px;
+}
+.btnContainer .button:first-child {
+  margin-right: 20px;
+}

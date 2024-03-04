@@ -1,0 +1,10 @@
+.container {
+  height: 47px;
+  border-bottom: 1px solid var(--placeholder);
+}
+.input {
+  text-align: center;
+}
+.padding {
+  padding-right: 5px;
+}

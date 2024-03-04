@@ -1,9 +1,9 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC } from 'react';
 import styles from './AreaEquivalence.module.css';
 import WindowHeader from '@components/business/WindowHeader/WindowHeader.tsx';
 import classNames from 'classnames';
 import { useWindows } from '../../../hooks/context/useWindows.ts';
-import { useOverlayScrollbars } from 'overlayscrollbars-react';
+import { useScroll } from '../../../hooks/useScroll.tsx';
 
 interface AreaEquivalenceProps {
   className?: string;
@@ -11,14 +11,7 @@ interface AreaEquivalenceProps {
 
 const AreaEquivalence: FC<AreaEquivalenceProps> = ({ className }) => {
   const { toggleAreaEquivalence } = useWindows();
-  const scrollRef = useRef(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [initialize, _] = useOverlayScrollbars({ defer: true });
-  useEffect(() => {
-    if (scrollRef.current) {
-      initialize(scrollRef.current);
-    }
-  }, [initialize]);
+  const scrollRef = useScroll();
   return (
     <div className={classNames(styles.container, className)}>
       <WindowHeader

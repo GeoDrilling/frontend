@@ -14,8 +14,8 @@
   display: flex;
   gap: 10px;
   flex-direction: column;
-  /*flex-basis: 27%;*/
-  width: 350px;
+  flex-basis: 27%;
+  max-width: 360px;
 }
 .sidebar .none {
   display: none;

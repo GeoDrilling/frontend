@@ -1,0 +1,48 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.text {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--primary);
+  margin: 0;
+}
+.tip {
+  padding: 15px;
+}
+
+.noBorder {
+  border: 0;
+}
+
+.parametersContainer {
+  padding: 15px;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.parametersContainer .row:first-child {
+  margin-bottom: 10px;
+}
+.name {
+  flex-grow: 1;
+}
+.value {
+  max-width: 30%;
+  width: 30%;
+  min-width: 105px;
+}
+.button {
+  width: 270px;
+  height: 30px;
+}
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}

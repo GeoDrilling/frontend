@@ -26,7 +26,7 @@ interface ProjectContext {
 export const ProjectContext = createContext<ProjectContext>({} as ProjectContext);
 
 export const ProjectProvider: FCC = ({ children }) => {
-  const { tracksProperties, setTracksProperties } = useContextualSettings();
+  const { tracksProperties, setTracksProperties, clearSettings } = useContextualSettings();
   const [id, setId] = useState<number>(-1);
   const [curves, setCurves] = useState<ICurve[]>([]);
   const [model, setModel] = useState<IModel>({} as IModel);
@@ -89,8 +89,10 @@ export const ProjectProvider: FCC = ({ children }) => {
   const clearProjectContext = useCallback(() => {
     setId(-1);
     setCurves([]);
+    setDepth([]);
     setModel({} as IModel);
-  }, []);
+    clearSettings();
+  }, [clearSettings]);
   const getCurvesNames = useCallback(async (projectId: number) => {
     try {
       const response = await ProjectService.getCurves(projectId);
@@ -103,7 +105,6 @@ export const ProjectProvider: FCC = ({ children }) => {
   const getProject = useCallback(
     async (projectId: number): Promise<number> => {
       try {
-        //tmp, while project doesn't contain curves
         getCurvesNames(projectId);
         const response = await ProjectService.getProject(projectId);
         setId(response.data.id);

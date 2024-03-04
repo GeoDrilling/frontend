@@ -1,0 +1,28 @@
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  text-align: end;
+  border: 0;
+  margin: 0;
+  -moz-appearance: textfield;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input:focus {
+  outline: none;
+}
+.suffix {
+  margin: 0 0 0 3px;
+}
