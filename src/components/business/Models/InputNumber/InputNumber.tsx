@@ -10,6 +10,9 @@ interface InputNumberProps {
 }
 const InputNumber: FC<InputNumberProps> = ({ changeValue, parameterValue, isEdited, isStartFocus, suffix }) => {
   const [value, setValue] = useState<string>(parameterValue.toString());
+  useEffect(() => {
+    setValue(parameterValue.toString());
+  }, [parameterValue]);
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };

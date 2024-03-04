@@ -9,6 +9,7 @@ interface ModelHeaderProps {
   onRightClick?: () => void;
   titleImage?: string;
   onTitleClick?: () => void;
+  rightImageClassName?: string;
 }
 const ModelHeader: FC<ModelHeaderProps> = ({
   title,
@@ -18,6 +19,7 @@ const ModelHeader: FC<ModelHeaderProps> = ({
   onLeftClick,
   onTitleClick,
   onRightClick,
+  rightImageClassName,
 }) => {
   return (
     <div className={styles.container}>
@@ -28,7 +30,12 @@ const ModelHeader: FC<ModelHeaderProps> = ({
       </h1>
       {rightImage ? (
         <div className={styles.rightArrowBox}>
-          <img src={rightImage} alt='arrow' onClick={onRightClick} className={classNames(styles.rightArrow)} />
+          <img
+            src={rightImage}
+            alt='arrow'
+            onClick={onRightClick}
+            className={classNames(styles.rightArrow, rightImageClassName)}
+          />
         </div>
       ) : undefined}
     </div>

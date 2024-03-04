@@ -4,6 +4,7 @@ import ListModels from '@components/business/Models/ListModels/ListModels.tsx';
 import EditingModel from '@components/business/Models/EditingModel/EditingModel.tsx';
 import DepthRange from '@components/business/Models/DepthRange/DepthRange.tsx';
 import { model } from '@components/business/Models/ModelConstants.ts';
+import StartModel from '@components/business/Models/StartModel/StartModel.tsx';
 
 interface IWindows {
   isList: boolean;
@@ -42,6 +43,9 @@ const Models: FC = () => {
   const toChoosingParameters = () => {
     setWindows({ ...defaultWindows(), isStartParameters: true });
   };
+  const toParametersRange = () => {
+    setWindows({ ...defaultWindows(), isParametersRange: true });
+  };
   return (
     <div className={styles.container}>
       {windows.isList ? (
@@ -61,6 +65,14 @@ const Models: FC = () => {
           onChangeStartValue={() => {}}
           toBack={toListModels}
           toChoosingStart={toChoosingParameters}
+        />
+      ) : undefined}
+      {windows.isStartParameters ? (
+        <StartModel
+          model={model}
+          getStartModel={() => model}
+          toList={toListModels}
+          toParametersRange={toParametersRange}
         />
       ) : undefined}
     </div>

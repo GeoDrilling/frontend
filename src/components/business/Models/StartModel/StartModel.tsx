@@ -1,23 +1,22 @@
 import { FC, useState } from 'react';
-import styles from './EditingModel.module.css';
 import { IModelParameter } from '../../../../models/IModel.ts';
 import { useScroll } from '../../../../hooks/useScroll.tsx';
+import styles from './StartModel.module.css';
 import ModelHeader from '@components/business/Models/ModelHeader/ModelHeader.tsx';
 import ModelParameters from '@components/business/Models/ModelParameters/ModelParameters.tsx';
-import Button from '@components/UI/Button/Button.tsx';
 import { suffixes } from '@components/business/Models/ModelConstants.ts';
+import Button from '@components/UI/Button/Button.tsx';
 
-interface EditingModelProps {
-  startId: number;
+interface StartModelProps {
   model: IModelParameter[];
-  onComplete: () => void;
+  toList: () => void;
+  toParametersRange: () => void;
+  getStartModel: () => IModelParameter[];
 }
-const EditingModel: FC<EditingModelProps> = ({ startId, model, onComplete }) => {
-  const [edited, setEdited] = useState<number[]>([]);
+const StartModel: FC<StartModelProps> = ({ model, getStartModel, toParametersRange, toList }) => {
   const [newModel, setNewModel] = useState<IModelParameter[]>([...model]);
   const scrollRef = useScroll();
   const onValueChange = (value: number, id: number) => {
-    if (model[id].value !== value) setEdited([...edited, id]);
     setNewModel(
       newModel.map((m, idx) => {
         if (idx == id) return { ...m, value: value } as IModelParameter;
@@ -25,17 +24,15 @@ const EditingModel: FC<EditingModelProps> = ({ startId, model, onComplete }) => 
       }),
     );
   };
-  const onDone = () => {
-    //here save new model
-    onComplete();
-  };
-  const onCancel = () => {
-    //here save new model
-    onComplete();
-  };
+  console.log(newModel, 'new model');
   return (
     <div className={styles.container}>
-      <ModelHeader title='Test name' />
+      <ModelHeader
+        title='Test name'
+        rightImage='/src/assets/images/icon_done.svg'
+        onRightClick={toList}
+        rightImageClassName={styles.done}
+      />
       <p className={styles.tip}>Диапазон модели 3200-3500</p>
       <div className={styles.scroll} ref={scrollRef}>
         <table className={styles.table}>
@@ -46,8 +43,6 @@ const EditingModel: FC<EditingModelProps> = ({ startId, model, onComplete }) => 
                 name={name}
                 value={value}
                 isEditing={true}
-                isEdited={edited.includes(id)}
-                startFocus={startId === id}
                 suffix={suffixes[id] ? suffixes[id] : undefined}
                 onValueChange={(value) => onValueChange(value, id)}
               />
@@ -55,11 +50,11 @@ const EditingModel: FC<EditingModelProps> = ({ startId, model, onComplete }) => 
           </tbody>
         </table>
         <div className={styles.btnContainer}>
-          <Button className={styles.button} onClick={onCancel}>
-            Отменить
+          <Button className={styles.button} onClick={toParametersRange}>
+            Подбор параметров
           </Button>
-          <Button className={styles.button} onClick={onDone}>
-            Готово
+          <Button className={styles.button} onClick={() => setNewModel(getStartModel())}>
+            Вернуться к стартовым параметрам
           </Button>
         </div>
       </div>
@@ -67,4 +62,4 @@ const EditingModel: FC<EditingModelProps> = ({ startId, model, onComplete }) => 
   );
 };
 
-export default EditingModel;
+export default StartModel;

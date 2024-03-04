@@ -5,13 +5,13 @@
 .value {
   box-sizing: border-box;
   max-height: 45px;
-  height: 45px;
+  height: 47px;
   padding-left: 20px;
   /*padding-top: 15px;
   padding-bottom: 15px;*/
   max-width: 30%;
   width: 30%;
-  min-width: 105px;
+  min-width: 115px;
   text-align: right;
 }
 .pointer {
