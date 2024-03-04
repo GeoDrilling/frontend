@@ -5,6 +5,7 @@ import { useScroll } from '../../../../hooks/useScroll.tsx';
 import ModelHeader from '@components/business/Models/ModelHeader/ModelHeader.tsx';
 import ModelParameters from '@components/business/Models/ModelParameters/ModelParameters.tsx';
 import Button from '@components/UI/Button/Button.tsx';
+import { suffixes } from '@components/business/Models/ModelConstants.ts';
 
 interface EditingModelProps {
   startId: number;
@@ -39,15 +40,16 @@ const EditingModel: FC<EditingModelProps> = ({ startId, model, onComplete }) => 
       <div className={styles.scroll} ref={scrollRef}>
         <table className={styles.table}>
           <tbody>
-            {model.map(({ name, value }, i) => (
+            {model.map(({ name, value }, id) => (
               <ModelParameters
-                key={i}
+                key={id}
                 name={name}
                 value={value}
                 isEditing={true}
-                isEdited={edited.includes(i)}
-                startFocus={startId === i}
-                onValueChange={(value) => onValueChange(value, i)}
+                isEdited={edited.includes(id)}
+                startFocus={startId === id}
+                suffix={suffixes[id] ? suffixes[id] : undefined}
+                onValueChange={(value) => onValueChange(value, id)}
               />
             ))}
           </tbody>

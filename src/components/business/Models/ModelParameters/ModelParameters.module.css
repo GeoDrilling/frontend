@@ -3,10 +3,15 @@
   border-bottom: 1px solid var(--placeholder);
 }
 .value {
-  max-height: 40px;
-  padding-left: 30px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  box-sizing: border-box;
+  max-height: 45px;
+  height: 45px;
+  padding-left: 20px;
+  /*padding-top: 15px;
+  padding-bottom: 15px;*/
+  max-width: 30%;
+  width: 30%;
+  min-width: 105px;
   text-align: right;
 }
 .pointer {
@@ -18,4 +23,14 @@
 .name {
   max-height: 40px;
   text-align: left;
+}
+.suffix {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--primary);
+  margin: 0;
+}
+.valueContainer {
+  display: flex;
+  justify-content: end;
 }

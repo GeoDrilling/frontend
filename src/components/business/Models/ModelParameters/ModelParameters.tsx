@@ -5,12 +5,14 @@ import classNames from 'classnames';
 
 interface ModelParametersProps {
   name: string;
+  suffix?: string;
   value: number;
   onValueClick?: () => void;
   onValueChange?: (value: number) => void;
   isEditing?: boolean;
   isEdited?: boolean;
   startFocus?: boolean;
+  className?: string;
 }
 const ModelParameters: FC<ModelParametersProps> = ({
   name,
@@ -20,9 +22,11 @@ const ModelParameters: FC<ModelParametersProps> = ({
   isEditing,
   isEdited,
   onValueChange,
+  suffix,
+  className,
 }) => {
   return (
-    <tr className={styles.container}>
+    <tr className={classNames(styles.container, className)}>
       <td className={styles.name}>{name}</td>
       <td className={isEditing ? styles.value : classNames(styles.value, styles.pointer)} onClick={onValueClick}>
         {isEditing ? (
@@ -31,9 +35,14 @@ const ModelParameters: FC<ModelParametersProps> = ({
             parameterValue={value}
             isEdited={isEdited}
             isStartFocus={startFocus}
+            suffix={suffix}
           />
         ) : (
-          value
+          <div className={styles.valueContainer}>
+            <p className={styles.suffix}>
+              {value} {suffix}
+            </p>
+          </div>
         )}
       </td>
     </tr>

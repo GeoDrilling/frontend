@@ -1,14 +1,15 @@
 import { FC, useState } from 'react';
 import styles from './Models.module.css';
 import ListModels from '@components/business/Models/ListModels/ListModels.tsx';
-import { IModelParameter } from '../../../models/IModel.ts';
 import EditingModel from '@components/business/Models/EditingModel/EditingModel.tsx';
+import DepthRange from '@components/business/Models/DepthRange/DepthRange.tsx';
+import { model } from '@components/business/Models/ModelConstants.ts';
 
 interface IWindows {
   isList: boolean;
   isEditing: boolean;
   isDepthRange: boolean;
-  isStart: boolean;
+  isStartParameters: boolean;
   isParametersRange: boolean;
   isLoading: boolean;
 }
@@ -19,7 +20,7 @@ const Models: FC = () => {
       isList: false,
       isEditing: false,
       isDepthRange: false,
-      isStart: false,
+      isStartParameters: false,
       isParametersRange: false,
       isLoading: false,
     };
@@ -27,14 +28,7 @@ const Models: FC = () => {
 
   const [windows, setWindows] = useState<IWindows>({ ...defaultWindows(), isList: true });
   const [editId, setEditId] = useState(-1);
-  const model: IModelParameter[] = [
-    { name: 'УЭС пласта', value: 123 },
-    { name: 'УЭС вмещающего пласта', value: 123 },
-    { name: 'Анизотропия пласта', value: 123 },
-    { name: 'Анизотропия вмещающего пласта', value: 123 },
-    { name: 'Угол наклона границы', value: 123 },
-    { name: 'Граница', value: 123 },
-  ];
+
   const toEditing = (id: number) => {
     setWindows({ ...defaultWindows(), isEditing: true });
     setEditId(id);
@@ -42,10 +36,33 @@ const Models: FC = () => {
   const toListModels = () => {
     setWindows({ ...defaultWindows(), isList: true });
   };
+  const toDepthRange = () => {
+    setWindows({ ...defaultWindows(), isDepthRange: true });
+  };
+  const toChoosingParameters = () => {
+    setWindows({ ...defaultWindows(), isStartParameters: true });
+  };
   return (
     <div className={styles.container}>
-      {windows.isList ? <ListModels model={model} onValueClick={toEditing} /> : undefined}
+      {windows.isList ? (
+        <ListModels
+          model={model}
+          onValueClick={toEditing}
+          toNewModel={toDepthRange}
+          toChoosingParameters={toChoosingParameters}
+        />
+      ) : undefined}
       {windows.isEditing ? <EditingModel model={model} startId={editId} onComplete={toListModels} /> : undefined}
+      {windows.isDepthRange ? (
+        <DepthRange
+          startValue={3200}
+          endValue={3500}
+          onChangeEndValue={() => {}}
+          onChangeStartValue={() => {}}
+          toBack={toListModels}
+          toChoosingStart={toChoosingParameters}
+        />
+      ) : undefined}
     </div>
   );
 };
