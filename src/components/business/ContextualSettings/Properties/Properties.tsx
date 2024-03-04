@@ -1,22 +1,15 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC } from 'react';
 import styles from './Properties.module.css';
 import { IGroupProperties } from '../../../../models/ContextualSettingsTypes.ts';
 import PropertySettings from '@components/business/PropertySettings/PropertySettings.tsx';
-import { useOverlayScrollbars } from 'overlayscrollbars-react';
+import { useScroll } from '../../../../hooks/useScroll.tsx';
 
 interface PropertiesProps {
   groups: IGroupProperties[];
   changeProperty: (value: number | string, indexGroup: number, indexProp: number) => void;
 }
 const Properties: FC<PropertiesProps> = ({ groups, changeProperty }) => {
-  const scrollRef = useRef(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [initialize, _] = useOverlayScrollbars({ defer: true });
-  useEffect(() => {
-    if (scrollRef.current) {
-      initialize(scrollRef.current);
-    }
-  }, [initialize]);
+  const scrollRef = useScroll();
   return (
     <div ref={scrollRef}>
       {groups.map((group, groupIndex) => {

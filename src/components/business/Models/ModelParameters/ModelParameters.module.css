@@ -9,6 +9,12 @@
   padding-bottom: 15px;
   text-align: right;
 }
+.pointer {
+  cursor: pointer;
+}
+.value:hover {
+  color: var(--secondary);
+}
 .name {
   max-height: 40px;
   text-align: left;

@@ -1,0 +1,18 @@
+.input {
+  width: 100%;
+  text-align: end;
+  border: 0;
+  -moz-appearance: textfield;
+}
+/* Chrome, Safari, Edge, Opera */
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  margin-left: 10px;
+}
+
+.container {
+  width: 100%;
+}
+.input:focus {
+  outline: none;
+}

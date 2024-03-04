@@ -1,23 +1,18 @@
-import { FC, useEffect, useRef } from 'react';
-import { IModelParams } from '../../../../models/IModel.ts';
+import { FC } from 'react';
+import { IModelParameter } from '../../../../models/IModel.ts';
 import ModelHeader from '@components/business/Models/ModelHeader/ModelHeader.tsx';
 import styles from './ListModels.module.css';
-import { useOverlayScrollbars } from 'overlayscrollbars-react';
 import ModelParameters from '@components/business/Models/ModelParameters/ModelParameters.tsx';
+import Button from '@components/UI/Button/Button.tsx';
+import { useScroll } from '../../../../hooks/useScroll.tsx';
 
 interface ListModelsProps {
-  model: IModelParams;
+  model: IModelParameter[];
+  onValueClick?: (id: number) => void;
 }
 
-const ListModels: FC<ListModelsProps> = () => {
-  const scrollRef = useRef(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [initialize, _] = useOverlayScrollbars({ defer: true });
-  useEffect(() => {
-    if (scrollRef.current) {
-      initialize(scrollRef.current);
-    }
-  }, [initialize]);
+const ListModels: FC<ListModelsProps> = ({ model, onValueClick }) => {
+  const scrollRef = useScroll();
   return (
     <div className={styles.container}>
       <ModelHeader
@@ -30,14 +25,20 @@ const ListModels: FC<ListModelsProps> = () => {
       <div className={styles.scroll} ref={scrollRef}>
         <table className={styles.table}>
           <tbody>
-            <ModelParameters name='УЭС пласта' value={123} />
-            <ModelParameters name='УЭС вмещающего пласта' value={123} />
-            <ModelParameters name='Анизотропия пласта' value={123} />
-            <ModelParameters name='Анизотропия вмещающего пласта' value={123} />
-            <ModelParameters name='Угол наклона границы' value={123} />
-            <ModelParameters name='Граница' value={123} />
+            {model.map(({ name, value }, id) => (
+              <ModelParameters
+                name={name}
+                value={value}
+                key={name}
+                onValueClick={() => (onValueClick ? onValueClick(id) : undefined)}
+              />
+            ))}
           </tbody>
         </table>
+        <div className={styles.btnContainer}>
+          <Button className={styles.button}>Режим подбора параметров</Button>
+          <Button className={styles.button}>Добавить новую модель</Button>
+        </div>
       </div>
     </div>
   );

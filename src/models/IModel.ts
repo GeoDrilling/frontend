@@ -11,6 +11,10 @@ export interface IModelParams {
   alpha: number;
   h_sf: number;
 }
+export interface IModelParameter {
+  name: string;
+  value: number;
+}
 export interface IOutModel {
   minKanisotropyDown: number;
   maxKanisotropyDown: number;
