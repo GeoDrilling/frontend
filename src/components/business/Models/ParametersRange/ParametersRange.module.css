@@ -1,0 +1,48 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.scroll {
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 30px;
+}
+.table {
+  box-sizing: border-box;
+  border-collapse: collapse;
+  vertical-align: middle;
+  width: 100%;
+}
+.text {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--primary);
+}
+.h1 {
+  width: 60%;
+  padding-bottom: 10px;
+}
+.h2 {
+  width: 20%;
+  padding-bottom: 10px;
+}
+.h3 {
+  width: 20%;
+  padding-bottom: 10px;
+}
+.button {
+  width: 240px;
+  height: 30px;
+}
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.tip {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--primary);
+  margin: 10px 0;
+}

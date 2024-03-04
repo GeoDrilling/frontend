@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import styles from './InputNumber.module.css';
+import classNames from 'classnames';
 
 interface InputNumberProps {
   changeValue: (value: number) => void;
@@ -7,8 +8,16 @@ interface InputNumberProps {
   isEdited?: boolean;
   isStartFocus?: boolean;
   suffix?: string;
+  inputClassName?: string;
 }
-const InputNumber: FC<InputNumberProps> = ({ changeValue, parameterValue, isEdited, isStartFocus, suffix }) => {
+const InputNumber: FC<InputNumberProps> = ({
+  changeValue,
+  parameterValue,
+  isEdited,
+  isStartFocus,
+  suffix,
+  inputClassName,
+}) => {
   const [value, setValue] = useState<string>(parameterValue.toString());
   useEffect(() => {
     setValue(parameterValue.toString());
@@ -29,7 +38,7 @@ const InputNumber: FC<InputNumberProps> = ({ changeValue, parameterValue, isEdit
         value={value}
         onChange={(e) => onChange(e)}
         onBlur={() => changeValue(parseFloat(value))}
-        className={styles.input}
+        className={classNames(styles.input, inputClassName)}
         style={{ color: isEdited ? 'var(--secondary)' : 'var(--primary)' }}
       />
       {suffix ? (

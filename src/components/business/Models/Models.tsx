@@ -3,8 +3,9 @@ import styles from './Models.module.css';
 import ListModels from '@components/business/Models/ListModels/ListModels.tsx';
 import EditingModel from '@components/business/Models/EditingModel/EditingModel.tsx';
 import DepthRange from '@components/business/Models/DepthRange/DepthRange.tsx';
-import { model } from '@components/business/Models/ModelConstants.ts';
+import { model, suffixes } from '@components/business/Models/ModelConstants.ts';
 import StartModel from '@components/business/Models/StartModel/StartModel.tsx';
+import ParametersRange from '@components/business/Models/ParametersRange/ParametersRange.tsx';
 
 interface IWindows {
   isList: boolean;
@@ -73,6 +74,15 @@ const Models: FC = () => {
           getStartModel={() => model}
           toList={toListModels}
           toParametersRange={toParametersRange}
+        />
+      ) : undefined}
+      {windows.isParametersRange ? (
+        <ParametersRange
+          toBack={toChoosingParameters}
+          parameters={model.map((m, idx) => {
+            return { name: suffixes[idx] ? m.name + ', ' + suffixes[idx] : m.name, max: 2000, min: 0 };
+          })}
+          onChange={() => {}}
         />
       ) : undefined}
     </div>

@@ -22,8 +22,9 @@
 .leftArrow {
   width: 20px;
   height: 15px;
-  position: absolute;
   cursor: pointer;
+  z-index: 1;
+  position: absolute;
 }
 .rightArrow {
   width: 20px;

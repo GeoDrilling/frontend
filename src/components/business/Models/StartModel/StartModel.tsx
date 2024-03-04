@@ -24,7 +24,6 @@ const StartModel: FC<StartModelProps> = ({ model, getStartModel, toParametersRan
       }),
     );
   };
-  console.log(newModel, 'new model');
   return (
     <div className={styles.container}>
       <ModelHeader
