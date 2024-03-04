@@ -1,0 +1,112 @@
+.custom-table {
+  width: 80%;
+  border-collapse: collapse;
+  cursor: pointer;
+}
+.table-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* столбик */
+  align-items: center; /* выравнивание по горизонтали */
+}
+
+.custom-table thead th {
+  padding: 1vh 10px;
+  height: 3vh;
+  text-align: center;
+  vertical-align: middle;
+}
+.custom-table th,
+.custom-table td {
+  width: 30%;
+  height: 2vh;
+  padding: 1vh;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.custom-table th {
+  border-bottom: 2px solid #000;
+}
+
+.custom-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.locked {
+  text-align: center;
+}
+
+.locked::before {
+  text-align: center;
+  display: inline-block;
+}
+
+.content-container {
+  width: 100%;
+  display: flex;
+}
+
+.table-container {
+  width: 100%;
+  margin-right: 20px; /* Добавить отступ справа от таблицы */
+}
+
+.container {
+  width: 100%;
+}
+
+.curves-container {
+  width: 100%;
+}
+
+.curves-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* столбик */
+  align-items: center; /* выравнивание по горизонтали */
+  list-style-type: none;
+  padding: 0; /* Убрать внутренние отступы */
+}
+
+.curve-item {
+  width: 70%;
+  display: flex; /* Использование flexbox для выравнивания содержимого */
+  justify-content: center; /* Центрирование содержимого по горизонтали */
+  align-items: center; /* Центрирование содержимого по вертикали */
+  border: 1px solid blue; /* Синяя рамка */
+  padding: 5px; /* Внутренний отступ */
+  margin-bottom: 5px; /* Отступ между элементами списка */
+  cursor: pointer; /* Курсор в виде указателя */
+  /* Другие стили для элементов списка... */
+}
+
+.custom-table caption {
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  color: var(--accent);
+  text-align: center;
+}
+
+.custom-table th {
+  font-weight: bold;
+  text-align: center;
+  padding: 18px;
+}
+.text {
+  padding-top: 40px;
+  width: 60%;
+  text-align: left;
+}
+.button {
+  height: 40px;
+  width: 80%;
+  border: none;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+.selectedCell {
+  color: #ff0000;
+}

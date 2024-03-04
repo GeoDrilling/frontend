@@ -7,18 +7,21 @@ import 'overlayscrollbars/overlayscrollbars.css';
 import { ProjectProvider } from './contexts/ProjectContext.tsx';
 import Router from './routes/Router.tsx';
 import { ContextualSettingsProvider } from './contexts/ContextualSettingsContext.tsx';
+import { UploadContextProvider } from './contexts/UploadContext.tsx';
 
 const App: FC = () => {
   return (
-    <ContextualSettingsProvider>
-      <ProjectProvider>
-        <AuthProvider>
-          <WindowsProvider>
-            <Router />
-          </WindowsProvider>
-        </AuthProvider>
-      </ProjectProvider>
-    </ContextualSettingsProvider>
+    <UploadContextProvider>
+      <ContextualSettingsProvider>
+        <ProjectProvider>
+          <AuthProvider>
+            <WindowsProvider>
+              <Router />
+            </WindowsProvider>
+          </AuthProvider>
+        </ProjectProvider>
+      </ContextualSettingsProvider>
+    </UploadContextProvider>
   );
 };
 

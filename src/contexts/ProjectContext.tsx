@@ -32,10 +32,10 @@ export const ProjectProvider: FCC = ({ children }) => {
   const [model, setModel] = useState<IModel>({} as IModel);
   const [depth, setDepth] = useState<number[]>([]);
   const [isCreating, setIsCreating] = useState(false);
-  const createProject = async (): Promise<number> => {
+  const createProject = async (name: string): Promise<number> => {
     try {
       setIsCreating(true);
-      const response = await ProjectService.createProject();
+      const response = await ProjectService.createProject(name);
       setId(response.data.id);
       if (response.data.curves) {
         setCurves(response.data.curves);
