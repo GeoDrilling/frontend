@@ -3,7 +3,31 @@
   padding: 10px;
   max-height: 100%;
 }
+.summary {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin-bottom: 10px;
+  position: relative;
+}
+.summary::-webkit-details-marker {
+  display: none;
+}
+.details[open] > .summary::before {
+  transform: rotate(0deg);
+}
 
+.root {
+  margin-left: 20px;
+}
+.summary::before {
+  content: '\25BC';
+  color: var(--placeholder);
+  transition: 0.2s;
+  position: absolute;
+  left: -23px;
+  transform: rotate(-90deg);
+}
 .filesTree {
   list-style: none;
   margin: 0;
@@ -19,6 +43,8 @@
 }
 .centredBox {
   display: flex;
+}
+.margin {
   margin-bottom: 10px;
 }
 .rig {
@@ -29,25 +55,25 @@
   width: 21px;
   height: 26px;
 }
+.dir {
+  display: flex;
+  align-items: center;
+  background-image: url('/src/assets/images/icon_dir.svg');
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30px;
+}
 .dataset {
   display: flex;
   align-items: center;
   background-image: url('/src/assets/images/icon_dataset.svg');
   background-repeat: no-repeat;
   width: 23px;
+  min-width: 23px;
   height: 26px;
 }
 .text {
   margin-left: 10px;
   display: flex;
   align-items: center;
-}
-.test::before {
-  outline: var(--error) 1px solid;
-  display: inline-block;
-  background-image: url('/src/assets/images/icon_rig.svg');
-  background-repeat: no-repeat;
-  content: '';
-  width: 21px;
-  height: 16px;
 }
