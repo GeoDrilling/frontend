@@ -54,4 +54,10 @@ export default class ProjectService {
     };
     return $api.post<string>(`/soot/rename/${projectId}`, payload);
   }
+
+  static async sootOut(projectId: number) {
+    console.log($api.post<SootOutResponse>(`/soot/out`, {}, { params: { project_id: projectId } }));
+    return $api.post<SootOutResponse>(`/soot/out`, {}, { params: { project_id: projectId } });
+    console;
+  }
 }

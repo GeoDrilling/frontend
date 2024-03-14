@@ -61,8 +61,13 @@
 }
 
 .curves-list {
+  max-height: 80vh;
   width: 100%;
   display: flex;
+  overflow-y: auto; /* Включает вертикальную прокрутку, если контент превышает максимальную высоту */
+  /* Дополнительные стили для красивого отображения прокрутки (необязательно) */
+  scrollbar-width: thin;
+  scrollbar-color: darkgrey lightgrey; /* Цвета для Firefox */
   flex-direction: column; /* столбик */
   align-items: center; /* выравнивание по горизонтали */
   list-style-type: none;
@@ -82,8 +87,8 @@
 }
 
 .custom-table caption {
-  padding-top: 1vh;
-  padding-bottom: 1vh;
+  padding-top: 5vh;
+  padding-bottom: 3vh;
   color: var(--accent);
   text-align: center;
 }
@@ -94,9 +99,10 @@
   padding: 18px;
 }
 .text {
-  padding-top: 40px;
-  width: 60%;
-  text-align: left;
+  padding: 80px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 .button {
   height: 40px;
@@ -109,4 +115,28 @@
 
 .selectedCell {
   color: #ff0000;
+}
+.icon {
+  padding-right: 2px;
+  padding-left: 2px;
+}
+
+.curves-list::-webkit-scrollbar {
+  width: 8px; /* Ширина полосы прокрутки */
+}
+
+.curves-list::-webkit-scrollbar-track {
+  background: lightgrey; /* Цвет дорожки прокрутки */
+}
+
+.curves-list::-webkit-scrollbar-thumb {
+  background-color: darkgrey; /* Цвет ползунка прокрутки */
+  border-radius: 4px; /* Скругление углов ползунка */
+}
+
+.header {
+  padding-top: 5vh;
+  padding-bottom: 3vh;
+  color: var(--accent);
+  text-align: center;
 }
