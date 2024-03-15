@@ -15,8 +15,8 @@ import {
 } from '../../../models/ContextualSettingsTypes.ts';
 import { OrderCurveProperties, OrderTabletProperties } from '../../../utils/ContextualSettingsConstatns.ts';
 import { DEPTH } from '../../../utils/utils.tsx';
-import { useUploadContext } from '../../../contexts/UploadContext.tsx';
 import UploadWindow from '@components/business/UploadWindow/UploadWindow.tsx';
+import { useUploadContext } from '../../../hooks/context/useUploadContext.ts';
 
 interface TabletProps {
   className?: string;
@@ -59,7 +59,14 @@ const Tablet: FC<TabletProps> = ({ className }) => {
   return (
     <div className={classNames(styles.container)}>
       {isVisible ? (
-        <UploadWindow />
+        <div className={styles.container}>
+          <WindowHeader
+            image={'/src/assets/images/icon_tablet.svg'}
+            closeWindow={toggleTablet}
+            title={'Рабочая область'}
+          />
+          <UploadWindow />
+        </div>
       ) : (
         <div className={classNames(styles.container, className)} onClick={() => setContextType(ContextType.TABLET)}>
           <WindowHeader

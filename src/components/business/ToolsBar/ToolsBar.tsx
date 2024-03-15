@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
 import DraggableModal from '@components/business/Tablet/DraggableModal.tsx';
 import TmpModelParams from '@components/business/Tablet/TmpModelParams.tsx';
-import { useUploadContext } from '../../../contexts/UploadContext.tsx';
+import { useUploadContext } from '../../../hooks/context/useUploadContext.ts';
 
 const ToolsBar: FC = () => {
   const { id, uploadLasFile, model, buildModel } = useProjectContext();
@@ -15,9 +15,12 @@ const ToolsBar: FC = () => {
       const formData = new FormData();
       formData.append('file', event.target.files[0]);
       formData.append('project_id', id.toString());
-      uploadLasFile(formData);
-      setVisible(true);
+      loadFile(formData);
     }
+  };
+  const loadFile = async (formData: FormData) => {
+    await uploadLasFile(formData);
+    setVisible(true);
   };
   useEffect(() => {
     if (model.outputModel) {

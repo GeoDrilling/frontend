@@ -1,32 +1,37 @@
-.custom-table {
-  width: 80%;
-  border-collapse: collapse;
-  cursor: pointer;
-}
-.table-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column; /* столбик */
-  align-items: center; /* выравнивание по горизонтали */
+.title {
+  font-size: 18px;
+  color: var(--accent);
+  font-weight: 500;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
 }
 
+.custom-table {
+  width: 90%;
+  max-width: 600px;
+  border-collapse: collapse;
+  cursor: pointer;
+  text-align: center;
+}
 .custom-table thead th {
-  padding: 1vh 10px;
-  height: 3vh;
+  padding: 10px;
   text-align: center;
   vertical-align: middle;
 }
-.custom-table th,
 .custom-table td {
-  width: 30%;
-  height: 2vh;
-  padding: 1vh;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
+  width: 33%;
+  padding: 13px;
 }
-
+.custom-table .row {
+  padding: 10px;
+  border-bottom: 1px solid var(--placeholder);
+}
 .custom-table th {
   border-bottom: 2px solid #000;
+  font-weight: bold;
+  text-align: center;
+  padding: 18px;
 }
 
 .custom-table tbody tr:last-child td {
@@ -44,60 +49,31 @@
 
 .content-container {
   width: 100%;
+  overflow-y: hidden;
   display: flex;
+  margin: 20px 0;
 }
-
+.leftSide {
+  width: 50%;
+}
+.rightWrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .table-container {
   width: 100%;
-  margin-right: 20px; /* Добавить отступ справа от таблицы */
-}
-
-.container {
-  width: 100%;
-}
-
-.curves-container {
-  width: 100%;
-}
-
-.curves-list {
-  max-height: 80vh;
-  width: 100%;
+  height: 100%;
   display: flex;
-  overflow-y: auto; /* Включает вертикальную прокрутку, если контент превышает максимальную высоту */
-  /* Дополнительные стили для красивого отображения прокрутки (необязательно) */
-  scrollbar-width: thin;
-  scrollbar-color: darkgrey lightgrey; /* Цвета для Firefox */
   flex-direction: column; /* столбик */
   align-items: center; /* выравнивание по горизонтали */
-  list-style-type: none;
-  padding: 0; /* Убрать внутренние отступы */
+}
+.container {
+  width: 50%;
+  padding-left: 20px;
+  box-sizing: border-box;
 }
 
-.curve-item {
-  width: 70%;
-  display: flex; /* Использование flexbox для выравнивания содержимого */
-  justify-content: center; /* Центрирование содержимого по горизонтали */
-  align-items: center; /* Центрирование содержимого по вертикали */
-  border: 1px solid blue; /* Синяя рамка */
-  padding: 5px; /* Внутренний отступ */
-  margin-bottom: 5px; /* Отступ между элементами списка */
-  cursor: pointer; /* Курсор в виде указателя */
-  /* Другие стили для элементов списка... */
-}
-
-.custom-table caption {
-  padding-top: 5vh;
-  padding-bottom: 3vh;
-  color: var(--accent);
-  text-align: center;
-}
-
-.custom-table th {
-  font-weight: bold;
-  text-align: center;
-  padding: 18px;
-}
 .text {
   padding: 80px;
   align-items: center;
@@ -105,22 +81,79 @@
   text-align: center;
 }
 .button {
-  height: 40px;
-  width: 80%;
-  border: none;
-  background: var(--accent);
-  color: white;
-  cursor: pointer;
+  margin-top: 50px;
+  max-width: 90%;
+  width: 450px;
+  height: 45px;
+  min-height: 40px;
 }
 
 .selectedCell {
-  color: #ff0000;
+  color: var(--accent);
 }
 .icon {
   padding-right: 2px;
   padding-left: 2px;
 }
 
+.tip {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.curves-container .input {
+  background-image: url('/src/assets/images/icon_search.svg');
+  background-repeat: no-repeat;
+  padding-left: 35px;
+  box-sizing: border-box;
+  background-position: 0 50%;
+  font-size: 18px;
+}
+.curves-container .input::placeholder {
+  font-size: 18px;
+}
+.inputContainer {
+  width: 350px;
+  margin-bottom: 30px;
+}
+.curves-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: var(--primary);
+  overflow-y: hidden;
+  padding-bottom: 20px;
+}
+
+.curves-list {
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column; /* столбик */
+  align-items: center; /* выравнивание по горизонтали */
+
+  padding-right: 40px;
+  padding-bottom: 20px;
+}
+.curve-item {
+  max-width: 90%;
+  width: 300px;
+  display: flex; /* Использование flexbox для выравнивания содержимого */
+  justify-content: center; /* Центрирование содержимого по горизонтали */
+  align-items: center; /* Центрирование содержимого по вертикали */
+  border: 1px solid var(--secondary); /* Синяя рамка */
+  padding: 10px; /* Внутренний отступ */
+  margin-bottom: 20px; /* Отступ между элементами списка */
+  cursor: pointer; /* Курсор в виде указателя */
+}
+.scrollRef {
+  max-width: 90%;
+  width: 350px;
+}
 .curves-list::-webkit-scrollbar {
   width: 8px; /* Ширина полосы прокрутки */
 }
@@ -132,11 +165,4 @@
 .curves-list::-webkit-scrollbar-thumb {
   background-color: darkgrey; /* Цвет ползунка прокрутки */
   border-radius: 4px; /* Скругление углов ползунка */
-}
-
-.header {
-  padding-top: 5vh;
-  padding-bottom: 3vh;
-  color: var(--accent);
-  text-align: center;
 }

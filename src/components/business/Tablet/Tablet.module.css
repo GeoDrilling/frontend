@@ -48,3 +48,6 @@
 .deleteButton:hover {
   background-color: #d32f2f;
 }
+.height {
+  height: 100%;
+}

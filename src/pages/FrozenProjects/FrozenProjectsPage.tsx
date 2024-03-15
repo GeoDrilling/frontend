@@ -31,7 +31,7 @@ const FrozenProjectsPage: FC = () => {
   const [filteredAndSorted, byName, setByName, isAscending, setIsAscending] = useSorted(filteredProjects, true, true);
   return (
     <div className={styles.container}>
-      <Header isToProject={true} />
+      <Header isFrozenProjects={true} />
       <div className={styles.contentContainer}>
         <SortSettings byName={byName} setByName={setByName} setIsAscending={setIsAscending} isAscending={isAscending} />
         <div className={styles.projectsContent}>

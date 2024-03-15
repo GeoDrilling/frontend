@@ -6,6 +6,7 @@ import { ICurve } from '../models/IProject.ts';
 import { useContextualSettings } from '../hooks/context/useContextualSettings.ts';
 import { trackProperties } from '../utils/ContextualSettingsConstatns.ts';
 import { DEPTH } from '../utils/utils.tsx';
+import { useUploadContext } from '../hooks/context/useUploadContext.ts';
 
 interface ProjectContext {
   id: number;
@@ -27,6 +28,7 @@ export const ProjectContext = createContext<ProjectContext>({} as ProjectContext
 
 export const ProjectProvider: FCC = ({ children }) => {
   const { tracksProperties, setTracksProperties, clearSettings } = useContextualSettings();
+  const { setVisible } = useUploadContext();
   const [id, setId] = useState<number>(-1);
   const [curves, setCurves] = useState<ICurve[]>([]);
   const [model, setModel] = useState<IModel>({} as IModel);
@@ -91,8 +93,9 @@ export const ProjectProvider: FCC = ({ children }) => {
     setCurves([]);
     setDepth([]);
     setModel({} as IModel);
+    setVisible(false);
     clearSettings();
-  }, [clearSettings]);
+  }, [clearSettings, setVisible]);
   const getCurvesNames = useCallback(async (projectId: number) => {
     try {
       const response = await ProjectService.getCurves(projectId);

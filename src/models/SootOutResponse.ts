@@ -1,4 +1,4 @@
-interface SootOutResponse {
+export interface SootOutResponse {
   ropl: string;
   roal: string;
   ropld: string;

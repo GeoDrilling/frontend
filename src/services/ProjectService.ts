@@ -2,6 +2,7 @@ import $api from '../http';
 import { CurveDataDownload, ICurves, IProject } from '../models/IProject.ts';
 import { IModel } from '../models/IModel.ts';
 import { Selections } from '../models/Selection.ts';
+import { SootOutResponse } from '../models/SootOutResponse.ts';
 
 export default class ProjectService {
   static async createProject(projectName: string) {
@@ -56,8 +57,6 @@ export default class ProjectService {
   }
 
   static async sootOut(projectId: number) {
-    console.log($api.post<SootOutResponse>(`/soot/out`, {}, { params: { project_id: projectId } }));
     return $api.post<SootOutResponse>(`/soot/out`, {}, { params: { project_id: projectId } });
-    console;
   }
 }

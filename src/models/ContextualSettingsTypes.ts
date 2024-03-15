@@ -24,6 +24,10 @@ export const orientation: IOrientation[] = [
   { name: 'Горизонтальная', value: ValueOrientation.HORIZONTAL },
   { name: 'Вертикальная', value: ValueOrientation.VERTICAL },
 ];
+export interface IGroupProperties {
+  name: string;
+  properties: IBaseProperty[];
+}
 
 export interface ITabletProperties {
   properties: IGroupProperties[];
@@ -52,8 +56,4 @@ export interface IEnumProperty extends IBaseProperty {
 
 export interface IColorProperty extends IBaseProperty {
   value: string;
-}
-export interface IGroupProperties {
-  name: string;
-  properties: IBaseProperty[];
 }
