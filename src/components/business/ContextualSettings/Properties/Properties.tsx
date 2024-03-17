@@ -2,20 +2,20 @@ import { FC } from 'react';
 import styles from './Properties.module.css';
 import { IGroupProperties } from '../../../../models/ContextualSettingsTypes.ts';
 import PropertySettings from '@components/business/PropertySettings/PropertySettings.tsx';
-import { useScroll } from '../../../../hooks/useScroll.tsx';
 
 interface PropertiesProps {
   groups: IGroupProperties[];
   changeProperty: (value: number | string, indexGroup: number, indexProp: number) => void;
+  curveName?: string;
 }
-const Properties: FC<PropertiesProps> = ({ groups, changeProperty }) => {
-  const scrollRef = useScroll();
+const Properties: FC<PropertiesProps> = ({ groups, changeProperty, curveName }) => {
+  //const scrollRef = notScroll? undefined : useScroll();
   return (
-    <div ref={scrollRef}>
+    <div /*ref={scrollRef}*/ className={styles.container}>
       {groups.map((group, groupIndex) => {
         return (
           <details key={groupIndex}>
-            <summary className={styles.groupTitle}>{group.name}</summary>
+            <summary className={styles.groupTitle}>{curveName ? curveName : group.name}</summary>
             <table className={styles.table}>
               <tbody>
                 {group.properties.map((property, propIndex) => {

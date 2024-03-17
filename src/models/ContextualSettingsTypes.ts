@@ -4,10 +4,10 @@ export enum ContextType {
   //CURVE = "Свойства кривой"
 }
 export enum PropertyType {
-  ENUM,
-  STRING,
-  NUMBER,
-  COLOR,
+  ENUM = '0',
+  STRING = '1',
+  NUMBER = '2',
+  COLOR = '3',
 }
 export enum EnumType {
   ORIENTATION,
@@ -16,11 +16,11 @@ export enum ValueOrientation {
   HORIZONTAL = 'horizontal',
   VERTICAL = 'vertical',
 }
-interface IOrientation {
+export interface IEnumOption {
   name: string;
-  value: ValueOrientation;
+  value: string;
 }
-export const orientation: IOrientation[] = [
+export const orientation: IEnumOption[] = [
   { name: 'Горизонтальная', value: ValueOrientation.HORIZONTAL },
   { name: 'Вертикальная', value: ValueOrientation.VERTICAL },
 ];
@@ -37,7 +37,9 @@ export interface ITrackProperties {
   properties: IGroupProperties[];
 }
 export interface ICurveProperties {
+  name: string;
   properties: IGroupProperties[];
+  retries?: number;
 }
 export interface IBaseProperty {
   name: string;

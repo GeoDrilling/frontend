@@ -1,12 +1,12 @@
 import $api from '../http';
-import { CurveDataDownload, ICurves, IProject } from '../models/IProject.ts';
+import { CurveDataDownload, ICurves, IProject, IProjectState } from '../models/IProject.ts';
 import { IModel } from '../models/IModel.ts';
 import { Selections } from '../models/Selection.ts';
 import { SootOutResponse } from '../models/SootOutResponse.ts';
 
 export default class ProjectService {
   static async createProject(projectName: string) {
-    return $api.post<IProject>(`/project/${projectName}`);
+    return $api.post<IProjectState>(`/project/${projectName}`);
   }
   static async deleteProject(projectId: number) {
     return $api.delete<IProject>(`/project/${projectId}`);
@@ -28,6 +28,9 @@ export default class ProjectService {
   }
   static async getProject(projectId: number) {
     return $api.get<IProject>(`/project/${projectId}`);
+  }
+  static async getProjectState(projectId: number) {
+    return $api.get<IProjectState>(`/project/state/${projectId}`);
   }
 
   static async buildModel(projectId: number) {
@@ -58,5 +61,8 @@ export default class ProjectService {
 
   static async sootOut(projectId: number) {
     return $api.post<SootOutResponse>(`/soot/out`, {}, { params: { project_id: projectId } });
+  }
+  static async saveProjectState(state: IProjectState) {
+    return $api.put(`/project/state/${state.id}`, state);
   }
 }

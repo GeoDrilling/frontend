@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { EnumType, IEnumProperty, orientation } from '../../../../models/ContextualSettingsTypes.ts';
+import { EnumType, IEnumProperty, IEnumOption, orientation } from '../../../../models/ContextualSettingsTypes.ts';
 import styles from './EnumProperty.module.css';
 
 interface EnumPropertyProps {
@@ -10,16 +10,24 @@ function isOrientation(prop: IEnumProperty) {
   return prop.enumType === EnumType.ORIENTATION;
 }
 const EnumProperty: FC<EnumPropertyProps> = ({ property, changeProperty }) => {
-  let options: string[];
-  if (isOrientation(property)) options = orientation.map((option) => option.name);
-  else options = orientation.map((option) => option.name);
+  let options: IEnumOption[];
+  if (isOrientation(property)) options = orientation;
+  else options = orientation;
+  const changeValue = (name: string) => {
+    const value = options.find((option) => option.name === name)?.value;
+    if (value) changeProperty(value);
+  };
   return (
     <div className={styles.container}>
-      <select value={property.value} onChange={(e) => changeProperty(e.target.value)} className={styles.select}>
+      <select
+        value={options.find((option) => option.value === property.value)?.name}
+        onChange={(e) => changeValue(e.target.value)}
+        className={styles.select}
+      >
         {options.map((v, i) => {
           return (
-            <option value={v} key={i}>
-              {v}
+            <option value={v.name} key={i}>
+              {v.name}
             </option>
           );
         })}

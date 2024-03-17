@@ -11,8 +11,8 @@ import {
 export const curveProperties: IBaseProperty[] = [
   { name: 'Цвет', type: PropertyType.COLOR, value: '#156fa3' } as IBaseProperty,
 ];
-const groupsTrackProperties: IGroupProperties[] = [{ name: 'Первая кривая', properties: curveProperties }];
-export const trackProperties: ITrackProperties = { curves: [], properties: groupsTrackProperties };
+export const groupsCurveProperties: IGroupProperties[] = [{ name: 'Кривая', properties: curveProperties }];
+export const trackProperties: ITrackProperties = { curves: [], properties: [] };
 
 const mainGroupTabletProperties: IGroupProperties = {
   name: 'Основные свойства',

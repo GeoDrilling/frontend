@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useOverlayScrollbars } from 'overlayscrollbars-react';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const useScroll = (deps?: [any]) => {
+export const useScroll = (deps?: any[]) => {
   const scrollRef = useRef(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [initialize, _] = useOverlayScrollbars({ defer: true });

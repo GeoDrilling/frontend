@@ -7,7 +7,7 @@ import TmpModelParams from '@components/business/Tablet/TmpModelParams.tsx';
 import { useUploadContext } from '../../../hooks/context/useUploadContext.ts';
 
 const ToolsBar: FC = () => {
-  const { id, uploadLasFile, model, buildModel } = useProjectContext();
+  const { id, uploadLasFile, model, buildModel, saveProjectState } = useProjectContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { setVisible } = useUploadContext();
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +34,7 @@ const ToolsBar: FC = () => {
         <label className={classNames(styles.load, styles.item)}>
           <input type='file' onChange={onChangeFile} className={styles.input} accept='.las, .csv' />
         </label>
-        <span className={classNames(styles.download, styles.item)} />
+        <span className={classNames(styles.download, styles.item)} onClick={saveProjectState} />
         <span className={styles.separator} />
         <span className={classNames(styles.createFolder, styles.item)} />
         <span className={classNames(styles.createDataset, styles.item)} />
