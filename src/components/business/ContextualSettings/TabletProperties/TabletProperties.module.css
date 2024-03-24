@@ -1,0 +1,19 @@
+.scroll {
+  flex: 1;
+  margin-bottom: 20px;
+}
+.tabletContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+.button {
+  height: 40px;
+  min-height: 40px;
+  max-width: 300px;
+  width: 80%;
+  min-width: 150px;
+  margin-top: 20px;
+}

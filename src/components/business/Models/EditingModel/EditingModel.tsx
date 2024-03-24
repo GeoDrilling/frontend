@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './EditingModel.module.css';
 import { IModelParameter } from '../../../../models/IModel.ts';
 import { useScroll } from '../../../../hooks/useScroll.tsx';
@@ -6,18 +6,30 @@ import ModelHeader from '@components/business/Models/ModelHeader/ModelHeader.tsx
 import ModelParameters from '@components/business/Models/ModelParameters/ModelParameters.tsx';
 import Button from '@components/UI/Button/Button.tsx';
 import { suffixes } from '@components/business/Models/ModelConstants.ts';
+import { useModel } from '../../../../hooks/context/useModel.ts';
+import { useProjectContext } from '../../../../hooks/context/useProjectContext.ts';
 
 interface EditingModelProps {
   startId: number;
-  model: IModelParameter[];
   onComplete: () => void;
 }
-const EditingModel: FC<EditingModelProps> = ({ startId, model, onComplete }) => {
+const EditingModel: FC<EditingModelProps> = ({ startId, onComplete }) => {
+  const { models, currentId } = useModel();
   const [edited, setEdited] = useState<number[]>([]);
-  const [newModel, setNewModel] = useState<IModelParameter[]>([...model]);
+  const [oldModel, setOldModel] = useState<IModelParameter[]>([]);
+  const [newModel, setNewModel] = useState<IModelParameter[]>([]);
+  const { id } = useProjectContext();
   const scrollRef = useScroll();
+  const { saveModel, modelToModelParams, modelParamToModel } = useModel();
+  useEffect(() => {
+    const model = models[currentId];
+    const modelParams = modelToModelParams(model);
+    setNewModel(modelParams);
+    setOldModel(modelParams);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [models, currentId]);
   const onValueChange = (value: number, id: number) => {
-    if (model[id].value !== value) setEdited([...edited, id]);
+    if (oldModel[id].value !== value) setEdited([...edited, id]);
     setNewModel(
       newModel.map((m, idx) => {
         if (idx == id) return { ...m, value: value } as IModelParameter;
@@ -26,11 +38,16 @@ const EditingModel: FC<EditingModelProps> = ({ startId, model, onComplete }) => 
     );
   };
   const onDone = () => {
-    //here save new model
+    if (edited.length > 0) {
+      const model = modelParamToModel(newModel);
+      //saveModel(id, model.start, model.end, model)
+      //TODO на беке пока не работает диапазон
+      saveModel(id, 3200, 3500, model);
+    }
     onComplete();
   };
+
   const onCancel = () => {
-    //here save new model
     onComplete();
   };
   return (

@@ -25,6 +25,12 @@ const ModelParameters: FC<ModelParametersProps> = ({
   suffix,
   className,
 }) => {
+  let formattedValue;
+  try {
+    formattedValue = value.toFixed(2) ? Number(value.toFixed(2)) : value;
+  } catch (e) {
+    formattedValue = value;
+  }
   return (
     <tr className={classNames(styles.container, className)}>
       <td className={styles.name}>{name}</td>
@@ -32,7 +38,7 @@ const ModelParameters: FC<ModelParametersProps> = ({
         {isEditing ? (
           <InputNumber
             changeValue={(value) => (onValueChange ? onValueChange(value) : undefined)}
-            parameterValue={value}
+            parameterValue={formattedValue}
             isEdited={isEdited}
             isStartFocus={startFocus}
             suffix={suffix}
@@ -40,7 +46,7 @@ const ModelParameters: FC<ModelParametersProps> = ({
         ) : (
           <div className={styles.valueContainer}>
             <p className={styles.suffix}>
-              {value} {suffix}
+              {formattedValue} {suffix}
             </p>
           </div>
         )}

@@ -1,14 +1,11 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC } from 'react';
 import styles from './ToolsBar.module.css';
 import classNames from 'classnames';
 import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
-import DraggableModal from '@components/business/Tablet/DraggableModal.tsx';
-import TmpModelParams from '@components/business/Tablet/TmpModelParams.tsx';
 import { useUploadContext } from '../../../hooks/context/useUploadContext.ts';
 
 const ToolsBar: FC = () => {
-  const { id, uploadLasFile, model, buildModel, saveProjectState } = useProjectContext();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { id, uploadLasFile, saveProjectState } = useProjectContext();
   const { setVisible } = useUploadContext();
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -22,11 +19,6 @@ const ToolsBar: FC = () => {
     await uploadLasFile(formData);
     setVisible(true);
   };
-  useEffect(() => {
-    if (model.outputModel) {
-      setIsModalOpen(true);
-    }
-  }, [model]);
 
   return (
     <div className={styles.container}>
@@ -43,12 +35,7 @@ const ToolsBar: FC = () => {
         <span className={classNames(styles.t1, styles.item)} />
         <span className={classNames(styles.t2, styles.item)} />
         <span className={classNames(styles.t3, styles.item)} />
-        <span className={classNames(styles.t4, styles.item)} onClick={() => buildModel(id)} />
-        {isModalOpen && (
-          <DraggableModal initialX={100} initialY={100} onClose={() => setIsModalOpen(false)}>
-            <TmpModelParams model={model} />
-          </DraggableModal>
-        )}
+        <span className={classNames(styles.t4, styles.item)} />
       </div>
     </div>
   );

@@ -3,18 +3,37 @@ export interface IModel {
   name: string;
   outputModel: IOutModel;
 }
-export interface IModelParams {
-  ro_f: number;
-  ro_sf: number;
-  k_f: number;
-  k_sf: number;
-  alpha: number;
-  h_sf: number;
+
+/*
+{
+  "idModel": 0,
+  "start": 0,
+  "end": 0,
+  "kanisotropyDown": 0,
+  "roDown": 0,
+  "kanisotropyUp": 0,
+  "roUp": 0,
+  "alpha": 0,
+  "tvdStart": 0
 }
+ */
+export interface IModelParams {
+  idModel: number;
+  start: number;
+  end: number;
+  kanisotropyDown: number;
+  roDown: number;
+  kanisotropyUp: number;
+  roUp: number;
+  alpha: number;
+  tvdStart: number;
+}
+
 export interface IModelParameter {
   name: string;
   value: number;
 }
+
 export interface IOutModel {
   minKanisotropyDown: number;
   maxKanisotropyDown: number;
