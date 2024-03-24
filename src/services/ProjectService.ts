@@ -1,6 +1,6 @@
 import $api from '../http';
 import { CurveDataDownload, ICurves, IProject, IProjectState } from '../models/IProject.ts';
-import { IModel } from '../models/IModel.ts';
+import { IModelParams } from '../models/IModel.ts';
 import { Selections } from '../models/Selection.ts';
 import { SootOutResponse } from '../models/SootOutResponse.ts';
 
@@ -33,10 +33,6 @@ export default class ProjectService {
     return $api.get<IProjectState>(`/project/state/${projectId}`);
   }
 
-  static async buildModel(projectId: number) {
-    return $api.post<IModel>(`/model/create`, {}, { params: { project_id: projectId, name: 'Test Model' } });
-  }
-
   static async sootRename(projectId: number, selections: Selections) {
     const payload = {
       ropl: selections['L'].selection2,
@@ -64,5 +60,38 @@ export default class ProjectService {
   }
   static async saveProjectState(state: IProjectState) {
     return $api.put(`/project/state/${state.id}`, state);
+  }
+  static async isCurveMapped(projectId: number) {
+    return $api.get<boolean>('/soot/checkCurves', { params: { project_id: projectId } });
+  }
+  static async buildStartModel(projectId: number, start: number, end: number) {
+    return $api.get<IModelParams>('/model/createStartModel', {
+      params: {
+        project_id: projectId,
+        start: start,
+        end: end,
+      },
+    });
+  }
+  static async getModels(projectId: number) {
+    return $api.get<IModelParams[]>('/model/getModel', { params: { project_id: projectId } });
+  }
+  static async buildModel(projectId: number, start: number, end: number, model: IModelParams) {
+    return $api.post<IModelParams>(`/model/create`, model, {
+      params: {
+        project_id: projectId,
+        start: start,
+        end: end,
+      },
+    });
+  }
+  static async saveModel(projectId: number, start: number, end: number, modelParams: IModelParams) {
+    return $api.post<IModelParams>(`/model/saveModel`, modelParams, {
+      params: {
+        project_id: projectId,
+        start: start,
+        end: end,
+      },
+    });
   }
 }

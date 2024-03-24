@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './Models.module.css';
 import ListModels from '@components/business/Models/ListModels/ListModels.tsx';
 import EditingModel from '@components/business/Models/EditingModel/EditingModel.tsx';
@@ -7,6 +7,7 @@ import { model, suffixes } from '@components/business/Models/ModelConstants.ts';
 import StartModel from '@components/business/Models/StartModel/StartModel.tsx';
 import ParametersRange from '@components/business/Models/ParametersRange/ParametersRange.tsx';
 import LoadingModel from '@components/business/Models/LoadingModel/LoadingModel.tsx';
+import { useModel } from '../../../hooks/context/useModel.ts';
 
 interface IWindows {
   isList: boolean;
@@ -15,6 +16,10 @@ interface IWindows {
   isStartParameters: boolean;
   isParametersRange: boolean;
   isLoading: boolean;
+}
+enum WindowsConstant {
+  LIST,
+  START_PARAMS,
 }
 
 const Models: FC = () => {
@@ -31,18 +36,38 @@ const Models: FC = () => {
 
   const [windows, setWindows] = useState<IWindows>({ ...defaultWindows(), isList: true });
   const [editId, setEditId] = useState(-1);
+  const [beforeLoading, setBeforeLoading] = useState<WindowsConstant>(WindowsConstant.LIST);
+  const { isLoading } = useModel();
 
+  useEffect(() => {
+    console.log(isLoading);
+    if (isLoading) toLoading();
+    else
+      switch (beforeLoading) {
+        case WindowsConstant.LIST: {
+          toListModels();
+          break;
+        }
+        case WindowsConstant.START_PARAMS: {
+          toChoosingParameters();
+          break;
+        }
+      }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
   const toEditing = (id: number) => {
     setWindows({ ...defaultWindows(), isEditing: true });
     setEditId(id);
   };
   const toListModels = () => {
+    setBeforeLoading(WindowsConstant.LIST);
     setWindows({ ...defaultWindows(), isList: true });
   };
   const toDepthRange = () => {
     setWindows({ ...defaultWindows(), isDepthRange: true });
   };
   const toChoosingParameters = () => {
+    setBeforeLoading(WindowsConstant.START_PARAMS);
     setWindows({ ...defaultWindows(), isStartParameters: true });
   };
   const toParametersRange = () => {
@@ -54,43 +79,24 @@ const Models: FC = () => {
   return (
     <div className={styles.container}>
       {windows.isList ? (
-        <ListModels
-          model={model}
-          onValueClick={toEditing}
-          toNewModel={toDepthRange}
-          toChoosingParameters={toChoosingParameters}
-        />
+        <ListModels onValueClick={toEditing} toNewModel={toDepthRange} toChoosingParameters={toChoosingParameters} />
       ) : undefined}
-      {windows.isEditing ? <EditingModel model={model} startId={editId} onComplete={toListModels} /> : undefined}
-      {windows.isDepthRange ? (
-        <DepthRange
-          startValue={3200}
-          endValue={3500}
-          onChangeEndValue={() => {}}
-          onChangeStartValue={() => {}}
-          toBack={toListModels}
-          toChoosingStart={toChoosingParameters}
-        />
-      ) : undefined}
+      {windows.isEditing ? <EditingModel startId={editId} onComplete={toListModels} /> : undefined}
+      {windows.isDepthRange ? <DepthRange toBack={toListModels} toChoosingStart={toChoosingParameters} /> : undefined}
       {windows.isStartParameters ? (
-        <StartModel
-          model={model}
-          getStartModel={() => model}
-          toList={toListModels}
-          toParametersRange={toParametersRange}
-        />
+        <StartModel toList={toListModels} toParametersRange={toParametersRange} />
       ) : undefined}
       {windows.isParametersRange ? (
         <ParametersRange
           toBack={toChoosingParameters}
           parameters={model.map((m, idx) => {
-            return { name: suffixes[idx] ? m.name + ', ' + suffixes[idx] : m.name, max: 2000, min: 0 };
+            return { name: suffixes[idx] ? m.name + ', ' + suffixes[idx] : m.name, max: -1, min: -1 };
           })}
           onChange={() => {}}
           toLoading={toLoading}
         />
       ) : undefined}
-      {windows.isLoading ? <LoadingModel toStartParameters={toChoosingParameters} /> : undefined}
+      {windows.isLoading ? <LoadingModel /> : undefined}
     </div>
   );
 };

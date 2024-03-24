@@ -150,7 +150,6 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                                 />
                               );
                             }
-                            //retryGetCurveData(curveProp, trackIndex, curveIndex)
                           })}
                         </CurveTrack>
                       </div>

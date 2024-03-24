@@ -1,49 +1,82 @@
-import { FC, useState } from 'react';
-import { IModelParameter } from '../../../../models/IModel.ts';
+import { FC, useEffect } from 'react';
 import { useScroll } from '../../../../hooks/useScroll.tsx';
 import styles from './StartModel.module.css';
 import ModelHeader from '@components/business/Models/ModelHeader/ModelHeader.tsx';
 import ModelParameters from '@components/business/Models/ModelParameters/ModelParameters.tsx';
 import { suffixes } from '@components/business/Models/ModelConstants.ts';
 import Button from '@components/UI/Button/Button.tsx';
+import { useNewModelParams } from '../../../../hooks/useModelParams.tsx';
+import { useModel } from '../../../../hooks/context/useModel.ts';
+import { useProjectContext } from '../../../../hooks/context/useProjectContext.ts';
 
 interface StartModelProps {
-  model: IModelParameter[];
-  toList: () => void;
   toParametersRange: () => void;
-  getStartModel: () => IModelParameter[];
+  toList: () => void;
 }
-const StartModel: FC<StartModelProps> = ({ model, getStartModel, toParametersRange, toList }) => {
-  const [newModel, setNewModel] = useState<IModelParameter[]>([...model]);
+const StartModel: FC<StartModelProps> = ({ toList, toParametersRange }) => {
+  const newModelParams = useNewModelParams();
+  const { id } = useProjectContext();
+  const { setNewModel, newModel, buildStartModel, modelParamToModel, saveModel, models, currentId, clearNewModel } =
+    useModel();
   const scrollRef = useScroll();
-  const onValueChange = (value: number, id: number) => {
+
+  useEffect(() => {
+    if (!newModel) setNewModel(models[currentId]);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [models, currentId]);
+  const onValueChange = (value: number, name: string) => {
     setNewModel(
-      newModel.map((m, idx) => {
-        if (idx == id) return { ...m, value: value } as IModelParameter;
-        return m;
-      }),
+      modelParamToModel(
+        [...newModelParams].map((p) => {
+          if (p.name === name) return { value, name };
+          return p;
+        }),
+      ),
     );
+  };
+  const backToStartParams = async () => {
+    const model = await buildStartModel(
+      id,
+      newModel?.start ? newModel?.start : 0,
+      newModel?.end ? newModel?.end : 4000,
+    );
+    if (model) setNewModel(model);
+  };
+
+  const onDone = async () => {
+    await saveModel(id, newModel!.start, newModel!.end, newModel!);
+    clearNewModel();
+    toList();
+  };
+  const onCancel = () => {
+    clearNewModel();
+    toList();
   };
   return (
     <div className={styles.container}>
       <ModelHeader
         title='Test name'
         rightImage='/src/assets/images/icon_done.svg'
-        onRightClick={toList}
+        leftImage='/src/assets/images/icon_cancel.svg'
+        onRightClick={onDone}
+        onLeftClick={onCancel}
         rightImageClassName={styles.done}
+        leftImageClassName={styles.cancel}
       />
-      <p className={styles.tip}>Диапазон модели 3200-3500</p>
+      <p className={styles.tip}>
+        Диапазон модели {newModel ? newModel.start : 0}-{newModel ? newModel.end : 0}
+      </p>
       <div className={styles.scroll} ref={scrollRef}>
         <table className={styles.table}>
           <tbody>
-            {newModel.map(({ name, value }, id) => (
+            {newModelParams.map(({ name, value }, id) => (
               <ModelParameters
-                key={id}
+                key={name}
                 name={name}
                 value={value}
                 isEditing={true}
                 suffix={suffixes[id] ? suffixes[id] : undefined}
-                onValueChange={(value) => onValueChange(value, id)}
+                onValueChange={(value) => onValueChange(value, name)}
               />
             ))}
           </tbody>
@@ -52,7 +85,7 @@ const StartModel: FC<StartModelProps> = ({ model, getStartModel, toParametersRan
           <Button className={styles.button} onClick={toParametersRange}>
             Подбор параметров
           </Button>
-          <Button className={styles.button} onClick={() => setNewModel(getStartModel())}>
+          <Button className={styles.button} onClick={backToStartParams}>
             Вернуться к стартовым параметрам
           </Button>
         </div>

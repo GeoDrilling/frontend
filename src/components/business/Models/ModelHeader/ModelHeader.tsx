@@ -4,6 +4,7 @@ import classNames from 'classnames';
 interface ModelHeaderProps {
   title: string;
   leftImage?: string;
+  leftImageClassName?: string;
   onLeftClick?: () => void;
   rightImage?: string;
   onRightClick?: () => void;
@@ -16,6 +17,7 @@ const ModelHeader: FC<ModelHeaderProps> = ({
   titleImage,
   rightImage,
   leftImage,
+  leftImageClassName,
   onLeftClick,
   onTitleClick,
   onRightClick,
@@ -23,7 +25,14 @@ const ModelHeader: FC<ModelHeaderProps> = ({
 }) => {
   return (
     <div className={styles.container}>
-      {leftImage ? <img src={leftImage} alt='arrow' onClick={onLeftClick} className={styles.leftArrow} /> : undefined}
+      {leftImage ? (
+        <img
+          src={leftImage}
+          alt='arrow'
+          onClick={onLeftClick}
+          className={classNames(styles.leftArrow, leftImageClassName)}
+        />
+      ) : undefined}
       <h1 className={classNames(styles.text, styles.title)}>
         {title}
         {titleImage ? <img src={titleImage} alt='edit' onClick={onTitleClick} className={styles.edit} /> : undefined}

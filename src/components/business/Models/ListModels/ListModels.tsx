@@ -1,20 +1,28 @@
-import { FC } from 'react';
-import { IModelParameter } from '../../../../models/IModel.ts';
+import { FC, useEffect } from 'react';
 import ModelHeader from '@components/business/Models/ModelHeader/ModelHeader.tsx';
 import styles from './ListModels.module.css';
 import ModelParameters from '@components/business/Models/ModelParameters/ModelParameters.tsx';
 import Button from '@components/UI/Button/Button.tsx';
 import { useScroll } from '../../../../hooks/useScroll.tsx';
 import { suffixes } from '@components/business/Models/ModelConstants.ts';
+import { useModel } from '../../../../hooks/context/useModel.ts';
+import { useModelParams } from '../../../../hooks/useModelParams.tsx';
 
 interface ListModelsProps {
-  model: IModelParameter[];
   onValueClick?: (id: number) => void;
   toNewModel: () => void;
   toChoosingParameters: () => void;
 }
 
-const ListModels: FC<ListModelsProps> = ({ model, onValueClick, toNewModel, toChoosingParameters }) => {
+const ListModels: FC<ListModelsProps> = ({ onValueClick, toNewModel, toChoosingParameters }) => {
+  const { currentId, setCurrentId } = useModel();
+  const modelParams = useModelParams();
+  useEffect(() => {
+    if (currentId == -1) {
+      setCurrentId(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const scrollRef = useScroll();
   return (
     <div className={styles.container}>
@@ -28,7 +36,7 @@ const ListModels: FC<ListModelsProps> = ({ model, onValueClick, toNewModel, toCh
       <div className={styles.scroll} ref={scrollRef}>
         <table className={styles.table}>
           <tbody>
-            {model.map(({ name, value }, id) => (
+            {modelParams.map(({ name, value }, id) => (
               <ModelParameters
                 name={name}
                 value={value}

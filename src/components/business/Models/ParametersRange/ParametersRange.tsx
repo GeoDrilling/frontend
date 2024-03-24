@@ -5,6 +5,8 @@ import ModelHeader from '@components/business/Models/ModelHeader/ModelHeader.tsx
 import RangeRow from '@components/business/Models/RangeRow/RangeRow.tsx';
 import classNames from 'classnames';
 import Button from '@components/UI/Button/Button.tsx';
+import { useModel } from '../../../../hooks/context/useModel.ts';
+import { useProjectContext } from '../../../../hooks/context/useProjectContext.ts';
 
 interface ParametersRangeProps {
   toBack: () => void;
@@ -19,6 +21,12 @@ interface ParameterRange {
 }
 const ParametersRange: FC<ParametersRangeProps> = ({ toBack, parameters, toLoading }) => {
   const scrollRef = useScroll();
+  const { id } = useProjectContext();
+  const { buildModel, newModel } = useModel();
+  const onDone = () => {
+    buildModel(id, newModel?.start ? newModel?.start : 0, newModel?.start ? newModel?.start : 0, newModel!);
+    toLoading();
+  };
   return (
     <div className={styles.container}>
       <ModelHeader title='Test name' onLeftClick={toBack} leftImage='/src/assets/images/icon_arrow_left.svg' />
@@ -39,7 +47,7 @@ const ParametersRange: FC<ParametersRangeProps> = ({ toBack, parameters, toLoadi
         </table>
         <p className={styles.tip}>*Укажите пределы параметров при построении модели</p>
         <div className={styles.btnContainer}>
-          <Button onClick={toLoading} className={styles.button}>
+          <Button onClick={onDone} className={styles.button}>
             Подобрать модель
           </Button>
         </div>
