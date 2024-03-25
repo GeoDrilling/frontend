@@ -17,9 +17,9 @@ interface WindowsContext {
 export const WindowsContext = createContext<WindowsContext>({} as WindowsContext);
 export const WindowsProvider: FCC = ({ children }) => {
   const [isExplorer, setIsExplorer] = useState<boolean>(true);
-  const [isAreaEquivalence, setIsAreaEquivalence] = useState<boolean>(false);
+  const [isAreaEquivalence, setIsAreaEquivalence] = useState<boolean>(true);
   const [isTablet, setIsTablet] = useState<boolean>(true);
-  const [isSettings, setIsSettings] = useState<boolean>(true);
+  const [isSettings, setIsSettings] = useState<boolean>(false);
   const [isModel, setIsModel] = useState<boolean>(false);
 
   const toggleTablet = useCallback(() => {

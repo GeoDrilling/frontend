@@ -1,0 +1,72 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.table {
+  box-sizing: border-box;
+  border-collapse: collapse;
+  vertical-align: middle;
+  width: 100%;
+}
+.contentBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+.scroll {
+  padding: 0 15px 30px 15px;
+}
+.selected {
+  color: var(--accent);
+}
+.tip {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--primary);
+  margin: 10px 0;
+}
+.button {
+  width: 255px;
+  height: 30px;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--background);
+}
+
+.sliderContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.stepValue {
+  font-size: 16px;
+  font-weight: 400;
+  width: 20px;
+  color: var(--primary);
+  padding: 0 0 0 10px;
+}
+.text {
+  display: flex;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--primary);
+  margin: 0 0 10px;
+  justify-content: start;
+  width: 100%;
+}
+.btnContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.slider {
+  flex-grow: 1;
+  height: 5px;
+}

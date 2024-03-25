@@ -20,6 +20,8 @@ interface ModelContext {
   setNewModel: Dispatch<SetStateAction<IModelParams | undefined>>;
   clearNewModel: () => void;
   isLoading: boolean;
+  isLoadingImage: boolean;
+  createAreaEq: (modelId: number, param1: string, param2: string, range: number) => Promise<string | undefined>;
 }
 
 export const ModelContext = createContext<ModelContext>({} as ModelContext);
@@ -30,6 +32,7 @@ export const ModelProvider: FCC = ({ children }) => {
   const [isMapped, setIsMapped] = useState<boolean>(false);
   const [newModel, setNewModel] = useState<IModelParams>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingImage, setIsLoadingImage] = useState<boolean>(false);
 
   const buildModel = useCallback(async (projectId: number, start: number, end: number, model: IModelParams) => {
     try {
@@ -121,6 +124,17 @@ export const ModelProvider: FCC = ({ children }) => {
   const clearNewModel = useCallback(() => {
     setNewModel(undefined);
   }, []);
+  const createAreaEq = useCallback(async (modelId: number, param1: string, param2: string, range: number) => {
+    try {
+      setIsLoadingImage(true);
+      const response = await ProjectService.createAreaEquivalence(modelId, param1, param2, range);
+      return URL.createObjectURL(response.data);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoadingImage(false);
+    }
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -139,6 +153,8 @@ export const ModelProvider: FCC = ({ children }) => {
       setNewModel,
       clearNewModel,
       isLoading,
+      createAreaEq,
+      isLoadingImage,
     }),
     [
       models,
@@ -154,6 +170,8 @@ export const ModelProvider: FCC = ({ children }) => {
       newModel,
       clearNewModel,
       isLoading,
+      createAreaEq,
+      isLoadingImage,
     ],
   );
   return <ModelContext.Provider value={value}>{children}</ModelContext.Provider>;

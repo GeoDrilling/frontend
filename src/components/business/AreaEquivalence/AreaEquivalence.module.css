@@ -10,10 +10,9 @@
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  padding-left: 15px;
+  padding-left: 30px;
   padding-right: 15px;
   justify-content: center;
-  /*max-height: 100%;*/
 }
 .area_eq {
   display: flex;
@@ -22,9 +21,34 @@
   width: 306px;
   height: 332px;
 }
-.test {
+.image {
+  padding-bottom: 15px;
+}
+.contentAreaEq {
   display: flex;
+  flex-direction: column;
   align-items: center;
+}
+.cancel {
+  width: 27px;
+  height: 27px;
+  padding: 0;
+}
+.done {
+  height: 20px;
+  width: 22px;
+  padding: 0;
+}
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1;
   justify-content: center;
-  /*overflow: hidden;*/
+  align-items: center;
+  padding: 0 20px;
+}
+.test {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }

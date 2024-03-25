@@ -94,4 +94,7 @@ export default class ProjectService {
       },
     });
   }
+  static async createAreaEquivalence(modelId: number, param1: string, param2: string, range: number) {
+    return $api.post<Blob>(`/areas/create/${modelId}`, { param1, param2, range }, { responseType: 'blob' });
+  }
 }

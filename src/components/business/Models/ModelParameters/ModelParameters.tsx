@@ -13,6 +13,7 @@ interface ModelParametersProps {
   isEdited?: boolean;
   startFocus?: boolean;
   className?: string;
+  valueClassName?: string;
 }
 const ModelParameters: FC<ModelParametersProps> = ({
   name,
@@ -24,6 +25,7 @@ const ModelParameters: FC<ModelParametersProps> = ({
   onValueChange,
   suffix,
   className,
+  valueClassName,
 }) => {
   let formattedValue;
   try {
@@ -45,7 +47,7 @@ const ModelParameters: FC<ModelParametersProps> = ({
           />
         ) : (
           <div className={styles.valueContainer}>
-            <p className={styles.suffix}>
+            <p className={classNames(styles.suffix, valueClassName)}>
               {formattedValue} {suffix}
             </p>
           </div>
