@@ -10,8 +10,8 @@ import {
   IGroupProperties,
   ITrackProperties,
 } from '../../../models/ContextualSettingsTypes.ts';
-import TrackProperties from '@components/business/ContextualSettings/TrackProperties/TrackProperties.tsx';
 import TabletProperties from '@components/business/ContextualSettings/TabletProperties/TabletProperties.tsx';
+import TrackProperties from '@components/business/ContextualSettings/TrackProperties/TrackProperties.tsx';
 
 interface ContextualSettingsProps {
   className?: string;

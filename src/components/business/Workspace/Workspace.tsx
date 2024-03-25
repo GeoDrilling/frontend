@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import styles from './Workspace.module.css';
 import Explorer from '@components/business/Explorer/Explorer.tsx';
-import AreaEquivalence from '@components/business/AreaEquivalence/AreaEquivalence.tsx';
 import Tablet from '@components/business/Tablet/Tablet.tsx';
 import { useWindows } from '../../../hooks/context/useWindows.ts';
 import ContextualSettings from '@components/business/ContextualSettings/ContextualSettings.tsx';
 import ModelWindow from '@components/business/ModelWindow/ModelWindow.tsx';
+import AreaEquivalence from '@components/business/AreaEquivalence/AreaEquivalence.tsx';
 
 const Workspace: FC = () => {
   const { isExplorer, isTablet, isAreaEquivalence, isSettings, isModel } = useWindows();
