@@ -23,9 +23,7 @@ export const WindowsProvider: FCC = ({ children }) => {
   const [isModel, setIsModel] = useState<boolean>(false);
 
   const toggleTablet = useCallback(() => {
-    return function () {
-      setIsTablet(!isTablet);
-    };
+    setIsTablet(!isTablet);
   }, [isTablet]);
   const toggle4SideEffect = useCallback(
     (

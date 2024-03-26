@@ -8,6 +8,7 @@
   justify-content: space-between;
   align-items: center;
   height: 100%;
+  min-width: 320px;
 }
 .button {
   height: 40px;

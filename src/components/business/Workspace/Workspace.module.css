@@ -15,6 +15,7 @@
   gap: 10px;
   flex-direction: column;
   flex-basis: 27%;
+  min-width: min(350px, 27%);
   max-width: 360px;
 }
 .sidebar .none {

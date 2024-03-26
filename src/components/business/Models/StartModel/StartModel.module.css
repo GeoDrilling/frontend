@@ -42,6 +42,7 @@
   border-collapse: collapse;
   vertical-align: middle;
   width: 100%;
+  min-width: 250px;
 }
 .cancel {
   width: 27px;

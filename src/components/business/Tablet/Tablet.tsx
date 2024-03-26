@@ -85,7 +85,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
   };
 
   return (
-    <div className={classNames(styles.container)}>
+    <div className={classNames(styles.container, className)}>
       {isVisible ? (
         <div className={styles.container}>
           <WindowHeader
@@ -96,7 +96,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
           <UploadWindow />
         </div>
       ) : (
-        <div className={classNames(styles.container, className)} onClick={() => setContextType(ContextType.TABLET)}>
+        <div className={classNames(styles.container)} onClick={() => setContextType(ContextType.TABLET)}>
           <WindowHeader
             image={'/src/assets/images/icon_tablet.svg'}
             closeWindow={toggleTablet}
@@ -109,6 +109,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
               className={styles.tablet}
             >
               <LogView
+                scope={200}
                 depth={depth}
                 domain={{
                   min: (tabletProperties.properties[0].properties[OrderTabletProperties.START_DEPTH] as INumberProperty)
