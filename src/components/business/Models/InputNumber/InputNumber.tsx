@@ -3,8 +3,8 @@ import styles from './InputNumber.module.css';
 import classNames from 'classnames';
 
 interface InputNumberProps {
-  changeValue: (value: number) => void;
-  parameterValue: number;
+  changeValue: (value?: number) => void;
+  parameterValue?: number;
   isEdited?: boolean;
   isStartFocus?: boolean;
   suffix?: string;
@@ -18,13 +18,21 @@ const InputNumber: FC<InputNumberProps> = ({
   suffix,
   inputClassName,
 }) => {
-  const [value, setValue] = useState<string>(parameterValue.toString());
+  const [value, setValue] = useState<string>(parameterValue !== undefined ? parameterValue.toString() : '');
   useEffect(() => {
-    setValue(parameterValue.toString());
+    setValue(parameterValue !== undefined ? parameterValue.toString() : '');
   }, [parameterValue]);
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
+  const onBlur = () => {
+    try {
+      changeValue(parseFloat(value));
+    } catch (e) {
+      changeValue(undefined);
+    }
+  };
+  console.log(`value input - ${value}, ${parameterValue}`);
   const ref = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (isStartFocus) ref.current?.focus();
@@ -36,8 +44,9 @@ const InputNumber: FC<InputNumberProps> = ({
         ref={ref}
         type='number'
         value={value}
+        placeholder={'-'}
         onChange={(e) => onChange(e)}
-        onBlur={() => changeValue(parseFloat(value))}
+        onBlur={onBlur}
         className={classNames(styles.input, inputClassName)}
         style={{ color: isEdited ? 'var(--secondary)' : 'var(--primary)' }}
       />

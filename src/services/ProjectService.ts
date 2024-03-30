@@ -1,6 +1,6 @@
 import $api from '../http';
 import { CurveDataDownload, ICurves, IProject, IProjectState } from '../models/IProject.ts';
-import { IModelParams } from '../models/IModel.ts';
+import { IModelParams, RangeParameters } from '../models/IModel.ts';
 import { Selections } from '../models/Selection.ts';
 import { SootOutResponse } from '../models/SootOutResponse.ts';
 
@@ -76,14 +76,18 @@ export default class ProjectService {
   static async getModels(projectId: number) {
     return $api.get<IModelParams[]>('/model/getModel', { params: { project_id: projectId } });
   }
-  static async buildModel(projectId: number, start: number, end: number, model: IModelParams) {
-    return $api.post<IModelParams>(`/model/create`, model, {
-      params: {
-        project_id: projectId,
-        start: start,
-        end: end,
+  static async buildModel(projectId: number, start: number, end: number, model: IModelParams, range: RangeParameters) {
+    return $api.post<IModelParams>(
+      `/model/create`,
+      { modelDTO: model, rangeParameters: range },
+      {
+        params: {
+          project_id: projectId,
+          start: start,
+          end: end,
+        },
       },
-    });
+    );
   }
   static async saveModel(projectId: number, start: number, end: number, modelParams: IModelParams) {
     return $api.post<IModelParams>(`/model/saveModel`, modelParams, {

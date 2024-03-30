@@ -24,7 +24,8 @@ const StartModel: FC<StartModelProps> = ({ toList, toParametersRange }) => {
     if (!newModel) setNewModel(models[currentId]);
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [models, currentId]);
-  const onValueChange = (value: number, name: string) => {
+  const onValueChange = (name: string, value?: number) => {
+    if (!value) return;
     setNewModel(
       modelParamToModel(
         [...newModelParams].map((p) => {
@@ -76,7 +77,7 @@ const StartModel: FC<StartModelProps> = ({ toList, toParametersRange }) => {
                 value={value}
                 isEditing={true}
                 suffix={suffixes[id] ? suffixes[id] : undefined}
-                onValueChange={(value) => onValueChange(value, name)}
+                onValueChange={(value) => onValueChange(name, value)}
               />
             ))}
           </tbody>

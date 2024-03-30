@@ -8,7 +8,7 @@ interface ModelParametersProps {
   suffix?: string;
   value: number;
   onValueClick?: () => void;
-  onValueChange?: (value: number) => void;
+  onValueChange?: (value?: number) => void;
   isEditing?: boolean;
   isEdited?: boolean;
   startFocus?: boolean;

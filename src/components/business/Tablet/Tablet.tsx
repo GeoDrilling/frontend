@@ -83,6 +83,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
       getCurveData(id, curveName);
     }
   };
+  //console.log((tabletProperties.properties[0].properties[OrderTabletProperties.SCOPE] as INumberProperty))
 
   return (
     <div className={classNames(styles.container, className)}>
@@ -109,7 +110,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
               className={styles.tablet}
             >
               <LogView
-                scope={200}
+                scope={500}
                 depth={depth}
                 domain={{
                   min: (tabletProperties.properties[0].properties[OrderTabletProperties.START_DEPTH] as INumberProperty)

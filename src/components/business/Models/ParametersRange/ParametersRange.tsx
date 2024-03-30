@@ -11,21 +11,30 @@ import { useProjectContext } from '../../../../hooks/context/useProjectContext.t
 interface ParametersRangeProps {
   toBack: () => void;
   toLoading: () => void;
-  parameters: ParameterRange[];
-  onChange: (value: ParameterRange[]) => void;
 }
-interface ParameterRange {
-  name: string;
-  max: number;
-  min: number;
-}
-const ParametersRange: FC<ParametersRangeProps> = ({ toBack, parameters, toLoading }) => {
+
+const ParametersRange: FC<ParametersRangeProps> = ({ toBack, toLoading }) => {
   const scrollRef = useScroll();
   const { id } = useProjectContext();
-  const { buildModel, newModel } = useModel();
+  const { buildModel, newModel, parameters, setParameters, parametersToRange } = useModel();
   const onDone = () => {
-    buildModel(id, newModel?.start ? newModel?.start : 0, newModel?.start ? newModel?.start : 0, newModel!);
+    buildModel(
+      id,
+      newModel?.start ? newModel?.start : 0,
+      newModel?.start ? newModel?.start : 0,
+      newModel!,
+      parametersToRange(parameters),
+    );
     toLoading();
+  };
+  const onChange = (value: number, idx: number, isMin: boolean) => {
+    setParameters(
+      parameters.map((v, i) => {
+        if (i === idx && isMin) return { ...v, min: value };
+        if (i === idx && !isMin) return { ...v, max: value };
+        return v;
+      }),
+    );
   };
   return (
     <div className={styles.container}>
@@ -35,13 +44,19 @@ const ParametersRange: FC<ParametersRangeProps> = ({ toBack, parameters, toLoadi
           <thead>
             <tr className={styles.headers}>
               <th className={classNames(styles.text, styles.h1)}>Параметр</th>
-              <th className={classNames(styles.text, styles.h2)}>Макс</th>
-              <th className={classNames(styles.text, styles.h3)}>Мин</th>
+              <th className={classNames(styles.text, styles.h2)}>Мин</th>
+              <th className={classNames(styles.text, styles.h3)}>Макс</th>
             </tr>
           </thead>
           <tbody>
-            {parameters.map((p) => (
-              <RangeRow key={p.name} name={p.name} max={p.max} min={p.min} />
+            {parameters.map((p, idx) => (
+              <RangeRow
+                key={p.name}
+                name={p.name}
+                max={p.max}
+                min={p.min}
+                onChange={(v, isMin) => onChange(v, idx, isMin)}
+              />
             ))}
           </tbody>
         </table>

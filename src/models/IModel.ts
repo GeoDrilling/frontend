@@ -4,19 +4,6 @@ export interface IModel {
   outputModel: IOutModel;
 }
 
-/*
-{
-  "idModel": 0,
-  "start": 0,
-  "end": 0,
-  "kanisotropyDown": 0,
-  "roDown": 0,
-  "kanisotropyUp": 0,
-  "roUp": 0,
-  "alpha": 0,
-  "tvdStart": 0
-}
- */
 export interface IModelParams {
   idModel: number;
   start: number;
@@ -32,6 +19,11 @@ export interface IModelParams {
 export interface IModelParameter {
   name: string;
   value: number;
+}
+export interface ParameterRange {
+  name: string;
+  max: number | undefined;
+  min: number | undefined;
 }
 
 export interface IOutModel {
@@ -52,4 +44,19 @@ export interface IOutModel {
   maxRoUp: number;
   alpha: number;
   tvdStart: number;
+}
+
+export interface RangeParameters {
+  min_tvd_start?: number;
+  max_tvd_start?: number;
+  min_alpha?: number;
+  max_alpha?: number;
+  min_ro_up?: number;
+  max_ro_up?: number;
+  min_ro_down?: number;
+  max_ro_down?: number;
+  min_kanisotropy_up?: number;
+  max_kanisotropy_up?: number;
+  min_kanisotropy_down?: number;
+  max_kanisotropy_dow?: number;
 }

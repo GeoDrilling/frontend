@@ -1,12 +1,19 @@
 import { createContext, Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
-import { IModelParameter, IModelParams } from '../models/IModel.ts';
+import { IModelParameter, IModelParams, ParameterRange, RangeParameters } from '../models/IModel.ts';
 import { FCC } from '../types/types.tsx';
 import ProjectService from '../services/ProjectService.ts';
 import { ALPHA, KANISOTROPY_DOWN, KANISOTROPY_UP, RO_DOWN, RO_UP, TVD_START } from '../utils/CurveMappingConst.ts';
+import { model, suffixes } from '@components/business/Models/ModelConstants.ts';
 
 interface ModelContext {
   models: IModelParams[];
-  buildModel: (projectId: number, start: number, end: number, model: IModelParams) => Promise<void>;
+  buildModel: (
+    projectId: number,
+    start: number,
+    end: number,
+    model: IModelParams,
+    range: RangeParameters,
+  ) => Promise<void>;
   getIsCurveMapped: (projectId: number) => Promise<void>;
   buildStartModel: (projectId: number, start: number, end: number) => Promise<IModelParams | null>;
   getModels: (projectId: number) => Promise<void>;
@@ -22,6 +29,9 @@ interface ModelContext {
   isLoading: boolean;
   isLoadingImage: boolean;
   createAreaEq: (modelId: number, param1: string, param2: string, range: number) => Promise<string | undefined>;
+  parameters: ParameterRange[];
+  setParameters: Dispatch<SetStateAction<ParameterRange[]>>;
+  parametersToRange: (params: ParameterRange[]) => RangeParameters;
 }
 
 export const ModelContext = createContext<ModelContext>({} as ModelContext);
@@ -33,20 +43,28 @@ export const ModelProvider: FCC = ({ children }) => {
   const [newModel, setNewModel] = useState<IModelParams>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingImage, setIsLoadingImage] = useState<boolean>(false);
+  const [parameters, setParameters] = useState<ParameterRange[]>(
+    model.map((m, idx) => {
+      return { name: suffixes[idx] ? m.name + ', ' + suffixes[idx] : m.name, max: undefined, min: undefined };
+    }),
+  );
 
-  const buildModel = useCallback(async (projectId: number, start: number, end: number, model: IModelParams) => {
-    try {
-      setIsLoading(true);
-      console.log('start building');
-      const response = await ProjectService.buildModel(projectId, start, end, model);
-      console.log(response);
-      setNewModel(response.data);
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const buildModel = useCallback(
+    async (projectId: number, start: number, end: number, model: IModelParams, range: RangeParameters) => {
+      try {
+        setIsLoading(true);
+        console.log('start building');
+        const response = await ProjectService.buildModel(projectId, start, end, model, range);
+        console.log(response);
+        setNewModel(response.data);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [],
+  );
   const getIsCurveMapped = useCallback(async (projectId: number): Promise<void> => {
     try {
       const response = await ProjectService.isCurveMapped(projectId);
@@ -121,6 +139,18 @@ export const ModelProvider: FCC = ({ children }) => {
     },
     [currentId, models],
   );
+  const parametersToRange = useCallback((params: ParameterRange[]): RangeParameters => {
+    let result = {} as RangeParameters;
+    params.forEach((p) => {
+      if (p.name === RO_UP + ', ' + suffixes[0]) result = { ...result, min_ro_up: p.min, max_ro_up: p.max };
+      if (p.name === RO_DOWN + ', ' + suffixes[1]) result = { ...result, min_ro_down: p.min, max_ro_down: p.max };
+      if (p.name === KANISOTROPY_UP) result = { ...result, min_kanisotropy_up: p.min, max_kanisotropy_up: p.max };
+      if (p.name === KANISOTROPY_DOWN) result = { ...result, min_kanisotropy_down: p.min, max_kanisotropy_dow: p.max };
+      if (p.name === ALPHA + ', ' + suffixes[4]) result = { ...result, min_alpha: p.min, max_alpha: p.max };
+      if (p.name === TVD_START + ', ' + suffixes[5]) result = { ...result, min_tvd_start: p.min, max_tvd_start: p.max };
+    });
+    return result;
+  }, []);
   const clearNewModel = useCallback(() => {
     setNewModel(undefined);
   }, []);
@@ -155,6 +185,9 @@ export const ModelProvider: FCC = ({ children }) => {
       isLoading,
       createAreaEq,
       isLoadingImage,
+      parameters,
+      setParameters,
+      parametersToRange,
     }),
     [
       models,
@@ -172,6 +205,9 @@ export const ModelProvider: FCC = ({ children }) => {
       isLoading,
       createAreaEq,
       isLoadingImage,
+      parameters,
+      setParameters,
+      parametersToRange,
     ],
   );
   return <ModelContext.Provider value={value}>{children}</ModelContext.Provider>;

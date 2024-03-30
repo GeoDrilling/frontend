@@ -3,7 +3,6 @@ import styles from './Models.module.css';
 import ListModels from '@components/business/Models/ListModels/ListModels.tsx';
 import EditingModel from '@components/business/Models/EditingModel/EditingModel.tsx';
 import DepthRange from '@components/business/Models/DepthRange/DepthRange.tsx';
-import { model, suffixes } from '@components/business/Models/ModelConstants.ts';
 import StartModel from '@components/business/Models/StartModel/StartModel.tsx';
 import ParametersRange from '@components/business/Models/ParametersRange/ParametersRange.tsx';
 import LoadingModel from '@components/business/Models/LoadingModel/LoadingModel.tsx';
@@ -40,7 +39,6 @@ const Models: FC = () => {
   const { isLoading } = useModel();
 
   useEffect(() => {
-    console.log(isLoading);
     if (isLoading) toLoading();
     else
       switch (beforeLoading) {
@@ -86,16 +84,7 @@ const Models: FC = () => {
       {windows.isStartParameters ? (
         <StartModel toList={toListModels} toParametersRange={toParametersRange} />
       ) : undefined}
-      {windows.isParametersRange ? (
-        <ParametersRange
-          toBack={toChoosingParameters}
-          parameters={model.map((m, idx) => {
-            return { name: suffixes[idx] ? m.name + ', ' + suffixes[idx] : m.name, max: -1, min: -1 };
-          })}
-          onChange={() => {}}
-          toLoading={toLoading}
-        />
-      ) : undefined}
+      {windows.isParametersRange ? <ParametersRange toBack={toChoosingParameters} toLoading={toLoading} /> : undefined}
       {windows.isLoading ? <LoadingModel /> : undefined}
     </div>
   );

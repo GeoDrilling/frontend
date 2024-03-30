@@ -4,18 +4,22 @@ import InputNumber from '@components/business/Models/InputNumber/InputNumber.tsx
 
 interface RangeRowProps {
   name: string;
-  max: number;
-  min: number;
+  max: number | undefined;
+  min: number | undefined;
+  onChange: (value: number, isMin: boolean) => void;
 }
-const RangeRow: FC<RangeRowProps> = ({ name, max, min }) => {
+const RangeRow: FC<RangeRowProps> = ({ name, max, min, onChange }) => {
+  const onChangeNumber = (isMin: boolean, value?: number) => {
+    if (value) onChange(value, isMin);
+  };
   return (
     <tr className={styles.container}>
       <td className={styles.padding}>{name}</td>
       <td>
-        <InputNumber changeValue={() => {}} parameterValue={max} inputClassName={styles.input} />
+        <InputNumber changeValue={(v) => onChangeNumber(true, v)} parameterValue={min} inputClassName={styles.input} />
       </td>
       <td>
-        <InputNumber changeValue={() => {}} parameterValue={min} inputClassName={styles.input} />
+        <InputNumber changeValue={(v) => onChangeNumber(false, v)} parameterValue={max} inputClassName={styles.input} />
       </td>
     </tr>
   );

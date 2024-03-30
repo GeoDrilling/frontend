@@ -22,11 +22,17 @@ const DepthRange: FC<DepthRangeProps> = ({ toBack, toChoosingStart }) => {
     toBack();
     return <div></div>;
   }
-  const onChangeEndValue = (value: number) => {
-    if (newModel) setNewModel({ ...newModel, end: value });
+  const onChangeEndValue = (value?: number) => {
+    if (newModel) {
+      if (value) setNewModel({ ...newModel, end: value });
+      else setNewModel({ ...newModel, end: 0 });
+    }
   };
-  const onChangeStartValue = (value: number) => {
-    if (newModel) setNewModel({ ...newModel, start: value });
+  const onChangeStartValue = (value?: number) => {
+    if (newModel) {
+      if (value) setNewModel({ ...newModel, start: value });
+      else setNewModel({ ...newModel, start: 0 });
+    }
   };
   const onBack = () => {
     clearNewModel();
