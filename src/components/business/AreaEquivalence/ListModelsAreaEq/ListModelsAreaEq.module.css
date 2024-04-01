@@ -3,6 +3,19 @@
   flex-direction: column;
   overflow: hidden;
 }
+.emptyModelsText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 0 15px;
+  text-align: center;
+  font-size: 16px;
+  color: var(--primary);
+  font-weight: 400;
+  margin: 0;
+}
 .table {
   box-sizing: border-box;
   border-collapse: collapse;

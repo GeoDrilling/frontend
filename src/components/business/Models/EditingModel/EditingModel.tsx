@@ -30,7 +30,14 @@ const EditingModel: FC<EditingModelProps> = ({ startId, onComplete }) => {
   }, [models, currentId]);
   const onValueChange = (id: number, value?: number) => {
     if (value || value === 0) {
-      if (oldModel[id].value !== value) setEdited([...edited, id]);
+      let formattedValue;
+      try {
+        formattedValue = oldModel[id].value.toFixed(2) ? Number(oldModel[id].value.toFixed(2)) : 0;
+      } catch (e) {
+        formattedValue = 0;
+      }
+      console.log(formattedValue, value);
+      if (formattedValue !== value) setEdited([...edited, id]);
       setNewModel(
         newModel.map((m, idx) => {
           if (idx == id) return { ...m, value: value } as IModelParameter;
@@ -40,8 +47,6 @@ const EditingModel: FC<EditingModelProps> = ({ startId, onComplete }) => {
     }
   };
   const onDone = async () => {
-    console.log(edited);
-    console.log(newModel);
     if (edited.length > 0) {
       const model = modelParamToModel(newModel);
       //saveModel(id, model.start, model.end, model)

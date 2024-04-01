@@ -29,7 +29,7 @@ export const ProjectProvider: FCC = ({ children }) => {
   const { tracksProperties, tabletProperties, setTracksProperties, setTableProperties, clearSettings } =
     useContextualSettings();
   const { setVisible } = useUploadContext();
-  const { getModels } = useModel();
+  const { setModels, models, clearModelsState } = useModel();
   const [id, setId] = useState<number>(-1);
   const [curves, setCurves] = useState<ICurve[]>([]);
   const [depth, setDepth] = useState<number[]>([]);
@@ -60,7 +60,6 @@ export const ProjectProvider: FCC = ({ children }) => {
               { ...trackProperties, curves: [{ name: curveName, properties: groupsCurveProperties }] },
             ]);
         } else {
-          console.log(response);
           setDepth(response.data.curveData);
         }
       } catch (e) {
@@ -82,8 +81,9 @@ export const ProjectProvider: FCC = ({ children }) => {
       }
       if (state.trackProperties) setTracksProperties(state.trackProperties);
       if (state.tabletProperties) setTableProperties(state.tabletProperties);
+      if (state.modelDTOList) setModels(state.modelDTOList);
     },
-    [setId, setCurves, setTracksProperties, setTableProperties],
+    [setId, setCurves, setTracksProperties, setTableProperties, setModels],
   );
   const createProject = useCallback(
     async (name: string): Promise<number> => {
@@ -122,7 +122,8 @@ export const ProjectProvider: FCC = ({ children }) => {
     setDepth([]);
     setVisible(false);
     clearSettings();
-  }, [clearSettings, setVisible]);
+    clearModelsState();
+  }, [clearSettings, setVisible, clearModelsState]);
   const getCurvesNames = useCallback(async (projectId: number) => {
     try {
       const response = await ProjectService.getCurves(projectId);
@@ -135,7 +136,6 @@ export const ProjectProvider: FCC = ({ children }) => {
   const getProject = useCallback(
     async (projectId: number): Promise<number> => {
       try {
-        getModels(projectId);
         const response = await ProjectService.getProjectState(projectId);
         parseState(response.data);
         return response.data.id;
@@ -144,7 +144,7 @@ export const ProjectProvider: FCC = ({ children }) => {
       }
       return -1;
     },
-    [parseState, getModels],
+    [parseState],
   );
 
   const saveProjectState = useCallback(async () => {
@@ -154,12 +154,13 @@ export const ProjectProvider: FCC = ({ children }) => {
         tabletProperties,
         trackProperties: tracksProperties,
         curvesNames: curves.map((c) => c.name),
+        modelDTOList: models,
       };
       await ProjectService.saveProjectState(state);
     } catch (e) {
       console.log(e);
     }
-  }, [id, tabletProperties, tracksProperties, curves]);
+  }, [id, tabletProperties, tracksProperties, curves, models]);
 
   const value = useMemo(
     () => ({

@@ -32,6 +32,8 @@ interface ModelContext {
   parameters: ParameterRange[];
   setParameters: Dispatch<SetStateAction<ParameterRange[]>>;
   parametersToRange: (params: ParameterRange[]) => RangeParameters;
+  setModels: Dispatch<SetStateAction<IModelParams[]>>;
+  clearModelsState: () => void;
 }
 
 export const ModelContext = createContext<ModelContext>({} as ModelContext);
@@ -48,6 +50,18 @@ export const ModelProvider: FCC = ({ children }) => {
       return { name: suffixes[idx] ? m.name + ', ' + suffixes[idx] : m.name, max: undefined, min: undefined };
     }),
   );
+
+  const clearModelsState = useCallback(() => {
+    setModels([]);
+    setCurrentId(0);
+    setIsMapped(false);
+    setParameters(
+      model.map((m, idx) => {
+        return { name: suffixes[idx] ? m.name + ', ' + suffixes[idx] : m.name, max: undefined, min: undefined };
+      }),
+    );
+    setNewModel(undefined);
+  }, [setModels, setCurrentId, setIsMapped, setParameters, setNewModel]);
 
   const buildModel = useCallback(
     async (projectId: number, start: number, end: number, model: IModelParams, range: RangeParameters) => {
@@ -100,8 +114,8 @@ export const ModelProvider: FCC = ({ children }) => {
 
   const saveModel = useCallback(async (projectId: number, model: IModelParams) => {
     try {
-      await ProjectService.saveModel(projectId, { ...model, start: 3200, end: 4000 });
-      setModels([model]);
+      const response = await ProjectService.saveModel(projectId, { ...model, start: 3200, end: 4000 });
+      setModels(response.data.modelDTO);
     } catch (e) {
       console.log(e);
     }
@@ -154,6 +168,7 @@ export const ModelProvider: FCC = ({ children }) => {
   const clearNewModel = useCallback(() => {
     setNewModel(undefined);
   }, []);
+
   const createAreaEq = useCallback(async (modelId: number, param1: string, param2: string, range: number) => {
     try {
       setIsLoadingImage(true);
@@ -188,6 +203,8 @@ export const ModelProvider: FCC = ({ children }) => {
       parameters,
       setParameters,
       parametersToRange,
+      setModels,
+      clearModelsState,
     }),
     [
       models,
@@ -208,6 +225,8 @@ export const ModelProvider: FCC = ({ children }) => {
       parameters,
       setParameters,
       parametersToRange,
+      setModels,
+      clearModelsState,
     ],
   );
   return <ModelContext.Provider value={value}>{children}</ModelContext.Provider>;

@@ -85,7 +85,6 @@ const Tablet: FC<TabletProps> = ({ className }) => {
       getCurveData(id, curveName);
     }
   };
-  console.log(depth);
   const tvd = useMemo(() => curves.find((c) => c.name === 'TVD' && c.data), [curves]);
   return (
     <div className={classNames(styles.container, className)}>
