@@ -59,7 +59,10 @@ export const ProjectProvider: FCC = ({ children }) => {
               ...tracksProperties,
               { ...trackProperties, curves: [{ name: curveName, properties: groupsCurveProperties }] },
             ]);
-        } else setDepth(response.data.curveData);
+        } else {
+          console.log(response);
+          setDepth(response.data.curveData);
+        }
       } catch (e) {
         console.log(e);
       }

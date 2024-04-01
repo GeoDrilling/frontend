@@ -17,7 +17,7 @@ interface ModelContext {
   getIsCurveMapped: (projectId: number) => Promise<void>;
   buildStartModel: (projectId: number, start: number, end: number) => Promise<IModelParams | null>;
   getModels: (projectId: number) => Promise<void>;
-  saveModel: (projectId: number, start: number, end: number, model: IModelParams) => Promise<void>;
+  saveModel: (projectId: number, model: IModelParams) => Promise<void>;
   currentId: number;
   setCurrentId: Dispatch<SetStateAction<number>>;
   isMapped: boolean;
@@ -98,9 +98,9 @@ export const ModelProvider: FCC = ({ children }) => {
     }
   }, []);
 
-  const saveModel = useCallback(async (projectId: number, start: number, end: number, model: IModelParams) => {
+  const saveModel = useCallback(async (projectId: number, model: IModelParams) => {
     try {
-      await ProjectService.saveModel(projectId, start, end, model);
+      await ProjectService.saveModel(projectId, { ...model, start: 3200, end: 4000 });
       setModels([model]);
     } catch (e) {
       console.log(e);

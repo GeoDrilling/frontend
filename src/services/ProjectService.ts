@@ -89,12 +89,10 @@ export default class ProjectService {
       },
     );
   }
-  static async saveModel(projectId: number, start: number, end: number, modelParams: IModelParams) {
+  static async saveModel(projectId: number, modelParams: IModelParams) {
     return $api.post<IModelParams>(`/model/saveModel`, modelParams, {
       params: {
         project_id: projectId,
-        start: start,
-        end: end,
       },
     });
   }

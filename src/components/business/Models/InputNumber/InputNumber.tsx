@@ -9,6 +9,7 @@ interface InputNumberProps {
   isStartFocus?: boolean;
   suffix?: string;
   inputClassName?: string;
+  isPlaceholder?: boolean;
 }
 const InputNumber: FC<InputNumberProps> = ({
   changeValue,
@@ -17,6 +18,7 @@ const InputNumber: FC<InputNumberProps> = ({
   isStartFocus,
   suffix,
   inputClassName,
+  isPlaceholder,
 }) => {
   const [value, setValue] = useState<string>(parameterValue !== undefined ? parameterValue.toString() : '');
   useEffect(() => {
@@ -27,12 +29,16 @@ const InputNumber: FC<InputNumberProps> = ({
   };
   const onBlur = () => {
     try {
-      changeValue(parseFloat(value));
+      if (!isNaN(parseFloat(value))) {
+        changeValue(parseFloat(value));
+        return;
+      }
     } catch (e) {
-      changeValue(undefined);
+      console.log(e);
     }
+    if (isPlaceholder) changeValue(undefined);
+    else changeValue(0);
   };
-  console.log(`value input - ${value}, ${parameterValue}`);
   const ref = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (isStartFocus) ref.current?.focus();
@@ -44,7 +50,7 @@ const InputNumber: FC<InputNumberProps> = ({
         ref={ref}
         type='number'
         value={value}
-        placeholder={'-'}
+        placeholder={isPlaceholder ? '-' : ''}
         onChange={(e) => onChange(e)}
         onBlur={onBlur}
         className={classNames(styles.input, inputClassName)}
