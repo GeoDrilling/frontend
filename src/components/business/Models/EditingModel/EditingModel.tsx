@@ -28,21 +28,30 @@ const EditingModel: FC<EditingModelProps> = ({ startId, onComplete }) => {
     setOldModel(modelParams);
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [models, currentId]);
-  const onValueChange = (value: number, id: number) => {
-    if (oldModel[id].value !== value) setEdited([...edited, id]);
-    setNewModel(
-      newModel.map((m, idx) => {
-        if (idx == id) return { ...m, value: value } as IModelParameter;
-        return m;
-      }),
-    );
+  const onValueChange = (id: number, value?: number) => {
+    if (value || value === 0) {
+      let formattedValue;
+      try {
+        formattedValue = oldModel[id].value.toFixed(2) ? Number(oldModel[id].value.toFixed(2)) : 0;
+      } catch (e) {
+        formattedValue = 0;
+      }
+      console.log(formattedValue, value);
+      if (formattedValue !== value) setEdited([...edited, id]);
+      setNewModel(
+        newModel.map((m, idx) => {
+          if (idx == id) return { ...m, value: value } as IModelParameter;
+          return m;
+        }),
+      );
+    }
   };
-  const onDone = () => {
+  const onDone = async () => {
     if (edited.length > 0) {
       const model = modelParamToModel(newModel);
       //saveModel(id, model.start, model.end, model)
       //TODO на беке пока не работает диапазон
-      saveModel(id, 3200, 3500, model);
+      await saveModel(id, model);
     }
     onComplete();
   };
@@ -66,7 +75,7 @@ const EditingModel: FC<EditingModelProps> = ({ startId, onComplete }) => {
                 isEdited={edited.includes(id)}
                 startFocus={startId === id}
                 suffix={suffixes[id] ? suffixes[id] : undefined}
-                onValueChange={(value) => onValueChange(value, id)}
+                onValueChange={(value) => onValueChange(id, value)}
               />
             ))}
           </tbody>

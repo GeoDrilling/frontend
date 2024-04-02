@@ -16,10 +16,20 @@ const RangeRow: FC<RangeRowProps> = ({ name, max, min, onChange }) => {
     <tr className={styles.container}>
       <td className={styles.padding}>{name}</td>
       <td>
-        <InputNumber changeValue={(v) => onChangeNumber(true, v)} parameterValue={min} inputClassName={styles.input} />
+        <InputNumber
+          changeValue={(v) => onChangeNumber(true, v)}
+          parameterValue={min}
+          inputClassName={styles.input}
+          isPlaceholder={true}
+        />
       </td>
       <td>
-        <InputNumber changeValue={(v) => onChangeNumber(false, v)} parameterValue={max} inputClassName={styles.input} />
+        <InputNumber
+          changeValue={(v) => onChangeNumber(false, v)}
+          parameterValue={max}
+          inputClassName={styles.input}
+          isPlaceholder={true}
+        />
       </td>
     </tr>
   );

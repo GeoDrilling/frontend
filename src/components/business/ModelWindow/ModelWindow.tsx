@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { useContextualSettings } from '../../../hooks/context/useContextualSettings.ts';
 import { OrderTabletProperties } from '../../../utils/ContextualSettingsConstatns.ts';
 import { INumberProperty } from '../../../models/ContextualSettingsTypes.ts';
+import { useUploadContext } from '../../../hooks/context/useUploadContext.ts';
 
 interface ModelWindowProps {
   className?: string;
@@ -19,10 +20,11 @@ const ModelWindow: FCC<ModelWindowProps> = ({ className }) => {
   const { toggleModel } = useWindows();
   const { id } = useProjectContext();
   const { tabletProperties } = useContextualSettings();
+  const { isVisible } = useUploadContext();
   const { getIsCurveMapped, isMapped, models, buildStartModel, saveModel } = useModel();
   useEffect(() => {
     getIsCurveMapped(id);
-  }, [id, getIsCurveMapped]);
+  }, [id, getIsCurveMapped, isVisible]);
   useEffect(() => {
     if (isMapped && models.length == 0) {
       setStartModel();
@@ -34,7 +36,7 @@ const ModelWindow: FCC<ModelWindowProps> = ({ className }) => {
       .value;
     const end = (tabletProperties.properties[0].properties[OrderTabletProperties.END_DEPTH] as INumberProperty).value;
     const startModel = await buildStartModel(id, start, end);
-    if (startModel) saveModel(id, start, end, startModel);
+    if (startModel) saveModel(id, startModel);
   };
   return (
     <div className={classNames(styles.container, className)}>

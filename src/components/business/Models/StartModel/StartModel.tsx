@@ -45,7 +45,7 @@ const StartModel: FC<StartModelProps> = ({ toList, toParametersRange }) => {
   };
 
   const onDone = async () => {
-    await saveModel(id, newModel!.start, newModel!.end, newModel!);
+    await saveModel(id, newModel!);
     clearNewModel();
     toList();
   };

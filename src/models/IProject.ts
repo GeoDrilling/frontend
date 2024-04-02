@@ -1,4 +1,5 @@
 import { ITabletProperties, ITrackProperties } from './ContextualSettingsTypes.ts';
+import { IModelParams } from './IModel.ts';
 
 export interface IProject {
   id: number;
@@ -10,6 +11,7 @@ export interface IProjectState {
   tabletProperties: ITabletProperties;
   trackProperties: ITrackProperties[];
   curvesNames: string[];
+  modelDTOList: IModelParams[];
 }
 export interface Project {
   name: string;

@@ -1,10 +1,10 @@
-import React, { DragEvent, FC, useEffect } from 'react';
+import React, { DragEvent, FC, useEffect, useMemo } from 'react';
 import styles from './Tablet.module.css';
 import WindowHeader from '@components/business/WindowHeader/WindowHeader.tsx';
 import classNames from 'classnames';
 import { useWindows } from '../../../hooks/context/useWindows.ts';
 import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
-import { Curve, CurveTrack, DepthTrack, LogView } from 'geochart';
+import { Curve, CurveTrack, DepthTrack, LogView, ModelCurve } from 'geochart';
 import { useContextualSettings } from '../../../hooks/context/useContextualSettings.ts';
 import {
   ContextType,
@@ -21,6 +21,7 @@ import {
 import { DEPTH } from '../../../utils/utils.tsx';
 import UploadWindow from '@components/business/UploadWindow/UploadWindow.tsx';
 import { useUploadContext } from '../../../hooks/context/useUploadContext.ts';
+import { useModel } from '../../../hooks/context/useModel.ts';
 
 interface TabletProps {
   className?: string;
@@ -32,6 +33,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
   const { setContextType, tracksProperties, setTracksProperties, setTrackIndex, tabletProperties } =
     useContextualSettings();
   const { id, depth, curves, getCurveData } = useProjectContext();
+  const { models } = useModel();
 
   useEffect(() => {
     downloadWithRetry();
@@ -83,8 +85,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
       getCurveData(id, curveName);
     }
   };
-  //console.log((tabletProperties.properties[0].properties[OrderTabletProperties.SCOPE] as INumberProperty))
-
+  const tvd = useMemo(() => curves.find((c) => c.name === 'TVD' && c.data), [curves]);
   return (
     <div className={classNames(styles.container, className)}>
       {isVisible ? (
@@ -110,7 +111,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
               className={styles.tablet}
             >
               <LogView
-                scope={500}
+                scope={700}
                 depth={depth}
                 domain={{
                   min: (tabletProperties.properties[0].properties[OrderTabletProperties.START_DEPTH] as INumberProperty)
@@ -123,40 +124,55 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                     .value as ValueOrientation
                 }
               >
+                {models.length > 0 && (
+                  <ModelCurve
+                    data={[
+                      {
+                        x: 3100,
+                        y: models[0].tvdStart,
+                        alpha: models[0].alpha,
+                        roUp: models[0].roUp,
+                        roDown: models[0].roDown,
+                      },
+                    ]}
+                    domain={{ min: 2292, max: 2314 }}
+                    height={450}
+                  >
+                    {tvd && <Curve name='TVD' data={tvd.data} style={{ color: '#510D0A', thickness: 3 }} />}
+                  </ModelCurve>
+                )}
                 {tracksProperties.map((track, trackIndex) => {
-                  if (track.curves.length > 0) {
-                    return (
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setContextType(ContextType.TRACK);
-                          setTrackIndex(trackIndex);
-                        }}
-                        onDrop={(e) => handleDropOldTrack(e, trackIndex)}
-                        key={trackIndex}
-                      >
-                        <CurveTrack scale='linear'>
-                          {track.curves.map((curveProp, curveIndex) => {
-                            const curve = curves.find((curve) => curve.name === curveProp.name && curve.data);
-                            if (curve) {
-                              return (
-                                <Curve
-                                  key={curveIndex}
-                                  name={curve.name}
-                                  data={curve.data}
-                                  style={{
-                                    color: (
-                                      curveProp.properties[0].properties[OrderCurveProperties.COLOR] as IColorProperty
-                                    ).value,
-                                  }}
-                                />
-                              );
-                            }
-                          })}
-                        </CurveTrack>
-                      </div>
-                    );
-                  }
+                  return (
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setContextType(ContextType.TRACK);
+                        setTrackIndex(trackIndex);
+                      }}
+                      onDrop={(e) => handleDropOldTrack(e, trackIndex)}
+                      key={trackIndex}
+                    >
+                      <CurveTrack scale='linear'>
+                        {track.curves.map((curveProp, curveIndex) => {
+                          const curve = curves.find((curve) => curve.name === curveProp.name && curve.data);
+                          if (curve) {
+                            return (
+                              <Curve
+                                key={curveIndex}
+                                name={curve.name}
+                                data={curve.data}
+                                style={{
+                                  color: (
+                                    curveProp.properties[0].properties[OrderCurveProperties.COLOR] as IColorProperty
+                                  ).value,
+                                }}
+                              />
+                            );
+                          }
+                        })}
+                      </CurveTrack>
+                    </div>
+                  );
                 })}
                 {tracksProperties.length > 0 && <DepthTrack main={{ name: 'MD', color: '#021D38' }} />}
               </LogView>

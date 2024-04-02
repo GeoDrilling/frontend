@@ -3,9 +3,12 @@ import styles from './ToolsBar.module.css';
 import classNames from 'classnames';
 import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
 import { useUploadContext } from '../../../hooks/context/useUploadContext.ts';
+import { useContextualSettings } from '../../../hooks/context/useContextualSettings.ts';
+import { trackProperties } from '../../../utils/ContextualSettingsConstatns.ts';
 
 const ToolsBar: FC = () => {
   const { id, uploadLasFile, saveProjectState } = useProjectContext();
+  const { tracksProperties, setTracksProperties } = useContextualSettings();
   const { setVisible } = useUploadContext();
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -19,6 +22,9 @@ const ToolsBar: FC = () => {
     await uploadLasFile(formData);
     setVisible(true);
   };
+  const createTrackProps = () => {
+    setTracksProperties([...tracksProperties, { ...trackProperties, curves: [] }]);
+  };
 
   return (
     <div className={styles.container}>
@@ -30,7 +36,7 @@ const ToolsBar: FC = () => {
         <span className={styles.separator} />
         <span className={classNames(styles.createFolder, styles.item)} />
         <span className={classNames(styles.createDataset, styles.item)} />
-        <span className={classNames(styles.createRig, styles.item)} />
+        <span className={classNames(styles.createRig, styles.item)} onClick={createTrackProps} />
         <span className={styles.separator} />
         <span className={classNames(styles.t1, styles.item)} />
         <span className={classNames(styles.t2, styles.item)} />

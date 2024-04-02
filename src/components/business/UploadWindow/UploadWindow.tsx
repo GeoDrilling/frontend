@@ -134,10 +134,8 @@ const UploadWindow: FC = () => {
     }
   };
 
-  const handleSelectionComplete = () => {
-    // Здесь вы можете отправить выборы на сервер
-    console.log('Selection s:', selections);
-    ProjectService.sootRename(id, selections);
+  const handleSelectionComplete = async () => {
+    await ProjectService.sootRename(id, selections);
     setSelections({});
     setVisible(false);
   };

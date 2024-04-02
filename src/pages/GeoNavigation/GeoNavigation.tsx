@@ -16,6 +16,7 @@ const GeoNavigation: FC = () => {
     const depth = curves.find((curve) => curve.name === DEPTH);
     if (depth && !(depth.data && depth.data.length === 0)) {
       getCurveData(Number(pathId.id), DEPTH);
+      getCurveData(Number(pathId.id), 'TVD');
     }
   });
 

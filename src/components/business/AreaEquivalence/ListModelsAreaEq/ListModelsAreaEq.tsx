@@ -15,7 +15,7 @@ interface ListModelsAreaEqProps {
   buildAreaEq: (first: string, second: string) => void;
 }
 const ListModelsAreaEq: FC<ListModelsAreaEqProps> = ({ className, buildAreaEq, step, setStep }) => {
-  const { currentId, setCurrentId } = useModel();
+  const { currentId, setCurrentId, models } = useModel();
 
   const [selected, setSelected] = useState<string[]>([]);
   const modelParams = useModelParams();
@@ -36,6 +36,7 @@ const ListModelsAreaEq: FC<ListModelsAreaEqProps> = ({ className, buildAreaEq, s
     }
   };
   const scrollRef = useScroll();
+  if (models.length <= 0) return <div className={styles.emptyModelsText}>У вас нет ни одной модели</div>;
   return (
     <div className={classNames(className, styles.container)}>
       <ModelHeader
