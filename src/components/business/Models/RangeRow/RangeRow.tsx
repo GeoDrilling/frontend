@@ -6,11 +6,11 @@ interface RangeRowProps {
   name: string;
   max: number | undefined;
   min: number | undefined;
-  onChange: (value: number, isMin: boolean) => void;
+  onChange: (isMin: boolean, value?: number) => void;
 }
 const RangeRow: FC<RangeRowProps> = ({ name, max, min, onChange }) => {
   const onChangeNumber = (isMin: boolean, value?: number) => {
-    if (value) onChange(value, isMin);
+    onChange(isMin, value);
   };
   return (
     <tr className={styles.container}>

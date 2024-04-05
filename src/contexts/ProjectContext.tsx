@@ -48,11 +48,13 @@ export const ProjectProvider: FCC = ({ children }) => {
       }
       try {
         const response = await ProjectService.getCurve(projectId, curveName);
-        const updatedCurves = curves.map((curve) => {
-          if (curve.name === curveName) return { name: curveName, data: response.data.curveData } as ICurve;
-          return curve;
+
+        setCurves((prev) => {
+          return prev.map((curve) => {
+            if (curve.name === curveName) return { name: curveName, data: response.data.curveData } as ICurve;
+            return curve;
+          });
         });
-        setCurves(updatedCurves);
         if (curveName !== DEPTH) {
           if (isCreateNewTrackProperties)
             setTracksProperties([
@@ -73,17 +75,18 @@ export const ProjectProvider: FCC = ({ children }) => {
     (state: IProjectState) => {
       setId(state.id);
       if (state.curvesNames) {
-        setCurves(
-          state.curvesNames.map((name) => {
+        const newCurves = state.curvesNames
+          .filter((name) => !curves.find((curveWithData) => curveWithData.name === name))
+          .map((name) => {
             return { name: name, data: [] } as ICurve;
-          }),
-        );
+          });
+        setCurves(newCurves);
       }
       if (state.trackProperties) setTracksProperties(state.trackProperties);
       if (state.tabletProperties) setTableProperties(state.tabletProperties);
       if (state.modelDTOList) setModels(state.modelDTOList);
     },
-    [setId, setCurves, setTracksProperties, setTableProperties, setModels],
+    [setId, setCurves, setTracksProperties, setTableProperties, setModels, curves],
   );
   const createProject = useCallback(
     async (name: string): Promise<number> => {

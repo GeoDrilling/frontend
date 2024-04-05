@@ -27,7 +27,7 @@ const ParametersRange: FC<ParametersRangeProps> = ({ toBack, toLoading }) => {
     );
     toLoading();
   };
-  const onChange = (value: number, idx: number, isMin: boolean) => {
+  const onChange = (idx: number, isMin: boolean, value?: number) => {
     setParameters(
       parameters.map((v, i) => {
         if (i === idx && isMin) return { ...v, min: value };
@@ -55,7 +55,7 @@ const ParametersRange: FC<ParametersRangeProps> = ({ toBack, toLoading }) => {
                 name={p.name}
                 max={p.max}
                 min={p.min}
-                onChange={(v, isMin) => onChange(v, idx, isMin)}
+                onChange={(isMin, v) => onChange(idx, isMin, v)}
               />
             ))}
           </tbody>
