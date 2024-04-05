@@ -11,10 +11,20 @@ export enum PropertyType {
 }
 export enum EnumType {
   ORIENTATION,
+  SCALE,
+  BOOLEAN,
 }
 export enum ValueOrientation {
   HORIZONTAL = 'horizontal',
   VERTICAL = 'vertical',
+}
+export enum ValueScale {
+  LOG = 'logarithmic',
+  LINEAR = 'linear',
+}
+export enum ValueBoolean {
+  ENABLE = 'true',
+  DISABLE = '',
 }
 export interface IEnumOption {
   name: string;
@@ -24,6 +34,15 @@ export const orientation: IEnumOption[] = [
   { name: 'Горизонтальная', value: ValueOrientation.HORIZONTAL },
   { name: 'Вертикальная', value: ValueOrientation.VERTICAL },
 ];
+export const scale: IEnumOption[] = [
+  { name: 'Линейная', value: ValueScale.LINEAR },
+  { name: 'Логарифмическая', value: ValueScale.LOG },
+];
+export const boolValue: IEnumOption[] = [
+  { name: 'Да', value: ValueBoolean.ENABLE },
+  { name: 'Нет', value: ValueBoolean.DISABLE },
+];
+
 export interface IGroupProperties {
   name: string;
   properties: IBaseProperty[];

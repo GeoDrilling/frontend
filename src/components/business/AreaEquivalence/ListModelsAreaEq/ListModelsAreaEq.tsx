@@ -67,7 +67,7 @@ const ListModelsAreaEq: FC<ListModelsAreaEqProps> = ({ className, buildAreaEq, s
             )}
             {selected.length == 2 && (
               <div className={styles.btnContainer}>
-                <p className={styles.text}>Выберите шаг сетки</p>
+                <p className={styles.text}>Укажите частоту сетки</p>
                 <div className={styles.sliderContainer}>
                   <input
                     value={step}

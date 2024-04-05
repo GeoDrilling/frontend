@@ -11,12 +11,19 @@ import {
   IColorProperty,
   IEnumProperty,
   INumberProperty,
+  ValueBoolean,
   ValueOrientation,
+  ValueScale,
 } from '../../../models/ContextualSettingsTypes.ts';
 import {
   groupsCurveProperties,
   OrderCurveProperties,
-  OrderTabletProperties,
+  OrderTabletGrid,
+  OrderTabletGroups,
+  OrderTabletMain,
+  OrderTrackGrid,
+  OrderTrackGroups,
+  OrderTrackMain,
 } from '../../../utils/ContextualSettingsConstatns.ts';
 import { DEPTH } from '../../../utils/utils.tsx';
 import UploadWindow from '@components/business/UploadWindow/UploadWindow.tsx';
@@ -47,9 +54,15 @@ const Tablet: FC<TabletProps> = ({ className }) => {
       await downloadCurve(name, tries + 1);
     }
   };
+  const getEssential = async () => {
+    const depth = curves.find((curve) => curve.name === DEPTH);
+    const tvd = curves.find((curve) => curve.name === 'TVD');
+    if (depth && !(depth.data && depth.data.length === 0)) await downloadCurve(DEPTH, 0);
+    if (tvd && !(tvd.data && tvd.data.length === 0)) await downloadCurve('TVD', 0);
+  };
 
   const downloadWithRetry = async () => {
-    await downloadCurve(DEPTH, 0);
+    getEssential();
     for (const group of tracksProperties) {
       for (const curveProp of group.curves) {
         await downloadCurve(curveProp.name, 0);
@@ -111,18 +124,63 @@ const Tablet: FC<TabletProps> = ({ className }) => {
               className={styles.tablet}
             >
               <LogView
-                scope={700}
+                scope={
+                  (
+                    tabletProperties.properties[OrderTabletGroups.MAIN].properties[
+                      OrderTabletMain.SCOPE
+                    ] as INumberProperty
+                  ).value
+                }
                 depth={depth}
                 domain={{
-                  min: (tabletProperties.properties[0].properties[OrderTabletProperties.START_DEPTH] as INumberProperty)
-                    .value,
-                  max: (tabletProperties.properties[0].properties[OrderTabletProperties.END_DEPTH] as INumberProperty)
-                    .value,
+                  min: (
+                    tabletProperties.properties[OrderTabletGroups.MAIN].properties[
+                      OrderTabletMain.START_DEPTH
+                    ] as INumberProperty
+                  ).value,
+                  max: (
+                    tabletProperties.properties[OrderTabletGroups.MAIN].properties[
+                      OrderTabletMain.END_DEPTH
+                    ] as INumberProperty
+                  ).value,
                 }}
                 orientation={
-                  (tabletProperties.properties[0].properties[OrderTabletProperties.ORIENTATION] as IEnumProperty)
-                    .value as ValueOrientation
+                  (
+                    tabletProperties.properties[OrderTabletGroups.MAIN].properties[
+                      OrderTabletMain.ORIENTATION
+                    ] as IEnumProperty
+                  ).value as ValueOrientation
                 }
+                grid={{
+                  main: {
+                    interval: (
+                      tabletProperties.properties[OrderTabletGroups.GRID].properties[
+                        OrderTabletGrid.INTERVAL
+                      ] as INumberProperty
+                    ).value,
+                    style: {
+                      thickness: (
+                        tabletProperties.properties[OrderTabletGroups.GRID].properties[
+                          OrderTabletGrid.THICKNESS_MAIN
+                        ] as INumberProperty
+                      ).value,
+                    },
+                  },
+                  secondary: {
+                    lines: (
+                      tabletProperties.properties[OrderTabletGroups.GRID].properties[
+                        OrderTabletGrid.LINES
+                      ] as INumberProperty
+                    ).value,
+                    style: {
+                      thickness: (
+                        tabletProperties.properties[OrderTabletGroups.GRID].properties[
+                          OrderTabletGrid.THICKNESS_LINES
+                        ] as INumberProperty
+                      ).value,
+                    },
+                  },
+                }}
               >
                 {models.length > 0 && (
                   <ModelCurve
@@ -136,7 +194,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                       },
                     ]}
                     domain={{ min: 2292, max: 2314 }}
-                    height={450}
+                    height={350}
                   >
                     {tvd && <Curve name='TVD' data={tvd.data} style={{ color: '#510D0A', thickness: 3 }} />}
                   </ModelCurve>
@@ -152,7 +210,54 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                       onDrop={(e) => handleDropOldTrack(e, trackIndex)}
                       key={trackIndex}
                     >
-                      <CurveTrack scale='linear'>
+                      <CurveTrack
+                        scale={
+                          (track.properties[OrderTrackGroups.MAIN].properties[OrderTrackMain.SCALE] as IEnumProperty)
+                            .value as ValueScale
+                        }
+                        height={
+                          (track.properties[OrderTrackGroups.MAIN].properties[OrderTrackMain.HEIGHT] as INumberProperty)
+                            .value
+                        }
+                        grid={{
+                          main: {
+                            lines: (
+                              track.properties[OrderTrackGroups.GRID].properties[
+                                OrderTrackGrid.COUNT_MAIN
+                              ] as INumberProperty
+                            ).value,
+                            isDisplayed:
+                              ((
+                                track.properties[OrderTrackGroups.GRID].properties[
+                                  OrderTrackGrid.DISPLAY
+                                ] as IEnumProperty
+                              ).value as ValueBoolean) !== '',
+                          },
+                          secondary: {
+                            lines: (
+                              track.properties[OrderTrackGroups.GRID].properties[
+                                OrderTrackGrid.COUNT_SECONDARY
+                              ] as INumberProperty
+                            ).value,
+                            isDisplayed:
+                              ((
+                                track.properties[OrderTrackGroups.GRID].properties[
+                                  OrderTrackGrid.DISPLAY
+                                ] as IEnumProperty
+                              ).value as ValueBoolean) !== '',
+                            leftOffset: (
+                              track.properties[OrderTrackGroups.GRID].properties[
+                                OrderTrackGrid.LEFT_OFF
+                              ] as INumberProperty
+                            ).value,
+                            rightOffset: (
+                              track.properties[OrderTrackGroups.GRID].properties[
+                                OrderTrackGrid.RIGHT_OFF
+                              ] as INumberProperty
+                            ).value,
+                          },
+                        }}
+                      >
                         {track.curves.map((curveProp, curveIndex) => {
                           const curve = curves.find((curve) => curve.name === curveProp.name && curve.data);
                           if (curve) {

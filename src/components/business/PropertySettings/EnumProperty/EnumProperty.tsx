@@ -1,5 +1,12 @@
 import { FC } from 'react';
-import { EnumType, IEnumProperty, IEnumOption, orientation } from '../../../../models/ContextualSettingsTypes.ts';
+import {
+  EnumType,
+  IEnumProperty,
+  IEnumOption,
+  orientation,
+  scale,
+  boolValue,
+} from '../../../../models/ContextualSettingsTypes.ts';
 import styles from './EnumProperty.module.css';
 
 interface EnumPropertyProps {
@@ -9,13 +16,21 @@ interface EnumPropertyProps {
 function isOrientation(prop: IEnumProperty) {
   return prop.enumType === EnumType.ORIENTATION;
 }
+function isScale(prop: IEnumProperty) {
+  return prop.enumType === EnumType.SCALE;
+}
+function isBool(prop: IEnumProperty) {
+  return prop.enumType === EnumType.BOOLEAN;
+}
 const EnumProperty: FC<EnumPropertyProps> = ({ property, changeProperty }) => {
   let options: IEnumOption[];
   if (isOrientation(property)) options = orientation;
+  else if (isScale(property)) options = scale;
+  else if (isBool(property)) options = boolValue;
   else options = orientation;
   const changeValue = (name: string) => {
     const value = options.find((option) => option.name === name)?.value;
-    if (value) changeProperty(value);
+    if (value !== undefined) changeProperty(value);
   };
   return (
     <div className={styles.container}>
