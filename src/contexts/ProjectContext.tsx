@@ -51,7 +51,10 @@ export const ProjectProvider: FCC = ({ children }) => {
 
         setCurves((prev) => {
           return prev.map((curve) => {
-            if (curve.name === curveName) return { name: curveName, data: response.data.curveData } as ICurve;
+            if (curve.name === curveName) {
+              console.log(curve.name)
+              return { name: curveName, data: response.data.curveData } as ICurve;
+            }
             return curve;
           });
         });
@@ -62,6 +65,7 @@ export const ProjectProvider: FCC = ({ children }) => {
               { ...trackProperties, curves: [{ name: curveName, properties: groupsCurveProperties }] },
             ]);
         } else {
+          console.log(DEPTH)
           setDepth(response.data.curveData);
         }
       } catch (e) {

@@ -57,8 +57,8 @@ const Tablet: FC<TabletProps> = ({ className }) => {
   const getEssential = async () => {
     const depth = curves.find((curve) => curve.name === DEPTH);
     const tvd = curves.find((curve) => curve.name === 'TVD');
-    if (depth && !(depth.data && depth.data.length === 0)) await downloadCurve(DEPTH, 0);
-    if (tvd && !(tvd.data && tvd.data.length === 0)) await downloadCurve('TVD', 0);
+    if (depth && depth.data && depth.data.length < 1) await downloadCurve(DEPTH, 0);
+    if (tvd && tvd.data && tvd.data.length < 1) await downloadCurve('TVD', 0);
   };
 
   const downloadWithRetry = async () => {
