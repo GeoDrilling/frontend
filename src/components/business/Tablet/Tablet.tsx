@@ -108,13 +108,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
       getCurveData(id, curveName);
     }
   };
-  console.log(
-    (modelCurveProperties.properties[0].properties[OrderModelCurveMain.COLOR_BORDER_LAYERS] as IColorProperty).value,
-  );
-  console.log(
-    (modelCurveProperties.properties[0].properties[OrderModelCurveMain.THICKNESS_BORDER_LAYERS] as INumberProperty)
-      .value,
-  );
+
   const tvd = useMemo(() => curves.find((c) => c.name === 'TVD' && c.data), [curves]);
   return (
     <div className={classNames(styles.container, className)}>
@@ -224,13 +218,6 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                           alpha: models[0].alpha,
                           roUp: models[0].roUp,
                           roDown: models[0].roDown,
-                        },
-                        {
-                          x: 3400,
-                          y: models[0].tvdStart,
-                          alpha: models[0].alpha + 2,
-                          roUp: models[0].roUp + 10,
-                          roDown: models[0].roDown - 10,
                         },
                       ]}
                       domain={{
