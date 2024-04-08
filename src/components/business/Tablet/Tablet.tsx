@@ -18,12 +18,15 @@ import {
 import {
   groupsCurveProperties,
   OrderCurveProperties,
+  OrderDepthTrackMain,
+  OrderModelCurveMain,
   OrderTabletGrid,
   OrderTabletGroups,
   OrderTabletMain,
-  OrderTrackGrid,
   OrderTrackGroups,
   OrderTrackMain,
+  OrderTrackMainGrid,
+  OrderTrackSecondaryGrid,
 } from '../../../utils/ContextualSettingsConstatns.ts';
 import { DEPTH } from '../../../utils/utils.tsx';
 import UploadWindow from '@components/business/UploadWindow/UploadWindow.tsx';
@@ -37,8 +40,15 @@ interface TabletProps {
 const Tablet: FC<TabletProps> = ({ className }) => {
   const { toggleTablet } = useWindows();
   const { isVisible } = useUploadContext();
-  const { setContextType, tracksProperties, setTracksProperties, setTrackIndex, tabletProperties } =
-    useContextualSettings();
+  const {
+    setContextType,
+    tracksProperties,
+    setTracksProperties,
+    setTrackIndex,
+    tabletProperties,
+    depthTrackProperties,
+    modelCurveProperties,
+  } = useContextualSettings();
   const { id, depth, curves, getCurveData } = useProjectContext();
   const { models } = useModel();
 
@@ -98,6 +108,13 @@ const Tablet: FC<TabletProps> = ({ className }) => {
       getCurveData(id, curveName);
     }
   };
+  console.log(
+    (modelCurveProperties.properties[0].properties[OrderModelCurveMain.COLOR_BORDER_LAYERS] as IColorProperty).value,
+  );
+  console.log(
+    (modelCurveProperties.properties[0].properties[OrderModelCurveMain.THICKNESS_BORDER_LAYERS] as INumberProperty)
+      .value,
+  );
   const tvd = useMemo(() => curves.find((c) => c.name === 'TVD' && c.data), [curves]);
   return (
     <div className={classNames(styles.container, className)}>
@@ -164,6 +181,11 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                           OrderTabletGrid.THICKNESS_MAIN
                         ] as INumberProperty
                       ).value,
+                      color: (
+                        tabletProperties.properties[OrderTabletGroups.GRID].properties[
+                          OrderTabletGrid.COLOR_MAIN
+                        ] as IColorProperty
+                      ).value,
                     },
                   },
                   secondary: {
@@ -178,26 +200,79 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                           OrderTabletGrid.THICKNESS_LINES
                         ] as INumberProperty
                       ).value,
+                      color: (
+                        tabletProperties.properties[OrderTabletGroups.GRID].properties[
+                          OrderTabletGrid.COLOR_SECONDARY
+                        ] as IColorProperty
+                      ).value,
                     },
                   },
                 }}
               >
                 {models.length > 0 && (
-                  <ModelCurve
-                    data={[
-                      {
-                        x: 3100,
-                        y: models[0].tvdStart,
-                        alpha: models[0].alpha,
-                        roUp: models[0].roUp,
-                        roDown: models[0].roDown,
-                      },
-                    ]}
-                    domain={{ min: 2292, max: 2314 }}
-                    height={350}
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setContextType(ContextType.MODEL);
+                    }}
                   >
-                    {tvd && <Curve name='TVD' data={tvd.data} style={{ color: '#510D0A', thickness: 3 }} />}
-                  </ModelCurve>
+                    <ModelCurve
+                      data={[
+                        {
+                          x: 3100,
+                          y: models[0].tvdStart,
+                          alpha: models[0].alpha,
+                          roUp: models[0].roUp,
+                          roDown: models[0].roDown,
+                        },
+                        {
+                          x: 3400,
+                          y: models[0].tvdStart,
+                          alpha: models[0].alpha + 2,
+                          roUp: models[0].roUp + 10,
+                          roDown: models[0].roDown - 10,
+                        },
+                      ]}
+                      domain={{
+                        min: (modelCurveProperties.properties[0].properties[OrderModelCurveMain.MIN] as INumberProperty)
+                          .value,
+                        max: (modelCurveProperties.properties[0].properties[OrderModelCurveMain.MAX] as INumberProperty)
+                          .value,
+                      }}
+                      height={
+                        (modelCurveProperties.properties[0].properties[OrderModelCurveMain.HEIGHT] as INumberProperty)
+                          .value
+                      }
+                      borders={{
+                        horizontal: {
+                          color: (
+                            modelCurveProperties.properties[0].properties[
+                              OrderModelCurveMain.COLOR_BORDER_LAYERS
+                            ] as IColorProperty
+                          ).value,
+                          thickness: (
+                            modelCurveProperties.properties[0].properties[
+                              OrderModelCurveMain.THICKNESS_BORDER_LAYERS
+                            ] as INumberProperty
+                          ).value,
+                        },
+                        vertical: {
+                          color: (
+                            modelCurveProperties.properties[0].properties[
+                              OrderModelCurveMain.COLOR_BORDER_MODEL
+                            ] as IColorProperty
+                          ).value,
+                          thickness: (
+                            modelCurveProperties.properties[0].properties[
+                              OrderModelCurveMain.THICKNESS_BORDER_MODEL
+                            ] as INumberProperty
+                          ).value,
+                        },
+                      }}
+                    >
+                      {tvd && <Curve name='TVD' data={tvd.data} style={{ color: '#510D0A', thickness: 3 }} />}
+                    </ModelCurve>
+                  </div>
                 )}
                 {tracksProperties.map((track, trackIndex) => {
                   return (
@@ -222,37 +297,37 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                         grid={{
                           main: {
                             lines: (
-                              track.properties[OrderTrackGroups.GRID].properties[
-                                OrderTrackGrid.COUNT_MAIN
+                              track.properties[OrderTrackGroups.MAIN_GRID].properties[
+                                OrderTrackMainGrid.COUNT
                               ] as INumberProperty
                             ).value,
                             isDisplayed:
                               ((
-                                track.properties[OrderTrackGroups.GRID].properties[
-                                  OrderTrackGrid.DISPLAY
+                                track.properties[OrderTrackGroups.MAIN_GRID].properties[
+                                  OrderTrackMainGrid.DISPLAY
                                 ] as IEnumProperty
                               ).value as ValueBoolean) !== '',
                           },
                           secondary: {
                             lines: (
-                              track.properties[OrderTrackGroups.GRID].properties[
-                                OrderTrackGrid.COUNT_SECONDARY
+                              track.properties[OrderTrackGroups.SECONDARY_GRID].properties[
+                                OrderTrackSecondaryGrid.COUNT
                               ] as INumberProperty
                             ).value,
                             isDisplayed:
                               ((
-                                track.properties[OrderTrackGroups.GRID].properties[
-                                  OrderTrackGrid.DISPLAY
+                                track.properties[OrderTrackGroups.SECONDARY_GRID].properties[
+                                  OrderTrackSecondaryGrid.DISPLAY
                                 ] as IEnumProperty
                               ).value as ValueBoolean) !== '',
                             leftOffset: (
-                              track.properties[OrderTrackGroups.GRID].properties[
-                                OrderTrackGrid.LEFT_OFF
+                              track.properties[OrderTrackGroups.SECONDARY_GRID].properties[
+                                OrderTrackSecondaryGrid.LEFT_OFF
                               ] as INumberProperty
                             ).value,
                             rightOffset: (
-                              track.properties[OrderTrackGroups.GRID].properties[
-                                OrderTrackGrid.RIGHT_OFF
+                              track.properties[OrderTrackGroups.SECONDARY_GRID].properties[
+                                OrderTrackSecondaryGrid.RIGHT_OFF
                               ] as INumberProperty
                             ).value,
                           },
@@ -270,6 +345,17 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                                   color: (
                                     curveProp.properties[0].properties[OrderCurveProperties.COLOR] as IColorProperty
                                   ).value,
+                                  thickness: (
+                                    curveProp.properties[0].properties[
+                                      OrderCurveProperties.THICKNESS
+                                    ] as INumberProperty
+                                  ).value,
+                                }}
+                                domain={{
+                                  max: (curveProp.properties[0].properties[OrderCurveProperties.MAX] as INumberProperty)
+                                    .value,
+                                  min: (curveProp.properties[0].properties[OrderCurveProperties.MIN] as INumberProperty)
+                                    .value,
                                 }}
                               />
                             );
@@ -279,7 +365,32 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                     </div>
                   );
                 })}
-                {tracksProperties.length > 0 && <DepthTrack main={{ name: 'MD', color: '#021D38' }} />}
+                {tracksProperties.length > 0 && (
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setContextType(ContextType.DEPTH_TRACK);
+                    }}
+                  >
+                    <DepthTrack
+                      height={
+                        (depthTrackProperties.properties[0].properties[OrderDepthTrackMain.HEIGHT] as INumberProperty)
+                          .value
+                      }
+                      main={{
+                        name: 'MD',
+                        color: (
+                          depthTrackProperties.properties[0].properties[OrderDepthTrackMain.COLOR] as IColorProperty
+                        ).value,
+                        floatingPoint: (
+                          depthTrackProperties.properties[0].properties[
+                            OrderDepthTrackMain.FLOATING_POINT
+                          ] as INumberProperty
+                        ).value,
+                      }}
+                    />
+                  </div>
+                )}
               </LogView>
             </div>
           ) : (

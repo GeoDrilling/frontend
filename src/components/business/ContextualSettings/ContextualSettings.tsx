@@ -12,6 +12,7 @@ import {
 } from '../../../models/ContextualSettingsTypes.ts';
 import TabletProperties from '@components/business/ContextualSettings/TabletProperties/TabletProperties.tsx';
 import TrackProperties from '@components/business/ContextualSettings/TrackProperties/TrackProperties.tsx';
+import DepthTrackProperties from '@components/business/ContextualSettings/DepthTrackProperties/DepthTrackProperties.tsx';
 
 interface ContextualSettingsProps {
   className?: string;
@@ -19,8 +20,18 @@ interface ContextualSettingsProps {
 
 const ContextualSettings: FC<ContextualSettingsProps> = ({ className }) => {
   const { toggleSettings } = useWindows();
-  const { contextType, tabletProperties, setTableProperties, tracksProperties, setTracksProperties, trackIndex } =
-    useContextualSettings();
+  const {
+    contextType,
+    tabletProperties,
+    setTableProperties,
+    tracksProperties,
+    setTracksProperties,
+    trackIndex,
+    setDepthTrackProperties,
+    depthTrackProperties,
+    modelCurveProperties,
+    setModelCurveProperties,
+  } = useContextualSettings();
 
   const updateProperty = (
     value: number | string,
@@ -43,6 +54,16 @@ const ContextualSettings: FC<ContextualSettingsProps> = ({ className }) => {
   const changeTabletProperty = (value: number | string, indexGroup: number, indexProp: number) => {
     setTableProperties({ properties: updateProperty(value, indexGroup, indexProp, tabletProperties.properties) });
   };
+  const changeDepthTrackProperty = (value: number | string, indexGroup: number, indexProp: number) => {
+    setDepthTrackProperties({
+      properties: updateProperty(value, indexGroup, indexProp, depthTrackProperties.properties),
+    });
+  };
+  const changeModelCurveProperty = (value: number | string, indexGroup: number, indexProp: number) => {
+    setModelCurveProperties({
+      properties: updateProperty(value, indexGroup, indexProp, modelCurveProperties.properties),
+    });
+  };
   const changeTrackProperty = (value: number | string, indexGroup: number, indexProp: number, indexTrack: number) => {
     const newProps: ITrackProperties[] = tracksProperties.map((track, idxTrack) => {
       if (idxTrack === indexTrack)
@@ -52,12 +73,14 @@ const ContextualSettings: FC<ContextualSettingsProps> = ({ className }) => {
     setTracksProperties(newProps);
   };
   const changeCurveProperty = (
-    value: number | string,
+    value: number | string | undefined,
     trackIndex: number,
     curveIndex: number,
     groupIndex: number,
     propertyIndex: number,
   ) => {
+    if (groupIndex < 2) value = value!;
+    else if (propertyIndex < 1) value = value!;
     const newTrackProps: ITrackProperties = {
       ...tracksProperties[trackIndex],
       curves: tracksProperties[trackIndex].curves.map((curveProp, curveIdx) => {
@@ -95,15 +118,17 @@ const ContextualSettings: FC<ContextualSettingsProps> = ({ className }) => {
         <TabletProperties tabletProp={tabletProperties} changeProperty={changeTabletProperty} />
       )}
       {contextType === ContextType.TRACK && (
-        /*<Properties
-          groups={tracksProperties[trackIndex].properties}
-          changeProperty={(v, ig, ip) => changeTrackProperty(v, ig, ip, trackIndex)}
-        />*/
         <TrackProperties
           trackProp={tracksProperties[trackIndex]}
           changeProperty={(v, ig, ip) => changeTrackProperty(v, ig, ip, trackIndex)}
           changeCurveProperty={(v, ci, gi, pi) => changeCurveProperty(v, trackIndex, ci, gi, pi)}
         />
+      )}
+      {contextType == ContextType.DEPTH_TRACK && (
+        <DepthTrackProperties depthTrackProps={depthTrackProperties} changeProperty={changeDepthTrackProperty} />
+      )}
+      {contextType == ContextType.MODEL && (
+        <DepthTrackProperties depthTrackProps={modelCurveProperties} changeProperty={changeModelCurveProperty} />
       )}
     </div>
   );

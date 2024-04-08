@@ -4,7 +4,7 @@ import ProjectService from '../services/ProjectService.ts';
 import { ICurve, IProjectState } from '../models/IProject.ts';
 import { useContextualSettings } from '../hooks/context/useContextualSettings.ts';
 import { groupsCurveProperties, trackProperties } from '../utils/ContextualSettingsConstatns.ts';
-import { DEPTH } from '../utils/utils.tsx';
+import { DEPTH, TVD } from '../utils/utils.tsx';
 import { useUploadContext } from '../hooks/context/useUploadContext.ts';
 import { useModel } from '../hooks/context/useModel.ts';
 
@@ -26,8 +26,17 @@ interface ProjectContext {
 export const ProjectContext = createContext<ProjectContext>({} as ProjectContext);
 
 export const ProjectProvider: FCC = ({ children }) => {
-  const { tracksProperties, tabletProperties, setTracksProperties, setTableProperties, clearSettings } =
-    useContextualSettings();
+  const {
+    tracksProperties,
+    tabletProperties,
+    setTracksProperties,
+    setTableProperties,
+    clearSettings,
+    depthTrackProperties,
+    setDepthTrackProperties,
+    modelCurveProperties,
+    setModelCurveProperties,
+  } = useContextualSettings();
   const { setVisible } = useUploadContext();
   const { setModels, models, clearModelsState } = useModel();
   const [id, setId] = useState<number>(-1);
@@ -52,7 +61,6 @@ export const ProjectProvider: FCC = ({ children }) => {
         setCurves((prev) => {
           return prev.map((curve) => {
             if (curve.name === curveName) {
-              console.log(curve.name)
               return { name: curveName, data: response.data.curveData } as ICurve;
             }
             return curve;
@@ -65,7 +73,6 @@ export const ProjectProvider: FCC = ({ children }) => {
               { ...trackProperties, curves: [{ name: curveName, properties: groupsCurveProperties }] },
             ]);
         } else {
-          console.log(DEPTH)
           setDepth(response.data.curveData);
         }
       } catch (e) {
@@ -87,10 +94,21 @@ export const ProjectProvider: FCC = ({ children }) => {
         setCurves(newCurves);
       }
       if (state.trackProperties) setTracksProperties(state.trackProperties);
+      if (state.depthTrackProperties) setDepthTrackProperties(state.depthTrackProperties);
+      if (state.modelCurveProperties) setModelCurveProperties(state.modelCurveProperties);
       if (state.tabletProperties) setTableProperties(state.tabletProperties);
       if (state.modelDTOList) setModels(state.modelDTOList);
     },
-    [setId, setCurves, setTracksProperties, setTableProperties, setModels, curves],
+    [
+      setId,
+      setCurves,
+      setTracksProperties,
+      setTableProperties,
+      setModels,
+      curves,
+      setDepthTrackProperties,
+      setModelCurveProperties,
+    ],
   );
   const createProject = useCallback(
     async (name: string): Promise<number> => {
@@ -116,12 +134,14 @@ export const ProjectProvider: FCC = ({ children }) => {
         const responseCurves = response.data.curvesNames
           .filter((name) => !currentCurvesNames.includes(name))
           .map((name) => ({ name })) as ICurve[];
+        if (responseCurves.map((c) => c.name).includes(DEPTH)) getCurveData(id, DEPTH);
+        if (responseCurves.map((c) => c.name).includes(TVD)) getCurveData(id, TVD);
         setCurves(curves.concat(responseCurves));
       } catch (e) {
         console.log(e);
       }
     },
-    [curves],
+    [curves, id, getCurveData],
   );
   const clearProjectContext = useCallback(() => {
     setId(-1);
@@ -162,12 +182,14 @@ export const ProjectProvider: FCC = ({ children }) => {
         trackProperties: tracksProperties,
         curvesNames: curves.map((c) => c.name),
         modelDTOList: models,
+        depthTrackProperties,
+        modelCurveProperties,
       };
       await ProjectService.saveProjectState(state);
     } catch (e) {
       console.log(e);
     }
-  }, [id, tabletProperties, tracksProperties, curves, models]);
+  }, [id, tabletProperties, tracksProperties, curves, models, depthTrackProperties, modelCurveProperties]);
 
   const value = useMemo(
     () => ({

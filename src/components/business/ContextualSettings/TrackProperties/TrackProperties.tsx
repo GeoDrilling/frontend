@@ -6,14 +6,19 @@ import { useScroll } from '../../../../hooks/useScroll.tsx';
 interface TrackPropertiesProps {
   trackProp: ITrackProperties;
   changeProperty: (value: number | string, indexGroup: number, indexProp: number) => void;
-  changeCurveProperty: (value: number | string, curveIndex: number, groupIndex: number, propertyIndex: number) => void;
+  changeCurveProperty: (
+    value: number | string | undefined,
+    curveIndex: number,
+    groupIndex: number,
+    propertyIndex: number,
+  ) => void;
 }
 const TrackProperties: FC<TrackPropertiesProps> = ({ trackProp, changeProperty, changeCurveProperty }) => {
   const scrollRef = useScroll();
   return (
     <div className={styles.scroll} ref={scrollRef}>
       <div className={styles.container}>
-        <Properties groups={trackProp.properties} changeProperty={changeProperty} />
+        <Properties groups={trackProp.properties} changeProperty={(v, id, ip) => changeProperty(v!, id, ip)} />
         {trackProp.curves.map((curveProp, curvePropIdx) => (
           <Properties
             groups={curveProp.properties}

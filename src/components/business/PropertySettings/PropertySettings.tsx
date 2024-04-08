@@ -15,7 +15,7 @@ import EnumProperty from '@components/business/PropertySettings/EnumProperty/Enu
 
 interface PropertySettingsProps {
   property: IBaseProperty;
-  changeProperty: (value: number | string) => void;
+  changeProperty: (value: number | string | undefined) => void;
 }
 function isNumberProperty(prop: IBaseProperty): prop is INumberProperty {
   return prop.type === PropertyType.NUMBER;

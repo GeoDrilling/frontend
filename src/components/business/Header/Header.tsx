@@ -12,7 +12,7 @@ interface HeaderProps {
   isFrozenProjects?: boolean;
 }
 const Header: FC<HeaderProps> = ({ isFrozenProjects }) => {
-  const { logout } = useAuthContext();
+  const { logout, user } = useAuthContext();
   const { clearProjectContext } = useProjectContext();
   const params = useParams();
   let projectId = '';
@@ -37,7 +37,7 @@ const Header: FC<HeaderProps> = ({ isFrozenProjects }) => {
         <div className={styles.item} />
         <div className={classNames(styles.item, styles.profile)}>
           <span className={styles.img} />
-          Efim
+          {user.name}
         </div>
         <Button className={styles.logout} onClick={logout}>
           Выйти

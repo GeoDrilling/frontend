@@ -5,7 +5,7 @@ import PropertySettings from '@components/business/PropertySettings/PropertySett
 
 interface PropertiesProps {
   groups: IGroupProperties[];
-  changeProperty: (value: number | string, indexGroup: number, indexProp: number) => void;
+  changeProperty: (value: number | string | undefined, indexGroup: number, indexProp: number) => void;
   curveName?: string;
 }
 const Properties: FC<PropertiesProps> = ({ groups, changeProperty, curveName }) => {

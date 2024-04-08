@@ -1,6 +1,8 @@
 export enum ContextType {
   TABLET = 'Свойства планшета',
   TRACK = 'Свойства трека',
+  DEPTH_TRACK = 'Трек референсной кривой',
+  MODEL = 'Свойства модели',
   //CURVE = "Свойства кривой"
 }
 export enum PropertyType {
@@ -48,7 +50,7 @@ export interface IGroupProperties {
   properties: IBaseProperty[];
 }
 
-export interface ITabletProperties {
+export interface IContainerGroupProperties {
   properties: IGroupProperties[];
 }
 export interface ITrackProperties {

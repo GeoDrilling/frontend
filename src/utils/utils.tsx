@@ -4,3 +4,4 @@ export const validateEmail = (email: string) => {
   return !re.test(email);
 };
 export const DEPTH = 'DEPT';
+export const TVD = 'TVD';

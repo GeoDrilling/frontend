@@ -1,4 +1,4 @@
-import { ITabletProperties, ITrackProperties } from './ContextualSettingsTypes.ts';
+import { IContainerGroupProperties, ITrackProperties } from './ContextualSettingsTypes.ts';
 import { IModelParams } from './IModel.ts';
 
 export interface IProject {
@@ -8,7 +8,9 @@ export interface IProject {
 }
 export interface IProjectState {
   id: number;
-  tabletProperties: ITabletProperties;
+  tabletProperties: IContainerGroupProperties;
+  depthTrackProperties: IContainerGroupProperties;
+  modelCurveProperties: IContainerGroupProperties;
   trackProperties: ITrackProperties[];
   curvesNames: string[];
   modelDTOList: IModelParams[];

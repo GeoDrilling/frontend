@@ -1,15 +1,32 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useMemo, useState } from 'react';
 import { INumberProperty } from '../../../../models/ContextualSettingsTypes.ts';
 import styles from './NumberPropert.module.css';
+import { nullableProperties } from '../../../../utils/ContextualSettingsConstatns.ts';
 interface NumberPropertyProps {
   property: INumberProperty;
-  changeProperty: (value: number) => void;
+  changeProperty: (value?: number) => void;
 }
 const NumberProperty: FC<NumberPropertyProps> = ({ property, changeProperty }) => {
-  const s: string = property.value.toString();
+  const s: string = useMemo(() => {
+    if (property.value !== undefined && property.value !== null) return property.value.toString();
+    return '';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [value, setValue] = useState<string>(s);
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
+  };
+  const onBlur = () => {
+    let result;
+    try {
+      result = parseFloat(value);
+    } catch (e) {
+      console.log(nullableProperties);
+      result = undefined;
+    } finally {
+      changeProperty(result);
+    }
   };
   return (
     <div className={styles.container}>
@@ -17,7 +34,8 @@ const NumberProperty: FC<NumberPropertyProps> = ({ property, changeProperty }) =
         type='number'
         value={value}
         onChange={(e) => onChange(e)}
-        onBlur={() => changeProperty(parseFloat(value))}
+        onBlur={onBlur}
+        placeholder={nullableProperties.includes(property.name) ? '-' : ''}
         className={styles.input}
       />
     </div>
