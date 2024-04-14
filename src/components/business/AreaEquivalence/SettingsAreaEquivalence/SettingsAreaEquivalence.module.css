@@ -1,63 +1,63 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 .scroll {
-    padding: 0 15px 30px 15px;
-    box-sizing: border-box;
-    width: 100%;
+  padding: 0 15px 30px 15px;
+  box-sizing: border-box;
+  width: 100%;
 }
 .table {
-    box-sizing: border-box;
-    border-collapse: collapse;
-    vertical-align: middle;
-    min-width: 270px;
-    width: 100%;
-    margin-bottom: 30px;
+  box-sizing: border-box;
+  border-collapse: collapse;
+  vertical-align: middle;
+  min-width: 270px;
+  width: 100%;
+  margin-bottom: 30px;
 }
 .text {
-    font-size: 14px;
-    color: var(--primary);
+  font-size: 14px;
+  color: var(--primary);
 }
 .title {
-    margin-top: 15px;
-    font-size: 16px;
-    font-weight: 501;
-    color: var(--primary);
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: 501;
+  color: var(--primary);
 }
 .slider {
-    flex-grow: 1;
-    height: 5px;
+  flex-grow: 1;
+  height: 5px;
 }
 .stepValue {
-    font-size: 16px;
-    font-weight: 400;
-    width: 20px;
-    color: var(--primary);
-    padding: 0 0 0 10px;
+  font-size: 16px;
+  font-weight: 400;
+  width: 20px;
+  color: var(--primary);
+  padding: 0 0 0 10px;
 }
 .sliderContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
 }
 .button {
-    width: 255px;
-    height: 30px;
-    font-weight: 400;
-    font-size: 16px;
-    color: var(--background);
+  width: 255px;
+  height: 30px;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--background);
 }
 .btnContainer {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 30px;
 }
 .btnContainer .button:first-child {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }

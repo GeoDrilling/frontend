@@ -1,5 +1,5 @@
 import { createContext, Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
-import {IAreaEq, IModelParameter, IModelParams, ParameterRange, RangeParameters} from '../models/IModel.ts';
+import { IAreaEq, IModelParameter, IModelParams, ParameterRange, RangeParameters } from '../models/IModel.ts';
 import { FCC } from '../types/types.tsx';
 import ProjectService from '../services/ProjectService.ts';
 import { ALPHA, KANISOTROPY_DOWN, KANISOTROPY_UP, RO_DOWN, RO_UP, TVD_START } from '../utils/CurveMappingConst.ts';

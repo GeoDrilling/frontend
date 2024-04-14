@@ -39,7 +39,7 @@ const InputNumber: FC<InputNumberProps> = ({
     if (isPlaceholder) changeValue(undefined);
     else {
       changeValue(0);
-      setValue('0')
+      setValue('0');
     }
   };
   const ref = useRef<HTMLInputElement>(null);

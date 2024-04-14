@@ -1,6 +1,6 @@
 import $api from '../http';
 import { CurveDataDownload, ICurves, IProject, IProjectState } from '../models/IProject.ts';
-import {IAreaEq, IModelParams, RangeParameters} from '../models/IModel.ts';
+import { IAreaEq, IModelParams, RangeParameters } from '../models/IModel.ts';
 import { Selections } from '../models/Selection.ts';
 import { SootOutResponse } from '../models/SootOutResponse.ts';
 

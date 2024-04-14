@@ -31,7 +31,7 @@ const ModelParameters: FC<ModelParametersProps> = ({
   valueClassName,
   isRemovable,
   onRemove,
-  isPlaceholder
+  isPlaceholder,
 }) => {
   let formattedValue;
   try {
@@ -41,18 +41,20 @@ const ModelParameters: FC<ModelParametersProps> = ({
   }
   return (
     <tr className={classNames(styles.container, className)}>
-      {!isRemovable &&
-          <td className={styles.name}>{name}</td>}
-      {isRemovable &&
-          <td className={styles.name}>
-              <div className={styles.nameContainer}>
-                {name}
-                  <img className={styles.remove}
-                       onClick={onRemove}
-                      src={'/src/assets/images/icon_delete_level.svg'} alt={'del'}/>
-              </div>
-          </td>
-      }
+      {!isRemovable && <td className={styles.name}>{name}</td>}
+      {isRemovable && (
+        <td className={styles.name}>
+          <div className={styles.nameContainer}>
+            {name}
+            <img
+              className={styles.remove}
+              onClick={onRemove}
+              src={'/src/assets/images/icon_delete_level.svg'}
+              alt={'del'}
+            />
+          </div>
+        </td>
+      )}
       <td className={isEditing ? styles.value : classNames(styles.value, styles.pointer)} onClick={onValueClick}>
         {isEditing ? (
           <InputNumber

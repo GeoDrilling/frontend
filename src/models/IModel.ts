@@ -61,10 +61,10 @@ export interface RangeParameters {
   max_kanisotropy_dow?: number;
 }
 export interface IAreaEq {
-  param1: string,
-  param2: string,
-  range: number,
-  colorMin?: number,
-  colorMax?: number,
-  level: number[]
+  param1: string;
+  param2: string;
+  range: number;
+  colorMin?: number;
+  colorMax?: number;
+  level: number[];
 }
