@@ -6,7 +6,7 @@ import classNames from 'classnames';
 interface ModelParametersProps {
   name: string;
   suffix?: string;
-  value: number;
+  value?: number;
   onValueClick?: () => void;
   onValueChange?: (value?: number) => void;
   isEditing?: boolean;
@@ -14,6 +14,9 @@ interface ModelParametersProps {
   startFocus?: boolean;
   className?: string;
   valueClassName?: string;
+  isRemovable?: boolean;
+  isPlaceholder?: boolean;
+  onRemove?: () => void;
 }
 const ModelParameters: FC<ModelParametersProps> = ({
   name,
@@ -26,16 +29,30 @@ const ModelParameters: FC<ModelParametersProps> = ({
   suffix,
   className,
   valueClassName,
+  isRemovable,
+  onRemove,
+  isPlaceholder
 }) => {
   let formattedValue;
   try {
-    formattedValue = value.toFixed(2) ? Number(value.toFixed(2)) : value;
+    formattedValue = value && value.toFixed(2) ? Number(value.toFixed(2)) : value;
   } catch (e) {
     formattedValue = value;
   }
   return (
     <tr className={classNames(styles.container, className)}>
-      <td className={styles.name}>{name}</td>
+      {!isRemovable &&
+          <td className={styles.name}>{name}</td>}
+      {isRemovable &&
+          <td className={styles.name}>
+              <div className={styles.nameContainer}>
+                {name}
+                  <img className={styles.remove}
+                       onClick={onRemove}
+                      src={'/src/assets/images/icon_delete_level.svg'} alt={'del'}/>
+              </div>
+          </td>
+      }
       <td className={isEditing ? styles.value : classNames(styles.value, styles.pointer)} onClick={onValueClick}>
         {isEditing ? (
           <InputNumber
@@ -44,6 +61,7 @@ const ModelParameters: FC<ModelParametersProps> = ({
             isEdited={isEdited}
             isStartFocus={startFocus}
             suffix={suffix}
+            isPlaceholder={isPlaceholder}
           />
         ) : (
           <div className={styles.valueContainer}>

@@ -10,11 +10,9 @@ import { useScroll } from '../../../../hooks/useScroll.tsx';
 import Button from '@components/UI/Button/Button.tsx';
 interface ListModelsAreaEqProps {
   className?: string;
-  step: number;
-  setStep: (step: number) => void;
-  buildAreaEq: (first: string, second: string) => void;
+  toSettings: (first: string, second: string) => void;
 }
-const ListModelsAreaEq: FC<ListModelsAreaEqProps> = ({ className, buildAreaEq, step, setStep }) => {
+const ListModelsAreaEq: FC<ListModelsAreaEqProps> = ({ className, toSettings }) => {
   const { currentId, setCurrentId, models } = useModel();
 
   const [selected, setSelected] = useState<string[]>([]);
@@ -67,21 +65,8 @@ const ListModelsAreaEq: FC<ListModelsAreaEqProps> = ({ className, buildAreaEq, s
             )}
             {selected.length == 2 && (
               <div className={styles.btnContainer}>
-                <p className={styles.text}>Укажите частоту сетки</p>
-                <div className={styles.sliderContainer}>
-                  <input
-                    value={step}
-                    onChange={(e) => setStep(Number(e.target.value))}
-                    type='range'
-                    max='50'
-                    min='5'
-                    step='1'
-                    className={styles.slider}
-                  />
-                  <p className={styles.stepValue}>{step}</p>
-                </div>
-                <Button className={styles.button} onClick={() => buildAreaEq(selected[0], selected[1])}>
-                  Построить
+                <Button className={styles.button} onClick={() => toSettings(selected[0], selected[1])}>
+                  Далее
                 </Button>
               </div>
             )}
