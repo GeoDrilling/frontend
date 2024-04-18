@@ -1,5 +1,5 @@
 import { createContext, Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
-import { IModelParameter, IModelParams, ParameterRange, RangeParameters } from '../models/IModel.ts';
+import { IAreaEq, IModelParameter, IModelParams, ParameterRange, RangeParameters } from '../models/IModel.ts';
 import { FCC } from '../types/types.tsx';
 import ProjectService from '../services/ProjectService.ts';
 import { ALPHA, KANISOTROPY_DOWN, KANISOTROPY_UP, RO_DOWN, RO_UP, TVD_START } from '../utils/CurveMappingConst.ts';
@@ -28,7 +28,7 @@ interface ModelContext {
   clearNewModel: () => void;
   isLoading: boolean;
   isLoadingImage: boolean;
-  createAreaEq: (modelId: number, param1: string, param2: string, range: number) => Promise<string | undefined>;
+  createAreaEq: (modelId: number, data: IAreaEq) => Promise<string | undefined>;
   parameters: ParameterRange[];
   setParameters: Dispatch<SetStateAction<ParameterRange[]>>;
   parametersToRange: (params: ParameterRange[]) => RangeParameters;
@@ -169,10 +169,10 @@ export const ModelProvider: FCC = ({ children }) => {
     setNewModel(undefined);
   }, []);
 
-  const createAreaEq = useCallback(async (modelId: number, param1: string, param2: string, range: number) => {
+  const createAreaEq = useCallback(async (modelId: number, data: IAreaEq) => {
     try {
       setIsLoadingImage(true);
-      const response = await ProjectService.createAreaEquivalence(modelId, param1, param2, range);
+      const response = await ProjectService.createAreaEquivalence(modelId, data);
       return URL.createObjectURL(response.data);
     } catch (e) {
       console.log(e);

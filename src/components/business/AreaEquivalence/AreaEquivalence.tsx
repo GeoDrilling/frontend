@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import styles from './AreaEquivalence.module.css';
 import WindowHeader from '@components/business/WindowHeader/WindowHeader.tsx';
 import classNames from 'classnames';
@@ -8,22 +8,52 @@ import ModelHeader from '@components/business/Models/ModelHeader/ModelHeader.tsx
 import { ALPHA, KANISOTROPY_DOWN, KANISOTROPY_UP, RO_DOWN, RO_UP } from '../../../utils/CurveMappingConst.ts';
 import { useModel } from '../../../hooks/context/useModel.ts';
 import { useScroll } from '../../../hooks/useScroll.tsx';
+import { IAreaEq } from '../../../models/IModel.ts';
+import SettingsAreaEquivalence from '@components/business/AreaEquivalence/SettingsAreaEquivalence/SettingsAreaEquivalence.tsx';
 
 interface AreaEquivalenceProps {
   className?: string;
 }
+interface IWindow {
+  isLoading: boolean;
+  isList: boolean;
+  isImage: boolean;
+  isSettings: boolean;
+}
 
 const AreaEquivalence: FC<AreaEquivalenceProps> = ({ className }) => {
+  const defaultWindows: IWindow = useMemo(() => {
+    return {
+      isList: false,
+      isImage: false,
+      isLoading: false,
+      isSettings: false,
+    };
+  }, []);
+
   const { toggleAreaEquivalence } = useWindows();
   const { isLoadingImage, createAreaEq, currentId, models } = useModel();
   const [image, setImage] = useState<string>('');
-  const [step, setStep] = useState<number>(5);
-  const [isShowImage, setIsShowImage] = useState<boolean>(false);
-  const buildAreaEq = async (first: string, second: string) => {
-    setIsShowImage(true);
-    const url = await createAreaEq(models[currentId].idModel, fullNameToShort(first), fullNameToShort(second), step);
-    if (url) setImage(url);
-    else setIsShowImage(false);
+  const [buildArea, setBuildArea] = useState<IAreaEq>({
+    param1: 'ro_up',
+    param2: 'ro_down',
+    range: 5,
+    level: [],
+  });
+  const [windows, setWindows] = useState<IWindow>({ ...defaultWindows, isList: true });
+
+  const buildAreaEq = async () => {
+    const lastScreen = windows;
+    setWindows({ ...defaultWindows, isLoading: true });
+    const url = await createAreaEq(models[currentId].idModel, buildArea);
+    if (url) {
+      setImage(url);
+      setWindows({ ...defaultWindows, isImage: true });
+    } else setWindows(lastScreen);
+  };
+  const toSettings = (first: string, second: string) => {
+    setBuildArea({ ...buildArea, param1: fullNameToShort(first), param2: fullNameToShort(second) });
+    setWindows({ ...defaultWindows, isSettings: true });
   };
   const fullNameToShort = (name: string): string => {
     let short;
@@ -62,8 +92,8 @@ const AreaEquivalence: FC<AreaEquivalenceProps> = ({ className }) => {
         title={'Области эквивалентности'}
         closeWindow={toggleAreaEquivalence}
       />
-      {isLoadingImage && <div className={styles.textContainer}>Идёт построение...</div>}
-      {isShowImage && !isLoadingImage && (
+      {windows.isLoading && <div className={styles.textContainer}>Идёт построение...</div>}
+      {windows.isImage && !isLoadingImage && (
         <div className={styles.test}>
           <ModelHeader
             title='Test name'
@@ -71,8 +101,8 @@ const AreaEquivalence: FC<AreaEquivalenceProps> = ({ className }) => {
             rightImage='/src/assets/images/icon_done.svg'
             leftImageClassName={styles.cancel}
             rightImageClassName={styles.done}
-            onLeftClick={() => setIsShowImage(false)}
-            onRightClick={() => setIsShowImage(false)}
+            onLeftClick={() => setWindows({ ...defaultWindows, isList: true })}
+            onRightClick={() => setWindows({ ...defaultWindows, isList: true })}
           />
           <div ref={scrollRef}>
             <div className={styles.imagBox}>
@@ -81,7 +111,10 @@ const AreaEquivalence: FC<AreaEquivalenceProps> = ({ className }) => {
           </div>
         </div>
       )}
-      {!isShowImage && <ListModelsAreaEq step={step} setStep={setStep} buildAreaEq={buildAreaEq} />}
+      {windows.isList && <ListModelsAreaEq toSettings={toSettings} />}
+      {windows.isSettings && (
+        <SettingsAreaEquivalence buildArea={buildArea} setBuildArea={setBuildArea} createArea={buildAreaEq} />
+      )}
     </div>
   );
 };

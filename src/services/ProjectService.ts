@@ -1,6 +1,6 @@
 import $api from '../http';
 import { CurveDataDownload, ICurves, IProject, IProjectState } from '../models/IProject.ts';
-import { IModelParams, RangeParameters } from '../models/IModel.ts';
+import { IAreaEq, IModelParams, RangeParameters } from '../models/IModel.ts';
 import { Selections } from '../models/Selection.ts';
 import { SootOutResponse } from '../models/SootOutResponse.ts';
 
@@ -96,7 +96,7 @@ export default class ProjectService {
       },
     });
   }
-  static async createAreaEquivalence(modelId: number, param1: string, param2: string, range: number) {
-    return $api.post<Blob>(`/areas/create/${modelId}`, { param1, param2, range }, { responseType: 'blob' });
+  static async createAreaEquivalence(modelId: number, data: IAreaEq) {
+    return $api.post<Blob>(`/areas/create/${modelId}`, data, { responseType: 'blob' });
   }
 }
