@@ -114,7 +114,7 @@ export const ModelProvider: FCC = ({ children }) => {
 
   const saveModel = useCallback(async (projectId: number, model: IModelParams) => {
     try {
-      const response = await ProjectService.saveModel(projectId, { ...model, start: 3200, end: 4000 });
+      const response = await ProjectService.saveModel(projectId, model);
       setModels(response.data.modelDTO);
     } catch (e) {
       console.log(e);
