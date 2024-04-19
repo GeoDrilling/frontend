@@ -15,7 +15,7 @@ interface ListModelsProps {
 }
 
 const ListModels: FC<ListModelsProps> = ({ onValueClick, toNewModel, toChoosingParameters }) => {
-  const { currentId, setCurrentId } = useModel();
+  const { currentId, setCurrentId, models } = useModel();
   const modelParams = useModelParams();
   useEffect(() => {
     if (currentId == -1) {
@@ -24,15 +24,27 @@ const ListModels: FC<ListModelsProps> = ({ onValueClick, toNewModel, toChoosingP
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const scrollRef = useScroll();
+  const back = () => {
+    if (currentId - 1 >= 0) setCurrentId(currentId - 1);
+    else setCurrentId(models.length - 1);
+  };
+  const next = () => {
+    if (currentId + 1 < models.length) setCurrentId(currentId + 1);
+    else setCurrentId(0);
+  };
   return (
     <div className={styles.container}>
       <ModelHeader
         title='Test name'
         leftImage='/src/assets/images/icon_arrow_left.svg'
+        onLeftClick={back}
+        onRightClick={next}
         rightImage='/src/assets/images/icon_arrow_right.svg'
         titleImage='/src/assets/images/icon_edit_model_name.svg'
       />
-      <p className={styles.tip}>Диапазон модели 3200-3500</p>
+      <p className={styles.tip}>
+        Диапазон модели {models[currentId].start}-{models[currentId].end}
+      </p>
       <div className={styles.scroll} ref={scrollRef}>
         <table className={styles.table}>
           <tbody>

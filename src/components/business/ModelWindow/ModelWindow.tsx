@@ -7,10 +7,8 @@ import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
 import Models from '@components/business/Models/Models.tsx';
 import { useModel } from '../../../hooks/context/useModel.ts';
 import { useEffect } from 'react';
-import { useContextualSettings } from '../../../hooks/context/useContextualSettings.ts';
-import { OrderTabletMain } from '../../../utils/ContextualSettingsConstatns.ts';
-import { INumberProperty } from '../../../models/ContextualSettingsTypes.ts';
 import { useUploadContext } from '../../../hooks/context/useUploadContext.ts';
+import ProjectService from '../../../services/ProjectService.ts';
 
 interface ModelWindowProps {
   className?: string;
@@ -19,7 +17,6 @@ interface ModelWindowProps {
 const ModelWindow: FCC<ModelWindowProps> = ({ className }) => {
   const { toggleModel } = useWindows();
   const { id } = useProjectContext();
-  const { tabletProperties } = useContextualSettings();
   const { isVisible } = useUploadContext();
   const { getIsCurveMapped, isMapped, models, buildStartModel, saveModel } = useModel();
   useEffect(() => {
@@ -32,9 +29,11 @@ const ModelWindow: FCC<ModelWindowProps> = ({ className }) => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMapped]);
   const setStartModel = async () => {
-    const start = (tabletProperties.properties[0].properties[OrderTabletMain.START_DEPTH] as INumberProperty).value;
-    const end = (tabletProperties.properties[0].properties[OrderTabletMain.END_DEPTH] as INumberProperty).value;
-    const startModel = await buildStartModel(id, start, end);
+    //const start = (tabletProperties.properties[0].properties[OrderTabletMain.START_DEPTH] as INumberProperty).value;
+    //const end = (tabletProperties.properties[0].properties[OrderTabletMain.END_DEPTH] as INumberProperty).value;
+    const start = await ProjectService.getDepthMin(id);
+    const end = await ProjectService.getDepthMax(id);
+    const startModel = await buildStartModel(id, start.data, end.data);
     if (startModel) saveModel(id, startModel);
   };
   return (

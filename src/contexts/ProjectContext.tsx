@@ -59,6 +59,7 @@ export const ProjectProvider: FCC = ({ children }) => {
         const response = await ProjectService.getCurve(projectId, curveName);
 
         setCurves((prev) => {
+          console.log(prev);
           return prev.map((curve) => {
             if (curve.name === curveName) {
               return { name: curveName, data: response.data.curveData } as ICurve;
@@ -82,16 +83,22 @@ export const ProjectProvider: FCC = ({ children }) => {
     [curves, tracksProperties, setTracksProperties],
   );
 
+  const filterOldCurves = useCallback(
+    (curvesNames: string[]) => {
+      return curvesNames
+        .filter((name) => !curves.find((curveWithData) => curveWithData.name === name))
+        .map((name) => {
+          return { name: name, data: [] } as ICurve;
+        });
+    },
+    [curves],
+  );
   const parseState = useCallback(
     (state: IProjectState) => {
       setId(state.id);
       if (state.curvesNames) {
-        const newCurves = state.curvesNames
-          .filter((name) => !curves.find((curveWithData) => curveWithData.name === name))
-          .map((name) => {
-            return { name: name, data: [] } as ICurve;
-          });
-        setCurves(newCurves);
+        const newCurves = filterOldCurves(state.curvesNames);
+        setCurves((curves) => [...curves, ...newCurves]);
       }
       if (state.trackProperties) setTracksProperties(state.trackProperties);
       if (state.depthTrackProperties) setDepthTrackProperties(state.depthTrackProperties);
@@ -105,9 +112,9 @@ export const ProjectProvider: FCC = ({ children }) => {
       setTracksProperties,
       setTableProperties,
       setModels,
-      curves,
       setDepthTrackProperties,
       setModelCurveProperties,
+      filterOldCurves,
     ],
   );
   const createProject = useCallback(
@@ -130,18 +137,15 @@ export const ProjectProvider: FCC = ({ children }) => {
     async (formData: FormData) => {
       try {
         const response = await ProjectService.uploadFile(formData);
-        const currentCurvesNames = curves.map((curve) => curve.name);
-        const responseCurves = response.data.curvesNames
-          .filter((name) => !currentCurvesNames.includes(name))
-          .map((name) => ({ name })) as ICurve[];
+        const responseCurves = filterOldCurves(response.data.curvesNames);
         if (responseCurves.map((c) => c.name).includes(DEPTH)) getCurveData(id, DEPTH);
         if (responseCurves.map((c) => c.name).includes(TVD)) getCurveData(id, TVD);
-        setCurves(curves.concat(responseCurves));
+        setCurves((curves) => curves.concat(responseCurves));
       } catch (e) {
         console.log(e);
       }
     },
-    [curves, id, getCurveData],
+    [id, getCurveData, filterOldCurves],
   );
   const clearProjectContext = useCallback(() => {
     setId(-1);
@@ -151,15 +155,18 @@ export const ProjectProvider: FCC = ({ children }) => {
     clearSettings();
     clearModelsState();
   }, [clearSettings, setVisible, clearModelsState]);
-  const getCurvesNames = useCallback(async (projectId: number) => {
-    try {
-      const response = await ProjectService.getCurves(projectId);
-      const responseCurves = response.data.curvesNames.map((name) => ({ name })) as ICurve[];
-      setCurves(responseCurves);
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
+  const getCurvesNames = useCallback(
+    async (projectId: number) => {
+      try {
+        const response = await ProjectService.getCurves(projectId);
+        const responseCurves = filterOldCurves(response.data.curvesNames);
+        setCurves((curves) => curves.concat(responseCurves));
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [filterOldCurves],
+  );
   const getProject = useCallback(
     async (projectId: number): Promise<number> => {
       try {

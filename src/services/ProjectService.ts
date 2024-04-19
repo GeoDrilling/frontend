@@ -99,4 +99,10 @@ export default class ProjectService {
   static async createAreaEquivalence(modelId: number, data: IAreaEq) {
     return $api.post<Blob>(`/areas/create/${modelId}`, data, { responseType: 'blob' });
   }
+  static async getDepthMin(projectId: number) {
+    return $api.get<number>('lasfile/dept/min', { params: { project_id: projectId } });
+  }
+  static async getDepthMax(projectId: number) {
+    return $api.get<number>('lasfile/dept/max', { params: { project_id: projectId } });
+  }
 }

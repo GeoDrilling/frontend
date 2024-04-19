@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import styles from './FilesTree.module.css';
 import { useScroll } from '../../../hooks/useScroll.tsx';
 import Directory, { IDirectory, IFile } from '@components/business/FilesTree/Directory.tsx';
@@ -6,18 +6,9 @@ import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
 
 const FilesTree: FC = () => {
   const { curves } = useProjectContext();
-  /*const curves = [
-    {name: 'curve 1'},
-    {name: '/dir/curve 1'},
-    {name: '/dir/curve 2'},
-    {name: '/dir2/curve 1'},
-    {name: '/dir2/curve 2'},
-    {name: 'curve 2'},
-  ]*/
   const scrollRef = useScroll([curves.length]);
-  if (curves.length <= 0) return <div className={styles.container} />;
 
-  const constructTree = (root: IDirectory, paths: string[][], depth: number): IDirectory => {
+  const constructTree = useCallback((root: IDirectory, paths: string[][], depth: number): IDirectory => {
     const nextPaths = paths.filter((p) => p.length > depth);
     if (nextPaths.length !== 0) {
       let lastDirectoryName = nextPaths[0][depth - 1];
@@ -52,17 +43,25 @@ const FilesTree: FC = () => {
     if (files.length > 0) root.files = [...root.files, ...files];
 
     return root;
-  };
+  }, []);
 
-  const paths = curves
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map((curve) => {
-      let path: string[];
-      if (curve.name.startsWith('/')) path = curve.name.slice(1, curve.name.length).split('/');
-      else path = curve.name.split('/');
-      return path;
-    });
-  const root: IDirectory = constructTree({ name: '', files: [], isFile: false }, paths, 1);
+  const paths = useMemo(
+    () =>
+      curves
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((curve) => {
+          let path: string[];
+          if (curve.name.startsWith('/')) path = curve.name.slice(1, curve.name.length).split('/');
+          else path = curve.name.split('/');
+          return path;
+        }),
+    [curves],
+  );
+  const root: IDirectory = useMemo(
+    () => constructTree({ name: '', files: [], isFile: false }, paths, 1),
+    [paths, constructTree],
+  );
+  if (curves.length <= 0) return <div className={styles.container} />;
   return (
     <div className={styles.container} ref={scrollRef}>
       <Directory dir={root} prefix={''} />

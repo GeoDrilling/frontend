@@ -110,6 +110,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
   };
 
   const tvd = useMemo(() => curves.find((c) => c.name === 'TVD' && c.data), [curves]);
+  console.log(tvd, ' --- tvd');
   return (
     <div className={classNames(styles.container, className)}>
       {isVisible ? (
@@ -211,15 +212,13 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                     }}
                   >
                     <ModelCurve
-                      data={[
-                        {
-                          x: 3100,
-                          y: models[0].tvdStart,
-                          alpha: models[0].alpha,
-                          roUp: models[0].roUp,
-                          roDown: models[0].roDown,
-                        },
-                      ]}
+                      data={models.map((m) => ({
+                        x: m.start,
+                        y: m.tvdStart,
+                        alpha: m.alpha,
+                        roUp: m.roUp,
+                        roDown: m.roDown,
+                      }))}
                       domain={{
                         min: (modelCurveProperties.properties[0].properties[OrderModelCurveMain.MIN] as INumberProperty)
                           .value,

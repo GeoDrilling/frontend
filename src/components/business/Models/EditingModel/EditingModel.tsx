@@ -49,9 +49,9 @@ const EditingModel: FC<EditingModelProps> = ({ startId, onComplete }) => {
   const onDone = async () => {
     if (edited.length > 0) {
       const model = modelParamToModel(newModel);
-      //saveModel(id, model.start, model.end, model)
-      //TODO на беке пока не работает диапазон
-      await saveModel(id, model);
+      const start = models[currentId].start;
+      const end = models[currentId].end;
+      await saveModel(id, { ...model, start, end });
     }
     onComplete();
   };

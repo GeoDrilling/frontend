@@ -13,7 +13,11 @@ const Curve: FC<CurveProps> = ({ file, prefix }) => {
   return (
     <li key={prefix + file.name}>
       <div className={classNames(styles.centredBox, styles.margin)}>
-        <div onDragStart={(e) => dragStart(e, prefix + file.name)} draggable={true} className={styles.drag}>
+        <div
+          onDragStart={(e) => (prefix === '' ? dragStart(e, file.name) : dragStart(e, prefix + '/' + file.name))}
+          draggable={true}
+          className={styles.drag}
+        >
           <span className={styles.dataset} />
           <span className={styles.text}>{file.name}</span>
         </div>
