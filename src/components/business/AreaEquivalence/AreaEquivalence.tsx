@@ -46,14 +46,19 @@ const AreaEquivalence: FC<AreaEquivalenceProps> = ({ className }) => {
     const lastScreen = windows;
     setWindows({ ...defaultWindows, isLoading: true });
     const url = await createAreaEq(models[currentId].idModel, buildArea);
-    if (url) {
-      setImage(url);
-      setWindows({ ...defaultWindows, isImage: true });
-    } else setWindows(lastScreen);
+    if (url) toImage(url);
+    else setWindows(lastScreen);
+  };
+  const toImage = (url: string) => {
+    setImage(url);
+    setWindows({ ...defaultWindows, isImage: true });
   };
   const toSettings = (first: string, second: string) => {
     setBuildArea({ ...buildArea, param1: fullNameToShort(first), param2: fullNameToShort(second) });
     setWindows({ ...defaultWindows, isSettings: true });
+  };
+  const toList = () => {
+    setWindows({ ...defaultWindows, isList: true });
   };
   const fullNameToShort = (name: string): string => {
     let short;
@@ -97,12 +102,10 @@ const AreaEquivalence: FC<AreaEquivalenceProps> = ({ className }) => {
         <div className={styles.test}>
           <ModelHeader
             title='Test name'
-            leftImage='/src/assets/images/icon_cancel.svg'
             rightImage='/src/assets/images/icon_done.svg'
-            leftImageClassName={styles.cancel}
             rightImageClassName={styles.done}
-            onLeftClick={() => setWindows({ ...defaultWindows, isList: true })}
-            onRightClick={() => setWindows({ ...defaultWindows, isList: true })}
+            onLeftClick={toList}
+            onRightClick={toList}
           />
           <div ref={scrollRef}>
             <div className={styles.imagBox}>
@@ -111,9 +114,14 @@ const AreaEquivalence: FC<AreaEquivalenceProps> = ({ className }) => {
           </div>
         </div>
       )}
-      {windows.isList && <ListModelsAreaEq toSettings={toSettings} />}
+      {windows.isList && <ListModelsAreaEq toSettings={toSettings} toImage={toImage} />}
       {windows.isSettings && (
-        <SettingsAreaEquivalence buildArea={buildArea} setBuildArea={setBuildArea} createArea={buildAreaEq} />
+        <SettingsAreaEquivalence
+          buildArea={buildArea}
+          setBuildArea={setBuildArea}
+          createArea={buildAreaEq}
+          onBack={toList}
+        />
       )}
     </div>
   );

@@ -110,7 +110,6 @@ const Tablet: FC<TabletProps> = ({ className }) => {
   };
 
   const tvd = useMemo(() => curves.find((c) => c.name === 'TVD' && c.data), [curves]);
-  console.log(tvd, ' --- tvd');
   return (
     <div className={classNames(styles.container, className)}>
       {isVisible ? (

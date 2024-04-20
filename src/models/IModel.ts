@@ -68,3 +68,9 @@ export interface IAreaEq {
   colorMax?: number;
   level: number[];
 }
+export interface IHistoryAreaEq {
+  param1: string;
+  param2: string;
+  gridFrequency: number;
+  number: number;
+}
