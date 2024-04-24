@@ -87,7 +87,7 @@ const StartModel: FC<StartModelProps> = ({ toList, toParametersRange }) => {
             Подбор параметров
           </Button>
           <Button className={styles.button} onClick={backToStartParams}>
-            Вернуться к стартовым параметрам
+            Сброс параметров
           </Button>
         </div>
       </div>

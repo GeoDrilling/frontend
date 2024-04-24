@@ -4,13 +4,15 @@ import { useScroll } from '../../../../hooks/useScroll.tsx';
 import ModelParameters from '@components/business/Models/ModelParameters/ModelParameters.tsx';
 import { IAreaEq } from '../../../../models/IModel.ts';
 import Button from '@components/UI/Button/Button.tsx';
+import ModelHeader from '@components/business/Models/ModelHeader/ModelHeader.tsx';
 
 interface SettingsAreaEqProps {
   buildArea: IAreaEq;
   setBuildArea: (buildArea: IAreaEq) => void;
   createArea: () => void;
+  onBack: () => void;
 }
-const SettingsAreaEquivalence: FC<SettingsAreaEqProps> = ({ buildArea, setBuildArea, createArea }) => {
+const SettingsAreaEquivalence: FC<SettingsAreaEqProps> = ({ buildArea, setBuildArea, createArea, onBack }) => {
   const scrollRef = useScroll();
   const changeColorMax = (e?: number) => {
     setBuildArea({ ...buildArea, colorMax: e });
@@ -37,6 +39,7 @@ const SettingsAreaEquivalence: FC<SettingsAreaEqProps> = ({ buildArea, setBuildA
   };
   return (
     <div className={styles.container}>
+      <ModelHeader title='' leftImage='/src/assets/images/icon_arrow_left.svg' onLeftClick={onBack} />
       <div className={styles.scroll} ref={scrollRef}>
         <h1 className={styles.title}>Диапазон цветовой карты</h1>
         <table className={styles.table}>

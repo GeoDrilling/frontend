@@ -19,6 +19,7 @@
 
 .parametersContainer {
   padding: 15px;
+  min-width: 260px;
 }
 .row {
   display: flex;
@@ -34,7 +35,8 @@
 .value {
   max-width: 30%;
   width: 30%;
-  min-width: 105px;
+  min-width: 80px;
+  margin-left: 10px;
 }
 .button {
   width: 270px;
@@ -47,6 +49,7 @@
   align-items: center;
   margin-top: 30px;
   margin-bottom: 20px;
+  min-width: 250px;
 }
 .btnContainer .button:first-child {
   margin-bottom: 10px;

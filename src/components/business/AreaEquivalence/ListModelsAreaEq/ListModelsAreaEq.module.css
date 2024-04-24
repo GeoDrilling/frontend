@@ -75,6 +75,16 @@
   justify-content: start;
   width: 100%;
 }
+.title {
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--primary);
+  width: 100%;
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
 .btnContainer {
   display: flex;
   align-items: center;
@@ -85,4 +95,36 @@
 .slider {
   flex-grow: 1;
   height: 5px;
+}
+.itemBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  padding: 10px;
+  border: var(--secondary) solid 1px;
+  min-width: 260px;
+}
+.itemBox .item:not(:last-child) {
+  margin-bottom: 15px;
+}
+.item {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--primary);
+  margin: 0;
+}
+.grid {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--primary);
+  width: 70px;
+  margin: 0;
+  text-align: end;
+}
+.history .itemBox:not(:last-child) {
+  margin-bottom: 10px;
+}
+.flex {
+  display: flex;
+  justify-content: center;
 }

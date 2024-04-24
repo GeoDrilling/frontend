@@ -1,6 +1,6 @@
 import $api from '../http';
 import { CurveDataDownload, ICurves, IProject, IProjectState } from '../models/IProject.ts';
-import { IAreaEq, IModelParams, RangeParameters } from '../models/IModel.ts';
+import { IAreaEq, IHistoryAreaEq, IModelParams, RangeParameters } from '../models/IModel.ts';
 import { Selections } from '../models/Selection.ts';
 import { SootOutResponse } from '../models/SootOutResponse.ts';
 
@@ -104,5 +104,11 @@ export default class ProjectService {
   }
   static async getDepthMax(projectId: number) {
     return $api.get<number>('lasfile/dept/max', { params: { project_id: projectId } });
+  }
+  static async getHistoryAreas(modelId: number) {
+    return $api.get<IHistoryAreaEq[]>('areas/getAllAreas', { params: { model_id: modelId } });
+  }
+  static async getAreas(modelId: number, historyId: number) {
+    return $api.get<Blob>('areas/getAreas', { params: { model_id: modelId, number: historyId }, responseType: 'blob' });
   }
 }

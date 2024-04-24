@@ -40,7 +40,7 @@ export const ModelContext = createContext<ModelContext>({} as ModelContext);
 
 export const ModelProvider: FCC = ({ children }) => {
   const [models, setModels] = useState<IModelParams[]>([]);
-  const [currentId, setCurrentId] = useState<number>(-1);
+  const [currentId, setCurrentId] = useState<number>(0);
   const [isMapped, setIsMapped] = useState<boolean>(false);
   const [newModel, setNewModel] = useState<IModelParams>();
   const [isLoading, setIsLoading] = useState<boolean>(false);

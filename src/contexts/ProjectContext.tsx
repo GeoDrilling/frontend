@@ -59,7 +59,6 @@ export const ProjectProvider: FCC = ({ children }) => {
         const response = await ProjectService.getCurve(projectId, curveName);
 
         setCurves((prev) => {
-          console.log(prev);
           return prev.map((curve) => {
             if (curve.name === curveName) {
               return { name: curveName, data: response.data.curveData } as ICurve;
