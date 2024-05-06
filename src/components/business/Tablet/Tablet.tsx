@@ -32,6 +32,7 @@ import { DEPTH } from '../../../utils/utils.tsx';
 import UploadWindow from '@components/business/UploadWindow/UploadWindow.tsx';
 import { useUploadContext } from '../../../hooks/context/useUploadContext.ts';
 import { useModel } from '../../../hooks/context/useModel.ts';
+import { useGradientContext } from '../../../hooks/context/useGradientContext.ts';
 
 interface TabletProps {
   className?: string;
@@ -51,6 +52,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
   } = useContextualSettings();
   const { id, depth, curves, getCurveData } = useProjectContext();
   const { models } = useModel();
+  const { gradient } = useGradientContext();
 
   useEffect(() => {
     downloadWithRetry();
@@ -108,7 +110,13 @@ const Tablet: FC<TabletProps> = ({ className }) => {
       getCurveData(id, curveName);
     }
   };
-
+  /*const rgbToHex = useCallback( (rgb: string) => {
+    const components = rgb.split(',')
+    const r = Number(components[0].slice(5))
+    const g = Number(components[1])
+    const b = Number(components[2])
+    return "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1);
+  }, [])*/
   const tvd = useMemo(() => curves.find((c) => c.name === 'TVD' && c.data), [curves]);
   return (
     <div className={classNames(styles.container, className)}>
@@ -218,6 +226,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                         roUp: m.roUp,
                         roDown: m.roDown,
                       }))}
+                      palette={{ gradient }}
                       domain={{
                         min: (modelCurveProperties.properties[0].properties[OrderModelCurveMain.MIN] as INumberProperty)
                           .value,
@@ -319,7 +328,11 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                         }}
                       >
                         {track.curves.map((curveProp, curveIndex) => {
-                          const curve = curves.find((curve) => curve.name === curveProp.name && curve.data);
+                          const curve = curves.find(
+                            (curve) =>
+                              (curve.name === curveProp.name || curve.name === curveProp.name.substring(1)) &&
+                              curve.data,
+                          );
                           if (curve) {
                             return (
                               <Curve

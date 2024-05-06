@@ -91,7 +91,14 @@
   flex-direction: column;
   margin-top: 30px;
 }
-
+.tip {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--primary);
+  margin: 0;
+  padding-left: 15px;
+  padding-bottom: 15px;
+}
 .slider {
   flex-grow: 1;
   height: 5px;

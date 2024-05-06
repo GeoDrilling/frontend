@@ -7,12 +7,15 @@ import { useContextualSettings } from '../../../hooks/context/useContextualSetti
 import {
   ContextType,
   IBaseProperty,
+  IGradient,
   IGroupProperties,
   ITrackProperties,
 } from '../../../models/ContextualSettingsTypes.ts';
 import TabletProperties from '@components/business/ContextualSettings/TabletProperties/TabletProperties.tsx';
 import TrackProperties from '@components/business/ContextualSettings/TrackProperties/TrackProperties.tsx';
 import DepthTrackProperties from '@components/business/ContextualSettings/DepthTrackProperties/DepthTrackProperties.tsx';
+import ModelCurveProperties from '@components/business/ContextualSettings/ModelCurveProperties/ModelCurveProperties.tsx';
+import { useGradientContext } from '../../../hooks/context/useGradientContext.ts';
 
 interface ContextualSettingsProps {
   className?: string;
@@ -32,6 +35,7 @@ const ContextualSettings: FC<ContextualSettingsProps> = ({ className }) => {
     modelCurveProperties,
     setModelCurveProperties,
   } = useContextualSettings();
+  const { setGradient } = useGradientContext();
 
   const updateProperty = (
     value: number | string,
@@ -109,6 +113,9 @@ const ContextualSettings: FC<ContextualSettingsProps> = ({ className }) => {
       }),
     );
   };
+  const changeModelCurveGradient = (gradient: IGradient[]) => {
+    setGradient(gradient);
+  };
   return (
     <div className={classNames(styles.container, className)}>
       <WindowHeader image={'/src/assets/images/icon_properties.svg'} title={'Свойства'} closeWindow={toggleSettings} />
@@ -128,7 +135,11 @@ const ContextualSettings: FC<ContextualSettingsProps> = ({ className }) => {
         <DepthTrackProperties depthTrackProps={depthTrackProperties} changeProperty={changeDepthTrackProperty} />
       )}
       {contextType == ContextType.MODEL && (
-        <DepthTrackProperties depthTrackProps={modelCurveProperties} changeProperty={changeModelCurveProperty} />
+        <ModelCurveProperties
+          modelCurveProps={modelCurveProperties}
+          changeProperty={changeModelCurveProperty}
+          changeGradient={changeModelCurveGradient}
+        />
       )}
     </div>
   );

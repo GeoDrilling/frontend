@@ -53,6 +53,9 @@ export interface IGroupProperties {
 export interface IContainerGroupProperties {
   properties: IGroupProperties[];
 }
+export interface IModelCurveGroupProperties extends IContainerGroupProperties {
+  gradient?: IGradient[];
+}
 export interface ITrackProperties {
   curves: ICurveProperties[];
   properties: IGroupProperties[];
@@ -79,4 +82,8 @@ export interface IEnumProperty extends IBaseProperty {
 
 export interface IColorProperty extends IBaseProperty {
   value: string;
+}
+export interface IGradient {
+  value: string;
+  position: number;
 }
