@@ -44,7 +44,6 @@ const FilesTree: FC = () => {
 
     return root;
   }, []);
-
   const paths = useMemo(
     () =>
       curves

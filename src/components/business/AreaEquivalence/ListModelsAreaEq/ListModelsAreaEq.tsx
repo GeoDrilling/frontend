@@ -33,7 +33,7 @@ const ListModelsAreaEq: FC<ListModelsAreaEqProps> = ({ className, toSettings, to
   useEffect(() => {
     getHistory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentId]);
   const getHistory = async () => {
     const response = await ProjectService.getHistoryAreas(models[currentId].idModel);
     setHistory(response.data);
@@ -91,6 +91,9 @@ const ListModelsAreaEq: FC<ListModelsAreaEqProps> = ({ className, toSettings, to
         onRightClick={next}
         rightImage='/src/assets/images/icon_arrow_right.svg'
       />
+      <p className={styles.tip}>
+        Диапазон модели {models[currentId].start}-{models[currentId].end}
+      </p>
       <div className={styles.contentBox}>
         <div className={styles.scroll} ref={scrollRef}>
           <table className={styles.table}>

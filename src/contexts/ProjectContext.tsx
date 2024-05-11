@@ -7,6 +7,7 @@ import { groupsCurveProperties, trackProperties } from '../utils/ContextualSetti
 import { DEPTH, TVD } from '../utils/utils.tsx';
 import { useUploadContext } from '../hooks/context/useUploadContext.ts';
 import { useModel } from '../hooks/context/useModel.ts';
+import { useGradientContext } from '../hooks/context/useGradientContext.ts';
 
 interface ProjectContext {
   id: number;
@@ -37,6 +38,7 @@ export const ProjectProvider: FCC = ({ children }) => {
     modelCurveProperties,
     setModelCurveProperties,
   } = useContextualSettings();
+  const { setGradient, gradient } = useGradientContext();
   const { setVisible } = useUploadContext();
   const { setModels, models, clearModelsState } = useModel();
   const [id, setId] = useState<number>(-1);
@@ -60,7 +62,8 @@ export const ProjectProvider: FCC = ({ children }) => {
 
         setCurves((prev) => {
           return prev.map((curve) => {
-            if (curve.name === curveName) {
+            //TODO
+            if (curve.name === curveName || curve.name === curveName.substring(1)) {
               return { name: curveName, data: response.data.curveData } as ICurve;
             }
             return curve;
@@ -81,27 +84,36 @@ export const ProjectProvider: FCC = ({ children }) => {
     },
     [curves, tracksProperties, setTracksProperties],
   );
-
-  const filterOldCurves = useCallback(
-    (curvesNames: string[]) => {
-      return curvesNames
-        .filter((name) => !curves.find((curveWithData) => curveWithData.name === name))
-        .map((name) => {
-          return { name: name, data: [] } as ICurve;
-        });
-    },
-    [curves],
-  );
+  //находит кривые, которых ещё не было
+  const filterOldCurves = useCallback((curvesNames: string[], curves: ICurve[]) => {
+    return curvesNames
+      .filter((name) => !curves.find((curveWithData) => curveWithData.name === name))
+      .map((name) => {
+        return { name: name, data: [] } as ICurve;
+      });
+  }, []);
   const parseState = useCallback(
     (state: IProjectState) => {
       setId(state.id);
       if (state.curvesNames) {
-        const newCurves = filterOldCurves(state.curvesNames);
-        setCurves((curves) => [...curves, ...newCurves]);
+        setCurves((curves) => [...curves, ...filterOldCurves(state.curvesNames, curves)]);
       }
+
       if (state.trackProperties) setTracksProperties(state.trackProperties);
       if (state.depthTrackProperties) setDepthTrackProperties(state.depthTrackProperties);
-      if (state.modelCurveProperties) setModelCurveProperties(state.modelCurveProperties);
+      if (state.modelCurveProperties) {
+        setModelCurveProperties(state.modelCurveProperties);
+
+        if (state.modelCurveProperties.gradient && state.modelCurveProperties.gradient.length > 1) {
+          setGradient(state.modelCurveProperties.gradient);
+        } else {
+          setGradient([
+            { value: 'rgba(251,187,59,1)', position: 0 },
+            { value: 'rgba(241,80,37,1)', position: 100 },
+          ]);
+        }
+      }
+
       if (state.tabletProperties) setTableProperties(state.tabletProperties);
       if (state.modelDTOList) setModels(state.modelDTOList);
     },
@@ -114,6 +126,7 @@ export const ProjectProvider: FCC = ({ children }) => {
       setDepthTrackProperties,
       setModelCurveProperties,
       filterOldCurves,
+      setGradient,
     ],
   );
   const createProject = useCallback(
@@ -136,10 +149,13 @@ export const ProjectProvider: FCC = ({ children }) => {
     async (formData: FormData) => {
       try {
         const response = await ProjectService.uploadFile(formData);
-        const responseCurves = filterOldCurves(response.data.curvesNames);
-        if (responseCurves.map((c) => c.name).includes(DEPTH)) getCurveData(id, DEPTH);
-        if (responseCurves.map((c) => c.name).includes(TVD)) getCurveData(id, TVD);
-        setCurves((curves) => curves.concat(responseCurves));
+
+        setCurves((curves) => {
+          const responseCurves = filterOldCurves(response.data.curvesNames, curves);
+          if (responseCurves.map((c) => c.name).includes(DEPTH)) getCurveData(id, DEPTH);
+          if (responseCurves.map((c) => c.name).includes(TVD)) getCurveData(id, TVD);
+          return curves.concat(responseCurves);
+        });
       } catch (e) {
         console.log(e);
       }
@@ -158,8 +174,7 @@ export const ProjectProvider: FCC = ({ children }) => {
     async (projectId: number) => {
       try {
         const response = await ProjectService.getCurves(projectId);
-        const responseCurves = filterOldCurves(response.data.curvesNames);
-        setCurves((curves) => curves.concat(responseCurves));
+        setCurves((curves) => curves.concat(filterOldCurves(response.data.curvesNames, curves)));
       } catch (e) {
         console.log(e);
       }
@@ -189,13 +204,16 @@ export const ProjectProvider: FCC = ({ children }) => {
         curvesNames: curves.map((c) => c.name),
         modelDTOList: models,
         depthTrackProperties,
-        modelCurveProperties,
+        modelCurveProperties: {
+          properties: modelCurveProperties.properties,
+          gradient: gradient,
+        },
       };
       await ProjectService.saveProjectState(state);
     } catch (e) {
       console.log(e);
     }
-  }, [id, tabletProperties, tracksProperties, curves, models, depthTrackProperties, modelCurveProperties]);
+  }, [id, tabletProperties, tracksProperties, curves, models, depthTrackProperties, modelCurveProperties, gradient]);
 
   const value = useMemo(
     () => ({

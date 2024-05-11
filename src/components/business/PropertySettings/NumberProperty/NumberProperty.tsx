@@ -24,13 +24,11 @@ const NumberProperty: FC<NumberPropertyProps> = ({ property, changeProperty }) =
     try {
       result = parseFloat(value);
     } catch (e) {
-      console.log(nullableProperties);
       result = undefined;
     } finally {
       changeProperty(result);
     }
   };
-  if (property.name === 'Высота') console.log(property);
   return (
     <div className={styles.container}>
       <input
