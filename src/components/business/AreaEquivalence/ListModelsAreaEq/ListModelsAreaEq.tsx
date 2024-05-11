@@ -128,7 +128,7 @@ const ListModelsAreaEq: FC<ListModelsAreaEqProps> = ({ className, toSettings, to
               <div className={styles.history}>
                 <h2 className={styles.title}>История областей эквивалентности</h2>
                 {history.map((h) => (
-                  <div className={styles.itemBox} onClick={() => onItemClick(h.number)}>
+                  <div className={styles.itemBox} onClick={() => onItemClick(h.number)} key={h.number}>
                     <div>
                       <p className={styles.item}>{mapName(h.param1)}</p>
                       <p className={styles.item}>{mapName(h.param2)}</p>

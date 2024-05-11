@@ -4,6 +4,7 @@ import { FCC } from '../types/types.tsx';
 import ProjectService from '../services/ProjectService.ts';
 import { ALPHA, KANISOTROPY_DOWN, KANISOTROPY_UP, RO_DOWN, RO_UP, TVD_START } from '../utils/CurveMappingConst.ts';
 import { model, suffixes } from '@components/business/Models/ModelConstants.ts';
+import { ICurve } from '../models/IProject.ts';
 
 interface ModelContext {
   models: IModelParams[];
@@ -17,7 +18,7 @@ interface ModelContext {
   getIsCurveMapped: (projectId: number) => Promise<void>;
   buildStartModel: (projectId: number, start: number, end: number) => Promise<IModelParams | null>;
   getModels: (projectId: number) => Promise<void>;
-  saveModel: (projectId: number, model: IModelParams) => Promise<void>;
+  saveModel: (projectId: number, model: IModelParams) => Promise<ICurve[] | undefined>;
   currentId: number;
   setCurrentId: Dispatch<SetStateAction<number>>;
   isMapped: boolean;
@@ -112,21 +113,30 @@ export const ModelProvider: FCC = ({ children }) => {
     }
   }, []);
 
-  const saveModel = useCallback(async (projectId: number, model: IModelParams) => {
-    try {
-      const response = await ProjectService.saveModel(projectId, model);
-      setModels(response.data.modelDTO);
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
+  const saveModel = useCallback(
+    async (projectId: number, model: IModelParams): Promise<ICurve[] | undefined> => {
+      try {
+        const response = await ProjectService.saveModel(projectId, model);
+        console.log(`current id - ${currentId}, length models - ${response.data.modelDTO.length}`);
+        if (currentId >= response.data.modelDTO.length) {
+          console.log('change current id');
+          setCurrentId(0);
+        }
+        setModels(response.data.modelDTO);
+        return response.data.curveDtoList;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [currentId],
+  );
 
   const modelToModelParams = useCallback((model: IModelParams): IModelParameter[] => {
     return [
-      { name: RO_DOWN, value: model.roDown },
       { name: RO_UP, value: model.roUp },
-      { name: KANISOTROPY_DOWN, value: model.kanisotropyDown },
+      { name: RO_DOWN, value: model.roDown },
       { name: KANISOTROPY_UP, value: model.kanisotropyUp },
+      { name: KANISOTROPY_DOWN, value: model.kanisotropyDown },
       { name: ALPHA, value: model.alpha },
       { name: TVD_START, value: model.tvdStart },
     ];

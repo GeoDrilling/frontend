@@ -23,7 +23,9 @@ const EditingModel: FC<EditingModelProps> = ({ startId, onComplete }) => {
   const { saveModel, modelToModelParams, modelParamToModel } = useModel();
   useEffect(() => {
     const model = models[currentId];
+    console.log(model);
     const modelParams = modelToModelParams(model);
+    console.log(modelParams);
     setNewModel(modelParams);
     setOldModel(modelParams);
     //eslint-disable-next-line react-hooks/exhaustive-deps

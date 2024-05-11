@@ -13,9 +13,10 @@ interface StartModelProps {
   toParametersRange: () => void;
   toList: () => void;
 }
+
 const StartModel: FC<StartModelProps> = ({ toList, toParametersRange }) => {
   const newModelParams = useNewModelParams();
-  const { id } = useProjectContext();
+  const { id, updateCurves } = useProjectContext();
   const { setNewModel, newModel, buildStartModel, modelParamToModel, saveModel, models, currentId, clearNewModel } =
     useModel();
   const scrollRef = useScroll();
@@ -26,14 +27,16 @@ const StartModel: FC<StartModelProps> = ({ toList, toParametersRange }) => {
   }, [models, currentId]);
   const onValueChange = (name: string, value?: number) => {
     if (!value) return;
-    setNewModel(
-      modelParamToModel(
+    setNewModel({
+      ...modelParamToModel(
         [...newModelParams].map((p) => {
           if (p.name === name) return { value, name };
           return p;
         }),
       ),
-    );
+      start: newModel?.start == null ? 0 : newModel?.start,
+      end: newModel?.end == null ? 0 : newModel?.end,
+    });
   };
   const backToStartParams = async () => {
     const model = await buildStartModel(
@@ -45,7 +48,11 @@ const StartModel: FC<StartModelProps> = ({ toList, toParametersRange }) => {
   };
 
   const onDone = async () => {
-    await saveModel(id, newModel!);
+    const synthetic = await saveModel(id, newModel!);
+    if (synthetic) {
+      console.log('synthetic exists');
+      updateCurves(synthetic);
+    }
     clearNewModel();
     toList();
   };

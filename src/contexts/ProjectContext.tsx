@@ -22,6 +22,7 @@ interface ProjectContext {
   clearProjectContext: () => void;
   setDepth: Dispatch<SetStateAction<number[]>>;
   saveProjectState: () => void;
+  updateCurves: (curves: ICurve[]) => void;
 }
 
 export const ProjectContext = createContext<ProjectContext>({} as ProjectContext);
@@ -46,6 +47,28 @@ export const ProjectProvider: FCC = ({ children }) => {
   const [depth, setDepth] = useState<number[]>([]);
   const [isCreating, setIsCreating] = useState(false);
 
+  const updateCurves = useCallback(
+    (curves: ICurve[]) => {
+      setCurves((prev) => {
+        const newCurves = [...prev];
+        curves.forEach((curve) => {
+          const tryFind = prev.find(
+            (prevCurve) => curve.name === prevCurve.name || curve.name.substring(1) === prevCurve.name,
+          );
+          if (tryFind) {
+            tryFind.data = curve.data;
+          } else {
+            if (curve.name[0] === '/') newCurves.push({ ...curve, name: curve.name.substring(1) });
+            else newCurves.push(curve);
+          }
+        });
+        console.log(newCurves);
+        return newCurves;
+      });
+    },
+    [setCurves],
+  );
+
   const getCurveData = useCallback(
     async (projectId: number, curveName: string, isCreateNewTrackProperties?: boolean) => {
       const data = curves.find((curve) => curve.name === curveName)?.data;
@@ -59,13 +82,11 @@ export const ProjectProvider: FCC = ({ children }) => {
       }
       try {
         const response = await ProjectService.getCurve(projectId, curveName);
-
         setCurves((prev) => {
           return prev.map((curve) => {
-            //TODO
-            if (curve.name === curveName || curve.name === curveName.substring(1)) {
-              return { name: curveName, data: response.data.curveData } as ICurve;
-            }
+            if (curve.name === curveName) return { name: curveName, data: response.data.curveData } as ICurve;
+            if (curve.name === curveName.substring(1))
+              return { name: curveName.substring(1), data: response.data.curveData } as ICurve;
             return curve;
           });
         });
@@ -229,6 +250,7 @@ export const ProjectProvider: FCC = ({ children }) => {
       setDepth,
       getCurveData,
       saveProjectState,
+      updateCurves,
     }),
     [
       id,
@@ -242,6 +264,7 @@ export const ProjectProvider: FCC = ({ children }) => {
       clearProjectContext,
       saveProjectState,
       createProject,
+      updateCurves,
     ],
   );
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;

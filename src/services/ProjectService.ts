@@ -1,5 +1,5 @@
 import $api from '../http';
-import { CurveDataDownload, ICurves, IProject, IProjectState } from '../models/IProject.ts';
+import { CurveDataDownload, ICurve, ICurves, IProject, IProjectState } from '../models/IProject.ts';
 import { IAreaEq, IHistoryAreaEq, IModelParams, RangeParameters } from '../models/IModel.ts';
 import { Selections } from '../models/Selection.ts';
 import { SootOutResponse } from '../models/SootOutResponse.ts';
@@ -25,9 +25,6 @@ export default class ProjectService {
   }
   static async getProjects() {
     return $api.get<IProject[]>('/project/userAll');
-  }
-  static async getProject(projectId: number) {
-    return $api.get<IProject>(`/project/${projectId}`);
   }
   static async getProjectState(projectId: number) {
     return $api.get<IProjectState>(`/project/state/${projectId}`);
@@ -90,7 +87,7 @@ export default class ProjectService {
     );
   }
   static async saveModel(projectId: number, modelParams: IModelParams) {
-    return $api.post<{ modelDTO: IModelParams[] }>(`/model/saveModel`, modelParams, {
+    return $api.post<{ modelDTO: IModelParams[]; curveDtoList: ICurve[] }>(`/model/saveModel`, modelParams, {
       params: {
         project_id: projectId,
       },
