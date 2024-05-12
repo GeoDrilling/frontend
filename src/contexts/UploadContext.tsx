@@ -19,6 +19,7 @@ export const UploadContextProvider: React.FC<UploadContextProviderProps> = ({ ch
   const setVisible = (isVisible: boolean) => {
     setIsVisible(isVisible);
   };
+
   const transformDataToSelections = useCallback((data: SootOutResponse): Selections => {
     return {
       L: {

@@ -1,10 +1,11 @@
-import { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import styles from './ProjectList.module.css';
 import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
 import { useOverlayScrollbars } from 'overlayscrollbars-react';
 import ProjectService from '../../../services/ProjectService.ts';
 import { Project } from '../../../models/IProject.ts';
 import { useNavigate } from 'react-router-dom';
+import ShareProjectDialog from '@components/business/ShareProjectDialog/ShareProjectDialog.tsx';
 
 interface ProjectListProps {
   projects: Project[];
@@ -17,6 +18,9 @@ const ProjectList: FC<ProjectListProps> = ({ projects, updateProjects }) => {
   const scrollRef = useRef(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [initialize, _] = useOverlayScrollbars({ defer: true });
+  const [open, setOpen] = useState(false);
+  const [projectId, setProjectId] = useState(-1);
+
   useEffect(() => {
     if (scrollRef.current) {
       initialize(scrollRef.current);
@@ -29,6 +33,11 @@ const ProjectList: FC<ProjectListProps> = ({ projects, updateProjects }) => {
     } catch (e) {
       console.log(e);
     }
+  };
+  const callShareDialog = (projectId: number, event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    event.stopPropagation();
+    setProjectId(projectId);
+    setOpen(true);
   };
   return (
     <div className={styles.container} ref={scrollRef}>
@@ -47,7 +56,12 @@ const ProjectList: FC<ProjectListProps> = ({ projects, updateProjects }) => {
             </p>
             <div className={styles.imagesContainer}>
               <img src='/src/assets/images/icon_edit.svg' alt='edit' className={styles.image} />
-              <img src='/src/assets/images/icon_share.svg' alt='share' className={styles.image} />
+              <img
+                src='/src/assets/images/icon_share.svg'
+                alt='share'
+                className={styles.image}
+                onClick={(e) => callShareDialog(project.id, e)}
+              />
               <img
                 src='/src/assets/images/icon_delete.svg'
                 alt='delete'
@@ -61,6 +75,7 @@ const ProjectList: FC<ProjectListProps> = ({ projects, updateProjects }) => {
           </div>
         ))}
       </div>
+      <ShareProjectDialog open={open} setOpen={setOpen} projectId={projectId} />
     </div>
   );
 };

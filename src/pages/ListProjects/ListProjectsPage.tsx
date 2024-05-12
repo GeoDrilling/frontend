@@ -14,8 +14,10 @@ const ListProjectsPage: FC = () => {
   const { clearProjectContext } = useProjectContext();
   const projectName = useInput('');
   projectName.input.placeholder = 'Название проекта';
-  const filteredProjects = useFiltered(projects, projectName.input.value, (p, query) =>
-    p.name.toLowerCase().includes(query.toLowerCase()),
+  const filteredProjects = useFiltered(
+    projects,
+    projectName.input.value,
+    (p, query) => p.name != null && p.name.toLowerCase().includes(query.toLowerCase()),
   );
   useEffect(() => {
     getAllUserProjects();

@@ -1,0 +1,39 @@
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.block {
+  display: flex;
+  justify-content: end;
+  width: 400px;
+}
+.block .btn {
+  text-transform: none;
+  color: white;
+  background-color: #fbbb3bff;
+  transition: opacity 0.2s ease-in;
+}
+.block .btn:hover {
+  color: white;
+  background-color: #fbbb3bff;
+  opacity: 0.8;
+}
+.block .btn:not(:first-child) {
+  margin-left: 10px;
+}
+.text .link {
+  margin-top: 10px;
+  text-decoration: underline;
+  color: #156fa3ff;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0 0 20px;
+}

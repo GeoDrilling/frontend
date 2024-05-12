@@ -5,9 +5,11 @@ import Landing from '@pages/Landing/Landing.tsx';
 import { Navigate } from 'react-router-dom';
 import ListProjectsPage from '@pages/ListProjects/ListProjectsPage.tsx';
 import FrozenProjectsPage from '@pages/FrozenProjects/FrozenProjectsPage.tsx';
+import ShareProjectPage from '@pages/ShareProjectPage/ShareProjectPage.tsx';
 
 export const privateRoutes = [
   { path: '/projects/:id', element: <GeoNavigation /> },
+  { path: '/projects/share/:token', element: <ShareProjectPage /> },
   { path: '/projects', element: <ListProjectsPage /> },
   { path: '/projects/:id/frozen', element: <FrozenProjectsPage /> },
   { path: '*', element: <Navigate to={'/projects'} replace={true} /> },

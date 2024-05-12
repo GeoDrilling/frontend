@@ -108,4 +108,10 @@ export default class ProjectService {
   static async getAreas(modelId: number, historyId: number) {
     return $api.get<Blob>('areas/getAreas', { params: { model_id: modelId, number: historyId }, responseType: 'blob' });
   }
+  static async getCopyProject(token: string) {
+    return $api.post<number>(`/project/share/copy/${token}`);
+  }
+  static async copyProject(projectId: number, readOnly: boolean = false) {
+    return $api.post<string>(`/project/share/${projectId}`, { readOnly });
+  }
 }

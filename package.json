@@ -12,6 +12,9 @@
     "format": "prettier --write src/**/* ./*.{json,*.json} !package-lock.json -u --no-error-on-unmatched-pattern"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.17",
     "@types/axios": "^0.14.0",
     "axios": "^1.6.0",
     "classnames": "^2.3.2",
