@@ -10,9 +10,13 @@ import TrajectoryData from '@components/business/UploadWindow/TrajectoryData.tsx
 import { SootOutResponse } from '../../../models/SootOutResponse.ts';
 import { useScroll } from '../../../hooks/useScroll.tsx';
 import Button from '@components/UI/Button/Button.tsx';
+import { useContextualSettings } from '../../../hooks/context/useContextualSettings.ts';
+import { OrderModelCurveMain, OrderTabletGroups, OrderTabletMain } from '../../../utils/ContextualSettingsConstatns.ts';
+import { DEPTH } from '../../../utils/utils.tsx';
 
 const UploadWindow: FC = () => {
-  const { id, curves } = useProjectContext();
+  const { id, curves, getCurveData } = useProjectContext();
+  const { updateProperty, setTableProperties, setModelCurveProperties } = useContextualSettings();
   const curveNames = ['--', ...curves.map((curve) => curve.name)];
   const { setVisible, transformDataToSelections } = useUploadContext();
   const [selections, setSelections] = useState<Selections>(initSelection);
@@ -138,6 +142,53 @@ const UploadWindow: FC = () => {
     await ProjectService.sootRename(id, selections);
     setSelections({});
     setVisible(false);
+    const tvdName = selections['Глубина'].selection1;
+    const tvdData = tvdName !== '--' ? await getCurveData(id, tvdName, false) : undefined;
+    const deptData = await getCurveData(id, DEPTH, false);
+    if (tvdData) {
+      setModelCurveProperties((prev) => {
+        return {
+          properties: updateProperty(
+            Math.round(Math.max(...tvdData) * 10) / 10,
+            0,
+            OrderModelCurveMain.MAX,
+            prev.properties,
+          ),
+        };
+      });
+      setModelCurveProperties((prev) => {
+        return {
+          properties: updateProperty(
+            Math.round(Math.min(...tvdData) * 10) / 10,
+            0,
+            OrderModelCurveMain.MIN,
+            prev.properties,
+          ),
+        };
+      });
+    }
+    if (deptData) {
+      setTableProperties((prev) => {
+        return {
+          properties: updateProperty(
+            Math.round(Math.min(...deptData) * 10) / 10,
+            OrderTabletGroups.MAIN,
+            OrderTabletMain.START_DEPTH,
+            prev.properties,
+          ),
+        };
+      });
+      setTableProperties((prev) => {
+        return {
+          properties: updateProperty(
+            Math.round(Math.max(...deptData) * 10) / 10,
+            OrderTabletGroups.MAIN,
+            OrderTabletMain.END_DEPTH,
+            prev.properties,
+          ),
+        };
+      });
+    }
   };
   const scrollRef = useScroll();
   return (

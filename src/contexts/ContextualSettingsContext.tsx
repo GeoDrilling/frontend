@@ -1,6 +1,12 @@
 import { createContext, Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
 import { FCC } from '../types/types.tsx';
-import { ContextType, IContainerGroupProperties, ITrackProperties } from '../models/ContextualSettingsTypes.ts';
+import {
+  ContextType,
+  IBaseProperty,
+  IContainerGroupProperties,
+  IGroupProperties,
+  ITrackProperties,
+} from '../models/ContextualSettingsTypes.ts';
 import { _tabletProperties } from '../utils/ContextualSettingsConstatns.ts';
 
 interface ContextualSettingsContext {
@@ -18,6 +24,12 @@ interface ContextualSettingsContext {
   setTrackIndex: Dispatch<SetStateAction<number>>;
   clearSettings: () => void;
   clearTracks: () => void;
+  updateProperty: (
+    value: number | string,
+    indexGroup: number,
+    indexProp: number,
+    properties: IGroupProperties[],
+  ) => IGroupProperties[];
 }
 
 export const ContextualSettingsContext = createContext<ContextualSettingsContext>({} as ContextualSettingsContext);
@@ -41,6 +53,28 @@ export const ContextualSettingsProvider: FCC = ({ children }) => {
     setTrackIndex(0);
   }, []);
 
+  const updateProperty = useCallback(
+    (
+      value: number | string,
+      indexGroup: number,
+      indexProp: number,
+      properties: IGroupProperties[],
+    ): IGroupProperties[] => {
+      return properties.map((group, idxGroup) => {
+        if (idxGroup === indexGroup)
+          return {
+            ...group,
+            properties: group.properties.map((prop, idxProp) => {
+              if (idxProp === indexProp) return { ...prop, value: value } as IBaseProperty;
+              return prop;
+            }),
+          } as IGroupProperties;
+        return group;
+      });
+    },
+    [],
+  );
+
   const value = useMemo(
     () => ({
       contextType,
@@ -57,6 +91,7 @@ export const ContextualSettingsProvider: FCC = ({ children }) => {
       modelCurveProperties,
       setDepthTrackProperties,
       setModelCurveProperties,
+      updateProperty,
     }),
     [
       contextType,
@@ -69,6 +104,7 @@ export const ContextualSettingsProvider: FCC = ({ children }) => {
       depthTrackProperties,
       setModelCurveProperties,
       setDepthTrackProperties,
+      updateProperty,
     ],
   );
   return <ContextualSettingsContext.Provider value={value}>{children}</ContextualSettingsContext.Provider>;

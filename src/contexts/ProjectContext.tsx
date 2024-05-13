@@ -18,11 +18,17 @@ interface ProjectContext {
   uploadLasFile: (formData: FormData) => void;
   getProject: (projectId: number) => Promise<number>;
   getCurvesNames: (projectId: number) => Promise<void>;
-  getCurveData: (projectId: number, curveName: string, isCreateTrackProperties?: boolean) => Promise<void>;
+  getCurveData: (
+    projectId: number,
+    curveName: string,
+    isCreateTrackProperties?: boolean,
+  ) => Promise<number[] | undefined>;
   clearProjectContext: () => void;
   setDepth: Dispatch<SetStateAction<number[]>>;
   saveProjectState: () => void;
   updateCurves: (curves: ICurve[]) => void;
+  tvdName: string;
+  setTvdName: (name: string) => void;
 }
 
 export const ProjectContext = createContext<ProjectContext>({} as ProjectContext);
@@ -46,6 +52,7 @@ export const ProjectProvider: FCC = ({ children }) => {
   const [curves, setCurves] = useState<ICurve[]>([]);
   const [depth, setDepth] = useState<number[]>([]);
   const [isCreating, setIsCreating] = useState(false);
+  const [tvdName, _setTvdName] = useState('');
 
   const updateCurves = useCallback(
     (curves: ICurve[]) => {
@@ -70,7 +77,11 @@ export const ProjectProvider: FCC = ({ children }) => {
   );
 
   const getCurveData = useCallback(
-    async (projectId: number, curveName: string, isCreateNewTrackProperties?: boolean) => {
+    async (
+      projectId: number,
+      curveName: string,
+      isCreateNewTrackProperties?: boolean,
+    ): Promise<number[] | undefined> => {
       const data = curves.find((curve) => curve.name === curveName)?.data;
       if (data && data.length > 0) {
         if (curveName !== DEPTH && isCreateNewTrackProperties)
@@ -78,7 +89,7 @@ export const ProjectProvider: FCC = ({ children }) => {
             ...tracksProperties,
             { ...trackProperties, curves: [{ name: curveName, properties: groupsCurveProperties }] },
           ]);
-        return;
+        return data;
       }
       try {
         const response = await ProjectService.getCurve(projectId, curveName);
@@ -99,11 +110,19 @@ export const ProjectProvider: FCC = ({ children }) => {
         } else {
           setDepth(response.data.curveData);
         }
+        return response.data.curveData;
       } catch (e) {
         console.log(e);
       }
     },
     [curves, tracksProperties, setTracksProperties],
+  );
+  const setTvdName = useCallback(
+    (name: string) => {
+      _setTvdName(name);
+      getCurveData(id, name, false);
+    },
+    [_setTvdName, getCurveData, id],
   );
   //находит кривые, которых ещё не было
   const filterOldCurves = useCallback((curvesNames: string[], curves: ICurve[]) => {
@@ -251,6 +270,8 @@ export const ProjectProvider: FCC = ({ children }) => {
       getCurveData,
       saveProjectState,
       updateCurves,
+      tvdName,
+      setTvdName,
     }),
     [
       id,
@@ -265,6 +286,8 @@ export const ProjectProvider: FCC = ({ children }) => {
       saveProjectState,
       createProject,
       updateCurves,
+      tvdName,
+      setTvdName,
     ],
   );
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;

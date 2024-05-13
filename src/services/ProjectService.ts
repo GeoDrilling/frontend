@@ -44,7 +44,6 @@ export default class ProjectService {
       roah: selections['H'].selection1,
       roahd: selections['HD'].selection1,
       roahe: selections['HE'].selection1,
-      //"md": selections['L'].selection1,
       tvd: selections['Глубина'].selection1,
       x: selections['Отход'].selection1,
       zeni: selections['Зенитный угол'].selection1,

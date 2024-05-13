@@ -4,13 +4,7 @@ import classNames from 'classnames';
 import WindowHeader from '@components/business/WindowHeader/WindowHeader.tsx';
 import { useWindows } from '../../../hooks/context/useWindows.ts';
 import { useContextualSettings } from '../../../hooks/context/useContextualSettings.ts';
-import {
-  ContextType,
-  IBaseProperty,
-  IGradient,
-  IGroupProperties,
-  ITrackProperties,
-} from '../../../models/ContextualSettingsTypes.ts';
+import { ContextType, IGradient, ITrackProperties } from '../../../models/ContextualSettingsTypes.ts';
 import TabletProperties from '@components/business/ContextualSettings/TabletProperties/TabletProperties.tsx';
 import TrackProperties from '@components/business/ContextualSettings/TrackProperties/TrackProperties.tsx';
 import DepthTrackProperties from '@components/business/ContextualSettings/DepthTrackProperties/DepthTrackProperties.tsx';
@@ -34,27 +28,10 @@ const ContextualSettings: FC<ContextualSettingsProps> = ({ className }) => {
     depthTrackProperties,
     modelCurveProperties,
     setModelCurveProperties,
+    updateProperty,
   } = useContextualSettings();
   const { setGradient } = useGradientContext();
 
-  const updateProperty = (
-    value: number | string,
-    indexGroup: number,
-    indexProp: number,
-    properties: IGroupProperties[],
-  ): IGroupProperties[] => {
-    return properties.map((group, idxGroup) => {
-      if (idxGroup === indexGroup)
-        return {
-          ...group,
-          properties: group.properties.map((prop, idxProp) => {
-            if (idxProp === indexProp) return { ...prop, value: value } as IBaseProperty;
-            return prop;
-          }),
-        } as IGroupProperties;
-      return group;
-    });
-  };
   const changeTabletProperty = (value: number | string, indexGroup: number, indexProp: number) => {
     setTableProperties({ properties: updateProperty(value, indexGroup, indexProp, tabletProperties.properties) });
   };

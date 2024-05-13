@@ -35,8 +35,10 @@ const ListModelsAreaEq: FC<ListModelsAreaEqProps> = ({ className, toSettings, to
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentId]);
   const getHistory = async () => {
-    const response = await ProjectService.getHistoryAreas(models[currentId].idModel);
-    setHistory(response.data);
+    if (currentId >= 0) {
+      const response = await ProjectService.getHistoryAreas(models[currentId].idModel);
+      setHistory(response.data);
+    }
   };
   const mapName = (name: string): string => {
     switch (name) {

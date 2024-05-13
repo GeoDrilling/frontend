@@ -117,7 +117,6 @@ export const ModelProvider: FCC = ({ children }) => {
     async (projectId: number, model: IModelParams): Promise<ICurve[] | undefined> => {
       try {
         const response = await ProjectService.saveModel(projectId, model);
-        console.log(`current id - ${currentId}, length models - ${response.data.modelDTO.length}`);
         if (currentId >= response.data.modelDTO.length) {
           console.log('change current id');
           setCurrentId(0);

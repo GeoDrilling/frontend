@@ -28,7 +28,7 @@ import {
   OrderTrackMainGrid,
   OrderTrackSecondaryGrid,
 } from '../../../utils/ContextualSettingsConstatns.ts';
-import { DEPTH } from '../../../utils/utils.tsx';
+import { DEPTH, TVD } from '../../../utils/utils.tsx';
 import UploadWindow from '@components/business/UploadWindow/UploadWindow.tsx';
 import { useUploadContext } from '../../../hooks/context/useUploadContext.ts';
 import { useModel } from '../../../hooks/context/useModel.ts';
@@ -50,7 +50,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
     depthTrackProperties,
     modelCurveProperties,
   } = useContextualSettings();
-  const { id, depth, curves, getCurveData } = useProjectContext();
+  const { id, depth, curves, getCurveData, tvdName } = useProjectContext();
   const { models } = useModel();
   const { gradient } = useGradientContext();
 
@@ -117,7 +117,11 @@ const Tablet: FC<TabletProps> = ({ className }) => {
     const b = Number(components[2])
     return "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1);
   }, [])*/
-  const tvd = useMemo(() => curves.find((c) => c.name === 'TVD' && c.data), [curves]);
+  const tvdN = useMemo(() => {
+    if (tvdName) return tvdName;
+    return TVD;
+  }, [tvdName]);
+  const tvd = useMemo(() => curves.find((c) => c.name === tvdN && c.data), [curves, tvdN]);
   return (
     <div className={classNames(styles.container, className)}>
       {isVisible ? (

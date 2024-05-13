@@ -32,7 +32,6 @@ const ListModels: FC<ListModelsProps> = ({ onValueClick, toNewModel, toChoosingP
     if (currentId + 1 < models.length) setCurrentId(currentId + 1);
     else setCurrentId(0);
   };
-  console.log('in list - ', currentId, models);
   return (
     <div className={styles.container}>
       <ModelHeader
