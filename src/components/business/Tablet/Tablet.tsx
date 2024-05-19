@@ -4,7 +4,7 @@ import WindowHeader from '@components/business/WindowHeader/WindowHeader.tsx';
 import classNames from 'classnames';
 import { useWindows } from '../../../hooks/context/useWindows.ts';
 import { useProjectContext } from '../../../hooks/context/useProjectContext.ts';
-import { Curve, CurveTrack, DepthTrack, LogView, ModelCurve } from 'geochart';
+import { Curve, CurveTrack, DepthTrack, LogView, ModelCurve, MultiCurve } from 'geochart';
 import { useContextualSettings } from '../../../hooks/context/useContextualSettings.ts';
 import {
   ContextType,
@@ -50,7 +50,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
     depthTrackProperties,
     modelCurveProperties,
   } = useContextualSettings();
-  const { id, depth, curves, getCurveData, tvdName } = useProjectContext();
+  const { id, depth, curves, getCurveData, tvdName, multiCurves } = useProjectContext();
   const { models } = useModel();
   const { gradient } = useGradientContext();
 
@@ -121,6 +121,9 @@ const Tablet: FC<TabletProps> = ({ className }) => {
     if (tvdName) return tvdName;
     return TVD;
   }, [tvdName]);
+  function transposeMatrix(matrix: number[][]): number[][] {
+    return matrix[0].map((_, colIndex) => matrix.map((row) => row[colIndex]));
+  }
   const tvd = useMemo(() => curves.find((c) => c.name === tvdN && c.data), [curves, tvdN]);
   return (
     <div className={classNames(styles.container, className)}>
@@ -140,6 +143,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
             closeWindow={toggleTablet}
             title={'Рабочая область'}
           />
+
           {depth?.length > 0 ? (
             <div
               onDrop={handleDropNewTrack}
@@ -230,13 +234,13 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                         roUp: m.roUp,
                         roDown: m.roDown,
                       }))}
-                      palette={{ gradient }}
-                      domain={{
+                      palette={{ gradient: gradient.map((g) => ({ value: g.value, position: g.position / 100 })) }}
+                      /*domain={{
                         min: (modelCurveProperties.properties[0].properties[OrderModelCurveMain.MIN] as INumberProperty)
                           .value,
                         max: (modelCurveProperties.properties[0].properties[OrderModelCurveMain.MAX] as INumberProperty)
                           .value,
-                      }}
+                      }}*/
                       height={
                         (modelCurveProperties.properties[0].properties[OrderModelCurveMain.HEIGHT] as INumberProperty)
                           .value
@@ -272,6 +276,11 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                     </ModelCurve>
                   </div>
                 )}
+                {/*<CurveTrack>
+                  {multiCurves.map(mc => {
+                    return <MultiCurve name={mc.name} data={mc.multiCurve.map(c => c.data as number[])}/>
+                  })}
+                </CurveTrack>*/}
                 {tracksProperties.map((track, trackIndex) => {
                   return (
                     <div
@@ -335,8 +344,10 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                           const curve = curves.find(
                             (curve) =>
                               (curve.name === curveProp.name || curve.name === curveProp.name.substring(1)) &&
-                              curve.data,
+                              curve.data &&
+                              curve.data.length > 0,
                           );
+
                           if (curve) {
                             return (
                               <Curve
@@ -359,6 +370,20 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                                   min: (curveProp.properties[0].properties[OrderCurveProperties.MIN] as INumberProperty)
                                     .value,
                                 }}
+                              />
+                            );
+                          }
+                          const multicurve = multiCurves.find(
+                            (curve) => curve.name === curveProp.name || curve.name === curveProp.name.substring(1),
+                          );
+                          if (multicurve) {
+                            console.log(multiCurves);
+                            return (
+                              <MultiCurve
+                                key={curveIndex}
+                                name={multicurve.name}
+                                isSmoothed
+                                data={transposeMatrix(multicurve.multiCurve.map((mc) => mc.data as number[]))}
                               />
                             );
                           }

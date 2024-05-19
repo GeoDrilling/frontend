@@ -1,7 +1,7 @@
 import { createContext, Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
 import { FCC } from '../types/types.tsx';
 import ProjectService from '../services/ProjectService.ts';
-import { ICurve, IProjectState } from '../models/IProject.ts';
+import { ICurve, IMultiCurve, IProjectState } from '../models/IProject.ts';
 import { useContextualSettings } from '../hooks/context/useContextualSettings.ts';
 import { groupsCurveProperties, trackProperties } from '../utils/ContextualSettingsConstatns.ts';
 import { DEPTH, TVD } from '../utils/utils.tsx';
@@ -16,19 +16,21 @@ interface ProjectContext {
   isCreating: boolean;
   createProject: (name: string) => Promise<number>;
   uploadLasFile: (formData: FormData) => void;
+  uploadSupplementFile: (formData: FormData) => Promise<number | undefined>;
   getProject: (projectId: number) => Promise<number>;
   getCurvesNames: (projectId: number) => Promise<void>;
   getCurveData: (
     projectId: number,
     curveName: string,
     isCreateTrackProperties?: boolean,
-  ) => Promise<number[] | undefined>;
+  ) => Promise<number[] | undefined | void>;
   clearProjectContext: () => void;
   setDepth: Dispatch<SetStateAction<number[]>>;
   saveProjectState: () => void;
   updateCurves: (curves: ICurve[]) => void;
   tvdName: string;
   setTvdName: (name: string) => void;
+  multiCurves: IMultiCurve[];
 }
 
 export const ProjectContext = createContext<ProjectContext>({} as ProjectContext);
@@ -53,6 +55,7 @@ export const ProjectProvider: FCC = ({ children }) => {
   const [depth, setDepth] = useState<number[]>([]);
   const [isCreating, setIsCreating] = useState(false);
   const [tvdName, _setTvdName] = useState('');
+  const [multiCurves, setMulticurves] = useState<IMultiCurve[]>([]);
 
   const updateCurves = useCallback(
     (curves: ICurve[]) => {
@@ -69,28 +72,17 @@ export const ProjectProvider: FCC = ({ children }) => {
             else newCurves.push(curve);
           }
         });
-        console.log(newCurves);
         return newCurves;
       });
     },
     [setCurves],
   );
-
-  const getCurveData = useCallback(
+  const getPlainCurve = useCallback(
     async (
       projectId: number,
       curveName: string,
       isCreateNewTrackProperties?: boolean,
     ): Promise<number[] | undefined> => {
-      const data = curves.find((curve) => curve.name === curveName)?.data;
-      if (data && data.length > 0) {
-        if (curveName !== DEPTH && isCreateNewTrackProperties)
-          setTracksProperties([
-            ...tracksProperties,
-            { ...trackProperties, curves: [{ name: curveName, properties: groupsCurveProperties }] },
-          ]);
-        return data;
-      }
       try {
         const response = await ProjectService.getCurve(projectId, curveName);
         setCurves((prev) => {
@@ -115,7 +107,57 @@ export const ProjectProvider: FCC = ({ children }) => {
         console.log(e);
       }
     },
-    [curves, tracksProperties, setTracksProperties],
+    [tracksProperties, setTracksProperties],
+  );
+  const getMultiCurve = useCallback(
+    async (projectId: number, curveName: string, isCreateNewTrackProperties?: boolean) => {
+      try {
+        const response = await ProjectService.getMultiCurve(projectId, curveName);
+        console.log(response);
+        setMulticurves((prev) => {
+          if (prev.filter((mc) => mc.name === curveName).length > 0)
+            return prev.map((mc) => {
+              if (mc.name === curveName) return { ...mc, multiCurve: response.data };
+              return mc;
+            });
+          console.log('no curve with the same name');
+          console.log({ name: curveName, multiCurve: response.data });
+          return [...prev, { name: curveName, multiCurve: response.data }];
+        });
+        if (isCreateNewTrackProperties)
+          setTracksProperties([
+            ...tracksProperties,
+            { ...trackProperties, curves: [{ name: curveName, properties: groupsCurveProperties }] },
+          ]);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [setMulticurves, setTracksProperties, tracksProperties],
+  );
+
+  const getCurveData = useCallback(
+    async (
+      projectId: number,
+      curveName: string,
+      isCreateNewTrackProperties?: boolean,
+    ): Promise<number[] | undefined | void> => {
+      /*const data = curves.find((curve) => curve.name === curveName)?.data;
+      if (data && data.length > 0) {
+        if (curveName !== DEPTH && isCreateNewTrackProperties)
+          setTracksProperties([
+            ...tracksProperties,
+            { ...trackProperties, curves: [{ name: curveName, properties: groupsCurveProperties }] },
+          ]);
+        return data;
+      }*/
+      if (curveName.startsWith('/multicurve')) {
+        return getMultiCurve(projectId, curveName, isCreateNewTrackProperties);
+      } else {
+        return getPlainCurve(projectId, curveName, isCreateNewTrackProperties);
+      }
+    },
+    [getMultiCurve, getPlainCurve],
   );
   const setTvdName = useCallback(
     (name: string) => {
@@ -184,6 +226,19 @@ export const ProjectProvider: FCC = ({ children }) => {
       return -1;
     },
     [parseState, setIsCreating],
+  );
+  const uploadSupplementFile = useCallback(
+    async (formData: FormData): Promise<number | undefined> => {
+      try {
+        const response = await ProjectService.uploadSupplementFile(formData);
+        setCurves([]);
+        parseState(response.data);
+        return response.data.id;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [setCurves, parseState],
   );
   const uploadLasFile = useCallback(
     async (formData: FormData) => {
@@ -272,6 +327,8 @@ export const ProjectProvider: FCC = ({ children }) => {
       updateCurves,
       tvdName,
       setTvdName,
+      multiCurves,
+      uploadSupplementFile,
     }),
     [
       id,
@@ -288,6 +345,8 @@ export const ProjectProvider: FCC = ({ children }) => {
       updateCurves,
       tvdName,
       setTvdName,
+      multiCurves,
+      uploadSupplementFile,
     ],
   );
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;

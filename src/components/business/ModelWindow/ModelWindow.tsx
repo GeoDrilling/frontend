@@ -16,7 +16,7 @@ interface ModelWindowProps {
 
 const ModelWindow: FCC<ModelWindowProps> = ({ className }) => {
   const { toggleModel } = useWindows();
-  const { id } = useProjectContext();
+  const { id, updateCurves } = useProjectContext();
   const { isVisible } = useUploadContext();
   const { getIsCurveMapped, isMapped, models, buildStartModel, saveModel } = useModel();
   useEffect(() => {
@@ -29,12 +29,16 @@ const ModelWindow: FCC<ModelWindowProps> = ({ className }) => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMapped]);
   const setStartModel = async () => {
-    //const start = (tabletProperties.properties[0].properties[OrderTabletMain.START_DEPTH] as INumberProperty).value;
-    //const end = (tabletProperties.properties[0].properties[OrderTabletMain.END_DEPTH] as INumberProperty).value;
     const start = await ProjectService.getDepthMin(id);
     const end = await ProjectService.getDepthMax(id);
     const startModel = await buildStartModel(id, start.data, end.data);
-    if (startModel) saveModel(id, startModel);
+    if (startModel) {
+      const synthetic = await saveModel(id, startModel);
+      if (synthetic) {
+        console.log('synthetic exists');
+        updateCurves(synthetic);
+      }
+    }
   };
   return (
     <div className={classNames(styles.container, className)}>

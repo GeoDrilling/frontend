@@ -14,8 +14,16 @@ export default class ProjectService {
   static async uploadFile(formData: FormData) {
     return $api.post<ICurves>('/lasfile/upload', formData);
   }
+  static async uploadSupplementFile(formData: FormData) {
+    return $api.post<IProjectState>('/lasfile/upload/supplement', formData);
+  }
   static async getCurves(projectId: number) {
     return $api.get<ICurves>('/lasfile/curves', { params: { project_id: projectId } });
+  }
+  static async getMultiCurve(projectId: number, name: string) {
+    return $api.get<ICurve[]>('/lasfile/download/multicurve', {
+      params: { project_id: projectId, multicurve_name: name },
+    });
   }
 
   static async getCurve(projectId: number, CurveName: string) {

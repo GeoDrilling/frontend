@@ -34,7 +34,7 @@ const EditingModel: FC<EditingModelProps> = ({ startId, onComplete }) => {
     if (value || value === 0) {
       let formattedValue;
       try {
-        formattedValue = oldModel[id].value.toFixed(2) ? Number(oldModel[id].value.toFixed(2)) : 0;
+        formattedValue = oldModel[id].value.toPrecision(4) ? Number(oldModel[id].value.toPrecision(4)) : 0;
       } catch (e) {
         formattedValue = 0;
       }

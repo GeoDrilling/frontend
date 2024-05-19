@@ -20,6 +20,7 @@ const GeoNavigation: FC = () => {
     }
   };
   const synchronizeId = async () => {
+    console.log('count att', countAttempts);
     if (pathId.id && countAttempts < 3) {
       const response = await getProject(parseInt(pathId.id));
       if (response === -1) {
@@ -32,7 +33,7 @@ const GeoNavigation: FC = () => {
     if (pathId.id !== id.toString()) synchronizeId();
     getCurveMatching();
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, getCurveMatching, synchronizeId]);
+  }, [id]);
   if (pathId.id !== id.toString() || Number(pathId.id) === -1) return <div></div>;
   return (
     <div className={styles.container}>

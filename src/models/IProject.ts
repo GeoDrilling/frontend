@@ -28,6 +28,10 @@ export interface ICurve {
   name: string;
   data?: number[];
 }
+export interface IMultiCurve {
+  name: string;
+  multiCurve: ICurve[];
+}
 export interface ICurves {
   curvesNames: string[];
 }

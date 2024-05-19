@@ -19,14 +19,17 @@ const TrackProperties: FC<TrackPropertiesProps> = ({ trackProp, changeProperty, 
     <div className={styles.scroll} ref={scrollRef}>
       <div className={styles.container}>
         <Properties groups={trackProp.properties} changeProperty={(v, id, ip) => changeProperty(v!, id, ip)} />
-        {trackProp.curves.map((curveProp, curvePropIdx) => (
-          <Properties
-            groups={curveProp.properties}
-            key={curveProp.name}
-            changeProperty={(v, gi, pi) => changeCurveProperty(v, curvePropIdx, gi, pi)}
-            curveName={curveProp.name}
-          />
-        ))}
+        {trackProp.curves.map((curveProp, curvePropIdx) => {
+          if (curveProp.name.startsWith('/multicurve')) return;
+          return (
+            <Properties
+              groups={curveProp.properties}
+              key={curveProp.name}
+              changeProperty={(v, gi, pi) => changeCurveProperty(v, curvePropIdx, gi, pi)}
+              curveName={curveProp.name}
+            />
+          );
+        })}
       </div>
     </div>
   );

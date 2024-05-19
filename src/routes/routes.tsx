@@ -6,6 +6,7 @@ import { Navigate } from 'react-router-dom';
 import ListProjectsPage from '@pages/ListProjects/ListProjectsPage.tsx';
 import FrozenProjectsPage from '@pages/FrozenProjects/FrozenProjectsPage.tsx';
 import ShareProjectPage from '@pages/ShareProjectPage/ShareProjectPage.tsx';
+import TestPage from '@pages/TestPage/TestPage.tsx';
 
 export const privateRoutes = [
   { path: '/projects/:id', element: <GeoNavigation /> },
@@ -16,6 +17,7 @@ export const privateRoutes = [
 ];
 export const publicRoutes = [
   { path: '/', element: <Landing /> },
+  { path: '/test', element: <TestPage /> },
   { path: '/login', element: <Login /> },
   { path: '/register', element: <Register /> },
   { path: '*', element: <Navigate to={'/'} replace={true} /> },

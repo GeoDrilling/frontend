@@ -35,7 +35,7 @@ const ModelParameters: FC<ModelParametersProps> = ({
 }) => {
   let formattedValue;
   try {
-    formattedValue = value && value.toFixed(2) ? Number(value.toFixed(2)) : value;
+    formattedValue = value && value.toPrecision(4) ? Number(value.toPrecision(4)) : value;
   } catch (e) {
     formattedValue = value;
   }

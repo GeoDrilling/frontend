@@ -33,14 +33,14 @@ interface ModelContext {
   parameters: ParameterRange[];
   setParameters: Dispatch<SetStateAction<ParameterRange[]>>;
   parametersToRange: (params: ParameterRange[]) => RangeParameters;
-  setModels: Dispatch<SetStateAction<IModelParams[]>>;
+  setModels: (models: IModelParams[]) => void;
   clearModelsState: () => void;
 }
 
 export const ModelContext = createContext<ModelContext>({} as ModelContext);
 
 export const ModelProvider: FCC = ({ children }) => {
-  const [models, setModels] = useState<IModelParams[]>([]);
+  const [models, _setModels] = useState<IModelParams[]>([]);
   const [currentId, setCurrentId] = useState<number>(0);
   const [isMapped, setIsMapped] = useState<boolean>(false);
   const [newModel, setNewModel] = useState<IModelParams>();
@@ -51,9 +51,27 @@ export const ModelProvider: FCC = ({ children }) => {
       return { name: suffixes[idx] ? m.name + ', ' + suffixes[idx] : m.name, max: undefined, min: undefined };
     }),
   );
-
+  const fixRange = useCallback((model: IModelParams) => {
+    model.alpha = Math.round(model.alpha * 100) / 100;
+    model.tvdStart = Math.round(model.tvdStart * 100) / 100;
+    model.roUp = Math.round(model.roUp * 100) / 100;
+    if (model.roUp > 10000) model.roUp = 10000;
+    model.roDown = Math.round(model.roDown * 100) / 100;
+    if (model.roDown > 10000) model.roDown = 10000;
+    model.kanisotropyUp = Math.round(model.kanisotropyUp * 100) / 100;
+    if (model.kanisotropyUp > 10) model.kanisotropyUp = 10;
+    model.kanisotropyDown = Math.round(model.kanisotropyDown * 100) / 100;
+    if (model.kanisotropyDown > 10) model.kanisotropyDown = 10;
+    return model;
+  }, []);
+  const setModels = useCallback(
+    (models: IModelParams[]) => {
+      _setModels(models.map((m) => fixRange(m)));
+    },
+    [fixRange],
+  );
   const clearModelsState = useCallback(() => {
-    setModels([]);
+    _setModels([]);
     setCurrentId(0);
     setIsMapped(false);
     setParameters(
@@ -62,23 +80,21 @@ export const ModelProvider: FCC = ({ children }) => {
       }),
     );
     setNewModel(undefined);
-  }, [setModels, setCurrentId, setIsMapped, setParameters, setNewModel]);
+  }, [_setModels, setCurrentId, setIsMapped, setParameters, setNewModel]);
 
   const buildModel = useCallback(
     async (projectId: number, start: number, end: number, model: IModelParams, range: RangeParameters) => {
       try {
         setIsLoading(true);
-        console.log('start building');
         const response = await ProjectService.buildModel(projectId, start, end, model, range);
-        console.log(response);
-        setNewModel(response.data);
+        setNewModel(fixRange(response.data));
       } catch (e) {
         console.log(e);
       } finally {
         setIsLoading(false);
       }
     },
-    [],
+    [fixRange],
   );
   const getIsCurveMapped = useCallback(async (projectId: number): Promise<void> => {
     try {
@@ -88,12 +104,13 @@ export const ModelProvider: FCC = ({ children }) => {
       console.log(e);
     }
   }, []);
+
   const buildStartModel = useCallback(
     async (projectId: number, start: number, end: number): Promise<IModelParams | null> => {
       try {
         setIsLoading(true);
         const response = await ProjectService.buildStartModel(projectId, start, end);
-        return response.data;
+        return fixRange(response.data);
       } catch (e) {
         console.log(e);
         return null;
@@ -101,24 +118,27 @@ export const ModelProvider: FCC = ({ children }) => {
         setIsLoading(false);
       }
     },
-    [],
+    [fixRange],
   );
 
-  const getModels = useCallback(async (projectId: number) => {
-    try {
-      const response = await ProjectService.getModels(projectId);
-      setModels(response.data);
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
+  const getModels = useCallback(
+    async (projectId: number) => {
+      try {
+        const response = await ProjectService.getModels(projectId);
+        setModels(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [setModels],
+  );
 
   const saveModel = useCallback(
     async (projectId: number, model: IModelParams): Promise<ICurve[] | undefined> => {
       try {
         const response = await ProjectService.saveModel(projectId, model);
         if (currentId >= response.data.modelDTO.length) {
-          console.log('change current id');
+          console.log('change current model id');
           setCurrentId(0);
         }
         setModels(response.data.modelDTO);
@@ -127,7 +147,7 @@ export const ModelProvider: FCC = ({ children }) => {
         console.log(e);
       }
     },
-    [currentId],
+    [currentId, setModels],
   );
 
   const modelToModelParams = useCallback((model: IModelParams): IModelParameter[] => {

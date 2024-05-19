@@ -47,6 +47,7 @@ const UploadWindow: FC = () => {
     }
   };
   useEffect(() => {
+    console.log('new curves length');
     loadSelections();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [curves.length]);
@@ -189,6 +190,12 @@ const UploadWindow: FC = () => {
         };
       });
     }
+    curves
+      .filter((c) => c.name !== DEPTH && c.name !== tvdName && c.data && c.data.length > 0)
+      .forEach((c) => {
+        console.log('in mapping curves - ', c);
+        getCurveData(id, c.name, false);
+      });
   };
   const scrollRef = useScroll();
   return (
