@@ -21,7 +21,6 @@ export interface Project {
 }
 export interface FrozenProject extends Project {
   maxDepth: number;
-  timestamp: string;
 }
 
 export interface ICurve {

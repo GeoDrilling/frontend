@@ -57,7 +57,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
   useEffect(() => {
     downloadWithRetry();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
   const downloadCurve = async (name: string, tries: number) => {
     if (tries > 3) return;
     try {
@@ -121,10 +121,12 @@ const Tablet: FC<TabletProps> = ({ className }) => {
     if (tvdName) return tvdName;
     return TVD;
   }, [tvdName]);
-  function transposeMatrix(matrix: number[][]): number[][] {
-    return matrix[0].map((_, colIndex) => matrix.map((row) => row[colIndex]));
-  }
+  //eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  const nullToUndefined = (value: any) => {
+    return value === null ? undefined : value;
+  };
   const tvd = useMemo(() => curves.find((c) => c.name === tvdN && c.data), [curves, tvdN]);
+  console.log(tvdName);
   return (
     <div className={classNames(styles.container, className)}>
       {isVisible ? (
@@ -276,11 +278,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                     </ModelCurve>
                   </div>
                 )}
-                {/*<CurveTrack>
-                  {multiCurves.map(mc => {
-                    return <MultiCurve name={mc.name} data={mc.multiCurve.map(c => c.data as number[])}/>
-                  })}
-                </CurveTrack>*/}
+
                 {tracksProperties.map((track, trackIndex) => {
                   return (
                     <div
@@ -365,10 +363,14 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                                   ).value,
                                 }}
                                 domain={{
-                                  max: (curveProp.properties[0].properties[OrderCurveProperties.MAX] as INumberProperty)
-                                    .value,
-                                  min: (curveProp.properties[0].properties[OrderCurveProperties.MIN] as INumberProperty)
-                                    .value,
+                                  max: nullToUndefined(
+                                    (curveProp.properties[0].properties[OrderCurveProperties.MAX] as INumberProperty)
+                                      .value,
+                                  ),
+                                  min: nullToUndefined(
+                                    (curveProp.properties[0].properties[OrderCurveProperties.MIN] as INumberProperty)
+                                      .value,
+                                  ),
                                 }}
                               />
                             );
@@ -383,7 +385,7 @@ const Tablet: FC<TabletProps> = ({ className }) => {
                                 key={curveIndex}
                                 name={multicurve.name}
                                 isSmoothed
-                                data={transposeMatrix(multicurve.multiCurve.map((mc) => mc.data as number[]))}
+                                data={multicurve.multiCurve.map((mc) => mc.data as number[])}
                               />
                             );
                           }

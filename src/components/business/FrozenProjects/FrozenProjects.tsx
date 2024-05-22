@@ -34,7 +34,6 @@ const FrozenProjects: FC<FrozenProjectsProps> = ({ projects }) => {
               <div className={styles.infoContainer}>
                 <p className={styles.title}>{project.name}</p>
                 <p className={styles.text}>Максимальная глубина {project.maxDepth}</p>
-                <p className={styles.text}>Время дополнения {project.timestamp}</p>
               </div>
               <img src='/src/assets/images/icon_edit.svg' alt='edit' className={styles.image} />
             </div>

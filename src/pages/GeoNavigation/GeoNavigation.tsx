@@ -10,13 +10,14 @@ import ProjectService from '../../services/ProjectService.ts';
 const GeoNavigation: FC = () => {
   const [countAttempts, setCountAttempts] = useState<number>(0);
   const pathId = useParams();
-  const { id, getProject, setTvdName } = useProjectContext();
+  const { id, getProject, setTvdName, getCurveData } = useProjectContext();
 
   const getCurveMatching = async () => {
     if (id === -1) return;
     const response = await ProjectService.sootOut(id);
     if (response.data.tvd && id !== -1) {
       setTvdName(response.data.tvd);
+      getCurveData(id, response.data.tvd, false);
     }
   };
   const synchronizeId = async () => {

@@ -8,7 +8,7 @@
   flex-direction: row;
   min-width: 420px;
   min-height: 80px;
-  height: 105px;
+  height: 85px;
   border: 1px solid var(--secondary);
   cursor: pointer;
   justify-content: space-between;

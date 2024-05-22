@@ -14,6 +14,7 @@ const ToolsBar: FC = () => {
   const navigate = useNavigate();
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
+      console.log(event.target);
       const formData = new FormData();
       formData.append('file', event.target.files[0]);
       formData.append('project_id', id.toString());

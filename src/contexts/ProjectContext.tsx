@@ -54,7 +54,7 @@ export const ProjectProvider: FCC = ({ children }) => {
   const [curves, setCurves] = useState<ICurve[]>([]);
   const [depth, setDepth] = useState<number[]>([]);
   const [isCreating, setIsCreating] = useState(false);
-  const [tvdName, _setTvdName] = useState('');
+  const [tvdName, setTvdName] = useState('');
   const [multiCurves, setMulticurves] = useState<IMultiCurve[]>([]);
 
   const updateCurves = useCallback(
@@ -68,7 +68,8 @@ export const ProjectProvider: FCC = ({ children }) => {
           if (tryFind) {
             tryFind.data = curve.data;
           } else {
-            if (curve.name[0] === '/') newCurves.push({ ...curve, name: curve.name.substring(1) });
+            if (curve.name[0] === '/' && !curve.name.startsWith('/multicurve'))
+              newCurves.push({ ...curve, name: curve.name.substring(1) });
             else newCurves.push(curve);
           }
         });
@@ -142,15 +143,6 @@ export const ProjectProvider: FCC = ({ children }) => {
       curveName: string,
       isCreateNewTrackProperties?: boolean,
     ): Promise<number[] | undefined | void> => {
-      /*const data = curves.find((curve) => curve.name === curveName)?.data;
-      if (data && data.length > 0) {
-        if (curveName !== DEPTH && isCreateNewTrackProperties)
-          setTracksProperties([
-            ...tracksProperties,
-            { ...trackProperties, curves: [{ name: curveName, properties: groupsCurveProperties }] },
-          ]);
-        return data;
-      }*/
       if (curveName.startsWith('/multicurve')) {
         return getMultiCurve(projectId, curveName, isCreateNewTrackProperties);
       } else {
@@ -159,13 +151,7 @@ export const ProjectProvider: FCC = ({ children }) => {
     },
     [getMultiCurve, getPlainCurve],
   );
-  const setTvdName = useCallback(
-    (name: string) => {
-      _setTvdName(name);
-      getCurveData(id, name, false);
-    },
-    [_setTvdName, getCurveData, id],
-  );
+
   //находит кривые, которых ещё не было
   const filterOldCurves = useCallback((curvesNames: string[], curves: ICurve[]) => {
     return curvesNames

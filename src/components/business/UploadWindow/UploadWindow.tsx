@@ -13,10 +13,22 @@ import Button from '@components/UI/Button/Button.tsx';
 import { useContextualSettings } from '../../../hooks/context/useContextualSettings.ts';
 import { OrderModelCurveMain, OrderTabletGroups, OrderTabletMain } from '../../../utils/ContextualSettingsConstatns.ts';
 import { DEPTH } from '../../../utils/utils.tsx';
+import { IProjectState } from '../../../models/IProject.ts';
+import { useModel } from '../../../hooks/context/useModel.ts';
+import { useGradientContext } from '../../../hooks/context/useGradientContext.ts';
 
 const UploadWindow: FC = () => {
-  const { id, curves, getCurveData } = useProjectContext();
-  const { updateProperty, setTableProperties, setModelCurveProperties } = useContextualSettings();
+  const { id, curves, getCurveData, setTvdName } = useProjectContext();
+  const { models } = useModel();
+  const { gradient } = useGradientContext();
+  const {
+    updateProperty,
+    setTableProperties,
+    setModelCurveProperties,
+    tracksProperties,
+    depthTrackProperties,
+    modelCurveProperties,
+  } = useContextualSettings();
   const curveNames = ['--', ...curves.map((curve) => curve.name)];
   const { setVisible, transformDataToSelections } = useUploadContext();
   const [selections, setSelections] = useState<Selections>(initSelection);
@@ -138,55 +150,65 @@ const UploadWindow: FC = () => {
       }));
     }
   };
-
   const handleSelectionComplete = async () => {
     await ProjectService.sootRename(id, selections);
-    setSelections({});
     setVisible(false);
     const tvdName = selections['Глубина'].selection1;
+    if (tvdName !== '--') setTvdName(tvdName);
     const tvdData = tvdName !== '--' ? await getCurveData(id, tvdName, false) : undefined;
+    setSelections({});
     const deptData = await getCurveData(id, DEPTH, false);
     if (tvdData) {
       setModelCurveProperties((prev) => {
-        return {
-          properties: updateProperty(
-            Math.round(Math.max(...tvdData) * 10) / 10,
-            0,
-            OrderModelCurveMain.MAX,
-            prev.properties,
-          ),
-        };
-      });
-      setModelCurveProperties((prev) => {
+        const updateProperties = updateProperty(
+          Math.round(Math.max(...tvdData) * 10) / 10,
+          0,
+          OrderModelCurveMain.MAX,
+          prev.properties,
+        );
         return {
           properties: updateProperty(
             Math.round(Math.min(...tvdData) * 10) / 10,
             0,
             OrderModelCurveMain.MIN,
-            prev.properties,
+            updateProperties,
           ),
         };
       });
     }
     if (deptData) {
+      const minDept = Math.round(Math.min(...deptData) * 10) / 10;
+      const maxDept = Math.round(Math.max(...deptData) * 10) / 10;
+
       setTableProperties((prev) => {
-        return {
-          properties: updateProperty(
-            Math.round(Math.min(...deptData) * 10) / 10,
-            OrderTabletGroups.MAIN,
-            OrderTabletMain.START_DEPTH,
-            prev.properties,
-          ),
+        let updateProperties = updateProperty(
+          minDept,
+          OrderTabletGroups.MAIN,
+          OrderTabletMain.START_DEPTH,
+          prev.properties,
+        );
+        updateProperties = updateProperty(maxDept, OrderTabletGroups.MAIN, OrderTabletMain.END_DEPTH, updateProperties);
+        updateProperties = updateProperty(
+          Math.round((maxDept - minDept) * 3.74),
+          OrderTabletGroups.MAIN,
+          OrderTabletMain.SCOPE,
+          updateProperties,
+        );
+        const state: IProjectState = {
+          id,
+          tabletProperties: { properties: updateProperties },
+          trackProperties: tracksProperties,
+          curvesNames: curves.map((c) => c.name),
+          modelDTOList: models,
+          depthTrackProperties,
+          modelCurveProperties: {
+            properties: modelCurveProperties.properties,
+            gradient: gradient,
+          },
         };
-      });
-      setTableProperties((prev) => {
+        ProjectService.saveProjectState(state);
         return {
-          properties: updateProperty(
-            Math.round(Math.max(...deptData) * 10) / 10,
-            OrderTabletGroups.MAIN,
-            OrderTabletMain.END_DEPTH,
-            prev.properties,
-          ),
+          properties: updateProperties,
         };
       });
     }
