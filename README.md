@@ -1,27 +1,8 @@
-# React + TypeScript + Vite
+# Geodrilling
+Приложение GeoDrilling – это Web-приложение для обучения интерпретации сигналов забойной телеметрии. Оно предоставляет основные программные средства, используемые инженерами для определения модели околоскважинного пространства, в том числе средства для количественной интерпретации данных высокочастотного электромагнитного зондирования, измеренных с помощью прибора ВИКПБ. Также GeoDrilling предоставляет возможность догрузки данных, как это бывает при настоящем бурении и предоставляет минимальный функционал для передачи проекта от преподавателя к ученику и обратно. 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Main page](assets/main_page.png)
+![Properties](assets/prop2.png)
+![Properties](assets/prop1.png)
+![Properties](assets/prop3.png)
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
